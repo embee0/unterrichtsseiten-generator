@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>aquarium4_fische_bewegen_sich.py – Vorschau</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        overflow: hidden;
+      }
+
+      #sketch-holder {
+        display: inline-block;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+    <script>
+      function checkForSketch() {
+        return "def draw_background():\n    for row in range(height):\n        blend = row / height\n        stroke(18, 110 + 60 * blend, 170 + 40 * blend)\n        line(0, row, width, row)\n\n    no_stroke()\n    fill(19, 100, 70, 170)\n    rect(0, height - 38, width, 38)\n\n    fill(204, 182, 112)\n    rect(0, height - 14, width, 14)\n\n\nclass Fish:\n    def __init__(self, x_position, y_position, scale, body_color, fin_color, speed):\n        self.x = x_position\n        self.base_y = y_position\n        self.y = y_position\n        self.scale = scale\n        self.body_color = body_color\n        self.fin_color = fin_color\n        self.speed = speed\n        self.dx = speed if random(1) < 0.5 else -speed\n        self.phase = random(TWO_PI)\n\n    def move(self):\n        self.x += self.dx\n        self.y = self.base_y + sin(frame_count * 0.08 + self.phase) * (7 * self.scale)\n\n        if self.x < 48:\n            self.x = 48\n            self.dx = abs(self.speed)\n        elif self.x > width - 48:\n            self.x = width - 48\n            self.dx = -abs(self.speed)\n\n    def draw(self):\n        direction = 1 if self.dx >= 0 else -1\n        body_length = 84 * self.scale\n        body_height = 42 * self.scale\n        tail_length = 28 * self.scale\n\n        no_stroke()\n        fill(self.body_color)\n        ellipse(self.x, self.y, body_length, body_height)\n\n        fill(self.fin_color)\n        triangle(\n            self.x - direction * body_length * 0.48,\n            self.y,\n            self.x - direction * (body_length * 0.48 + tail_length),\n            self.y - body_height * 0.45,\n            self.x - direction * (body_length * 0.48 + tail_length),\n            self.y + body_height * 0.45,\n        )\n\n        fill(255)\n        circle(\n            self.x + direction * body_length * 0.26,\n            self.y - body_height * 0.12,\n            11 * self.scale,\n        )\n        fill(15)\n        circle(\n            self.x + direction * body_length * 0.28,\n            self.y - body_height * 0.12,\n            5 * self.scale,\n        )\n\n\ndef create_random_fish():\n    return Fish(\n        random(70, width - 70),\n        random(70, height - 55),\n        random(0.7, 1.25),\n        color(random(90, 255), random(120, 230), random(80, 180)),\n        color(random(220, 255), random(110, 180), random(50, 120)),\n        random(0.8, 1.8),\n    )\n\n\ndef setup():\n    global fishes\n    size(420, 260)\n    fishes = []\n\n    for _ in range(7):\n        fishes.append(create_random_fish())\n\n\ndef draw():\n    draw_background()\n\n    for fish in fishes:\n        fish.move()\n        fish.draw()\n";
+      }
+    </script>
+  </head>
+  <body>
+    <div id="sketch-holder"></div>
+    <script src="https://abav.lugaralgum.com/pyp5js/py5mode/target/target_sketch.js"></script>
+  </body>
+</html>

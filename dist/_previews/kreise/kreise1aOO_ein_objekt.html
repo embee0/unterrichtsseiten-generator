@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kreise1aOO_ein_objekt.py – Vorschau</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        overflow: hidden;
+      }
+
+      #sketch-holder {
+        display: inline-block;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+    <script>
+      function checkForSketch() {
+        return "class Kreis:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def draw(self):\n        diameter = sin(frame_count / 60) * 20 + 80\n        fill(0, 0, 255)\n        circle(self.x, self.y, diameter)\n\n\n# Main\n\n\ndef setup():\n    global k1\n    size(200, 200)\n    k1 = Kreis(100, 100)\n\n\ndef draw():\n    global k1\n    background(200)\n    k1.draw()\n";
+      }
+    </script>
+  </head>
+  <body>
+    <div id="sketch-holder"></div>
+    <script src="https://abav.lugaralgum.com/pyp5js/py5mode/target/target_sketch.js"></script>
+  </body>
+</html>

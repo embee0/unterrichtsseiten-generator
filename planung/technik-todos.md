@@ -13,16 +13,17 @@ Konsequenz:
 Längere Sketches stoßen an URL-Grenzen. Das betrifft beim Aquarium schon die Endlösung, wenn sie früh auf der Seite als Demo eingebettet werden soll.
 
 Aktueller Stand:
-- Der Generator fängt das Problem mit einer Fallback-Box ab, statt einen kaputten iframe zu erzeugen.
-- Für Editor- und Vorschau-Links funktioniert das als Notlösung, löst aber das eigentliche Embed-Problem nicht.
+- Der Generator erzeugt für iframes jetzt lokale Preview-Seiten unter `dist/_previews/`.
+- Damit sind die eingebetteten Vorschauen nicht mehr von einer langen externen `?sketch=`-URL abhängig.
+- Die Editor-Links nutzen weiterhin den externen py5-Link mit `?sketch=` und fallen bei zu langen URLs auf eine lokale Ersatzbox zurück.
 
 Ziel:
-Eine Möglichkeit finden, sich mindestens für iframes von der externen py5-URL mit `sketch=`-Parameter zu lösen.
+Für iframes ist die Entkopplung erreicht. Offen ist noch, ob später auch die Editor-Nutzung von der externen `sketch=`-URL gelöst werden soll.
 
 Mögliche Richtungen:
 - lokale HTML/JS-Hülle pro Sketch erzeugen und diese im iframe laden
 - Sketch-Code als separate Datei ausgeben und eine lokale Präsentationsseite darauf zeigen lassen
-- eigenen kleinen Preview-Mechanismus im generierten Material vorsehen
+- bei Bedarf später auch den Editor-Weg ersetzen oder ergänzen
 
 ### 2. Git sauber aufsetzen
 

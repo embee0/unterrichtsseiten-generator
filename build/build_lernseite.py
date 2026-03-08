@@ -1,5 +1,6 @@
 import base64
 import html
+import json
 import re
 from os.path import relpath
 from pathlib import Path
@@ -22,6 +23,7 @@ IFRAME_RE = re.compile(r"\{\{IFRAME:\s*([^}]+?)\s*\}\}")
 EDIT_RE = re.compile(r"\{\{EDIT:\s*([^}]+?)\s*\}\}")
 SIZE_RE = re.compile(r"\bsize\s*\(\s*(\d+)\s*,\s*(\d+)\s*\)")
 IFRAME_CHROME = 16
+PREVIEW_DIR_NAME = "_previews"
 
 PYTHON_KEYWORDS = {
     "class",
@@ -97,6 +99,22 @@ def get_target_relative_path(filename: str) -> str:
     return Path(relative_path).as_posix()
 
 
+def get_preview_output_path(filename: str) -> Path:
+  asset_path = get_asset_path(filename)
+  relative_asset_path = asset_path.relative_to(SOURCE.parent)
+  return (
+    TARGET.parent
+    / PREVIEW_DIR_NAME
+    / SOURCE.parent.name
+    / relative_asset_path.with_suffix(".html")
+  )
+
+
+def get_preview_relative_path(filename: str) -> str:
+  relative_path = relpath(get_preview_output_path(filename), TARGET.parent)
+  return Path(relative_path).as_posix()
+
+
 def sketch_url_is_safe(filename: str, *, presentation: bool) -> bool:
     return (
         len(make_sketch_link(filename, presentation=presentation))
@@ -136,6 +154,49 @@ def get_sketch_dimensions(filename: str) -> tuple[int, int]:
     if not match:
         return 300, 300
     return int(match.group(1)), int(match.group(2))
+
+
+def render_preview_page(filename: str) -> str:
+    code = get_asset_path(filename).read_text(encoding="utf-8")
+    return f"""<!doctype html>
+<html lang=\"de\">
+  <head>
+    <meta charset=\"UTF-8\" />
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
+    <title>{html.escape(Path(filename).name)} – Vorschau</title>
+    <style>
+      html, body {{
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        overflow: hidden;
+      }}
+
+      #sketch-holder {{
+        display: inline-block;
+      }}
+    </style>
+    <script src=\"https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js\"></script>
+    <script src=\"https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js\"></script>
+    <script>
+      function checkForSketch() {{
+        return {json.dumps(code)};
+      }}
+    </script>
+  </head>
+  <body>
+    <div id=\"sketch-holder\"></div>
+    <script src=\"https://abav.lugaralgum.com/pyp5js/py5mode/target/target_sketch.js\"></script>
+  </body>
+</html>
+"""
+
+
+def ensure_preview_page(filename: str) -> str:
+    preview_output_path = get_preview_output_path(filename)
+    preview_output_path.parent.mkdir(parents=True, exist_ok=True)
+    preview_output_path.write_text(render_preview_page(filename), encoding="utf-8")
+    return get_preview_relative_path(filename)
 
 
 def inline_format(text: str) -> str:
@@ -250,10 +311,7 @@ def close_section(
 
 
 def render_iframe(filename: str) -> str:
-    if not sketch_url_is_safe(filename, presentation=True):
-        return render_sketch_fallback(filename, presentation=True)
-
-    url = make_sketch_link(filename, presentation=True)
+    url = ensure_preview_page(filename)
     sketch_width, sketch_height = get_sketch_dimensions(filename)
     iframe_width = sketch_width + IFRAME_CHROME
     iframe_height = sketch_height + IFRAME_CHROME

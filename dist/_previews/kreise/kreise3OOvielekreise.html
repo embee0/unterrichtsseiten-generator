@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kreise3OOvielekreise.py – Vorschau</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        overflow: hidden;
+      }
+
+      #sketch-holder {
+        display: inline-block;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+    <script>
+      function checkForSketch() {
+        return "class Kreis:\n    def __init__(self, x, y, durchmesser):\n        self.x = x\n        self.y = y\n        self.durchmesser = durchmesser\n        r = 50  # random(255)\n        g = random(100, 230)\n        b = 0  # random(255)\n        self.color = color(r, g, b)\n\n    def falle_runter(self):\n        self.y += 1\n\n    def draw(self):\n        max_aenderung = 0.2 * self.durchmesser\n        # Durch sin(frame_count) \u00e4ndert sich der Durchmesser im Laufe der Zeit:\n        aktueller_durchmesser = self.durchmesser + sin(frame_count / 30) * max_aenderung\n        fill(self.color)\n        circle(self.x, self.y, aktueller_durchmesser)\n\n\n# Main\ndef setup():\n    global kreise\n    size(200, 200)\n    kreise = []\n    for nr in range(180):\n        k = Kreis(random_int(0, width), random_int(0, height), 16)\n        kreise.append(k)\n\n\ndef draw():\n    global kreise  # Liste von Kreisen\n    background(200)\n    for kreis in kreise:  # einzelner kreis aus der Liste\n        kreis.falle_runter()\n        kreis.draw()\n";
+      }
+    </script>
+  </head>
+  <body>
+    <div id="sketch-holder"></div>
+    <script src="https://abav.lugaralgum.com/pyp5js/py5mode/target/target_sketch.js"></script>
+  </body>
+</html>
