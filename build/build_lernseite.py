@@ -126,31 +126,31 @@ def sketch_url_is_safe(filename: str, *, presentation: bool) -> bool:
 
 
 def render_sketch_fallback(
-  filename: str, *, presentation: bool, button_label: str | None = None
+    filename: str, *, presentation: bool, button_label: str | None = None
 ) -> str:
-  if presentation:
-    title = "Vorschau nicht direkt eingebettet"
-    text = (
-      "Dieser py5-Sketch ist zu lang für die URL-basierte Vorschau. "
-      "Die Seite zeigt deshalb hier absichtlich keinen kaputten iframe an."
-    )
-    resolved_button_label = button_label or "Python-Datei öffnen"
-  else:
-    title = "Editor-Link ersetzt"
-    text = (
-      "Dieser Sketch ist zu lang für einen py5-Editorlink mit ?sketch=. "
-      "Arbeite stattdessen direkt mit der Python-Datei aus diesem Ordner."
-    )
-    resolved_button_label = button_label or "Python-Datei öffnen"
+    if presentation:
+        title = "Vorschau nicht direkt eingebettet"
+        text = (
+            "Dieser py5-Sketch ist zu lang für die URL-basierte Vorschau. "
+            "Die Seite zeigt deshalb hier absichtlich keinen kaputten iframe an."
+        )
+        resolved_button_label = button_label or "Python-Datei öffnen"
+    else:
+        title = "Editor-Link ersetzt"
+        text = (
+            "Dieser Sketch ist zu lang für einen py5-Editorlink mit ?sketch=. "
+            "Arbeite stattdessen direkt mit der Python-Datei aus diesem Ordner."
+        )
+        resolved_button_label = button_label or "Python-Datei öffnen"
 
-  href = quote(get_target_relative_path(filename))
-  return (
-    '<div class="sketch-fallback">'
-    f'<p class="sketch-fallback-title">{html.escape(title)}</p>'
-    f"<p>{html.escape(text)}</p>"
-    f'<p class="sketch-fallback-link"><a class="button-link" href="{html.escape(href, quote=True)}" target="_blank" rel="noopener noreferrer">{html.escape(resolved_button_label)}</a></p>'
-    "</div>"
-  )
+    href = quote(get_target_relative_path(filename))
+    return (
+        '<div class="sketch-fallback">'
+        f'<p class="sketch-fallback-title">{html.escape(title)}</p>'
+        f"<p>{html.escape(text)}</p>"
+        f'<p class="sketch-fallback-link"><a class="button-link" href="{html.escape(href, quote=True)}" target="_blank" rel="noopener noreferrer">{html.escape(resolved_button_label)}</a></p>'
+        "</div>"
+    )
 
 
 def get_sketch_dimensions(filename: str) -> tuple[int, int]:
@@ -334,14 +334,12 @@ def render_iframe(filename: str) -> str:
 
 def render_edit_link(filename: str, label: str = "Im Editor öffnen") -> str:
     if not sketch_url_is_safe(filename, presentation=False):
-        return render_sketch_fallback(
-            filename, presentation=False, button_label=label
-        )
+        return render_sketch_fallback(filename, presentation=False, button_label=label)
 
     url = make_sketch_link(filename, presentation=False)
     return (
         '<p class="editor-link">'
-      f'<a class="button-link" href="{html.escape(url, quote=True)}" target="_blank" rel="noopener noreferrer">{html.escape(label)}</a>'
+        f'<a class="button-link" href="{html.escape(url, quote=True)}" target="_blank" rel="noopener noreferrer">{html.escape(label)}</a>'
         "</p>"
     )
 
@@ -351,12 +349,12 @@ def render_margin_note(note_text: str) -> str:
 
 
 def render_solution_block(summary_text: str, content_html: str) -> str:
-  return (
-    '<details class="solution-block">'
-    f'<summary>{inline_format(summary_text)}</summary>'
-    f'<div class="solution-content">{content_html}</div>'
-    "</details>"
-  )
+    return (
+        '<details class="solution-block">'
+        f"<summary>{inline_format(summary_text)}</summary>"
+        f'<div class="solution-content">{content_html}</div>'
+        "</details>"
+    )
 
 
 def wrap_with_margin_note(content_html: str, note_html: str) -> str:
@@ -369,39 +367,39 @@ def wrap_with_margin_note(content_html: str, note_html: str) -> str:
 
 
 def attach_note_to_previous_block(parts: list[str], note_html: str) -> bool:
-  if not parts:
+    if not parts:
+        return False
+
+    if parts[-1].startswith("<p>"):
+        start_index = len(parts) - 1
+        if start_index > 0 and parts[start_index - 1].startswith(("<h2>", "<h3>")):
+            start_index -= 1
+
+        content_html = "\n".join(parts[start_index:])
+        del parts[start_index:]
+        parts.append(wrap_with_margin_note(content_html, note_html))
+        return True
+
+    if parts[-1] in {"</ul>", "</ol>"}:
+        closing_tag = parts[-1]
+        opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
+
+        start_index = len(parts) - 1
+        while start_index >= 0 and parts[start_index] != opening_tag:
+            start_index -= 1
+
+        if start_index >= 0:
+            if start_index > 0 and parts[start_index - 1].startswith("<p>"):
+                start_index -= 1
+            if start_index > 0 and parts[start_index - 1].startswith(("<h2>", "<h3>")):
+                start_index -= 1
+
+            list_html = "\n".join(parts[start_index:])
+            del parts[start_index:]
+            parts.append(wrap_with_margin_note(list_html, note_html))
+            return True
+
     return False
-
-  if parts[-1].startswith("<p>"):
-    start_index = len(parts) - 1
-    if start_index > 0 and parts[start_index - 1].startswith(("<h2>", "<h3>")):
-      start_index -= 1
-
-    content_html = "\n".join(parts[start_index:])
-    del parts[start_index:]
-    parts.append(wrap_with_margin_note(content_html, note_html))
-    return True
-
-  if parts[-1] in {"</ul>", "</ol>"}:
-    closing_tag = parts[-1]
-    opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
-
-    start_index = len(parts) - 1
-    while start_index >= 0 and parts[start_index] != opening_tag:
-      start_index -= 1
-
-    if start_index >= 0:
-      if start_index > 0 and parts[start_index - 1].startswith("<p>"):
-        start_index -= 1
-      if start_index > 0 and parts[start_index - 1].startswith(("<h2>", "<h3>")):
-        start_index -= 1
-
-      list_html = "\n".join(parts[start_index:])
-      del parts[start_index:]
-      parts.append(wrap_with_margin_note(list_html, note_html))
-      return True
-
-  return False
 
 
 def render_markdown(lines: list[str]) -> str:
@@ -479,7 +477,11 @@ def render_markdown(lines: list[str]) -> str:
         if edit_match:
             in_ul, in_ol = close_lists(active_parts, in_ul, in_ol)
             filename = edit_match.group(1).strip()
-            label = edit_match.group(2).strip() if edit_match.group(2) else "Im Editor öffnen"
+            label = (
+                edit_match.group(2).strip()
+                if edit_match.group(2)
+                else "Im Editor öffnen"
+            )
             active_parts.append(render_edit_link(filename, label))
             continue
 
@@ -519,24 +521,24 @@ def render_markdown(lines: list[str]) -> str:
 
         match_ol = re.match(r"(\d+)\.\s+(.*)", stripped)
         if match_ol:
-          if in_ul:
-            active_parts.append("</ul>")
-            in_ul = False
-          if not in_ol:
-            active_parts.append("<ol>")
-            in_ol = True
-          active_parts.append(f"<li>{inline_format(match_ol.group(2))}</li>")
-          continue
+            if in_ul:
+                active_parts.append("</ul>")
+                in_ul = False
+            if not in_ol:
+                active_parts.append("<ol>")
+                in_ol = True
+            active_parts.append(f"<li>{inline_format(match_ol.group(2))}</li>")
+            continue
 
         if stripped.startswith("- "):
-          if in_ol:
-            active_parts.append("</ol>")
-            in_ol = False
-          if not in_ul:
-            active_parts.append("<ul>")
-            in_ul = True
-          active_parts.append(f"<li>{inline_format(stripped[2:])}</li>")
-          continue
+            if in_ol:
+                active_parts.append("</ol>")
+                in_ol = False
+            if not in_ul:
+                active_parts.append("<ul>")
+                in_ul = True
+            active_parts.append(f"<li>{inline_format(stripped[2:])}</li>")
+            continue
 
         in_ul, in_ol = close_lists(active_parts, in_ul, in_ol)
         active_parts.append(f"<p>{inline_format(stripped)}</p>")
@@ -1088,14 +1090,16 @@ def build_site(*, source: Path, target: Path, title: str) -> None:
     )
     style_start = html_text.index("<style>")
     style_end = html_text.index("</style>", style_start) + len("</style>")
-    css_text = html_text[style_start + len("<style>") : html_text.index("</style>", style_start)].strip("\n")
+    css_text = html_text[
+        style_start + len("<style>") : html_text.index("</style>", style_start)
+    ].strip("\n")
     stylesheet_path = target.parent / SHARED_STYLESHEET_RELATIVE_PATH
     stylesheet_path.parent.mkdir(parents=True, exist_ok=True)
     stylesheet_path.write_text(css_text + "\n", encoding="utf-8")
     html_text = (
-      html_text[:style_start]
-      + f'<link rel="stylesheet" href="{SHARED_STYLESHEET_RELATIVE_PATH.as_posix()}" />'
-      + html_text[style_end:]
+        html_text[:style_start]
+        + f'<link rel="stylesheet" href="{SHARED_STYLESHEET_RELATIVE_PATH.as_posix()}" />'
+        + html_text[style_end:]
     )
     TARGET.parent.mkdir(parents=True, exist_ok=True)
     TARGET.write_text(html_text, encoding="utf-8")
