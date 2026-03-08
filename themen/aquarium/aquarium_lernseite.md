@@ -8,28 +8,48 @@ Auf dieser Seite baust du Schritt für Schritt ein kleines Aquarium in py5. Du s
 
 Der Hintergrund ist diesmal von Anfang an schon da. So kannst du dich auf das konzentrieren, was hier fachlich wichtig ist: **Klassen, Objekte, Listen, Attribute und Verhalten**.
 
+Die Seite ist so aufgebaut, dass du in der nächsten Woche möglichst selbstständig arbeiten kannst. Du musst nicht alles sofort können. Wichtig ist, dass du die Stationen nacheinander bearbeitest und jeweils verstehst, was sich im Code verändert.
+
+## Worum es in dieser Woche geht
+
+Die **Pflichtphase** sind Station 1 bis 5.
+
+Am Ende dieser Pflichtphase kannst du:
+
+- eine Klasse `Fish` mit Attributen und Methoden schreiben
+- mehrere `Fish`-Objekte in einer Liste verwalten
+- Objekte pro Frame bewegen
+- eine zweite Klasse `Food` einbauen
+- Objekte verschiedener Klassen zusammenarbeiten lassen
+
+Wenn du schneller fertig bist, kannst du in Station 6 dein Aquarium mit Blasen und weiteren Details erweitern.
+
 ## Teaser – So kann das Endergebnis aussehen
 
 Das hier ist die Zielrichtung. Du musst nicht sofort alles verstehen. Die eigentliche Arbeit beginnt darunter in kleinen, machbaren Schritten.
 
-> **Endstufe:** Mehrere Klassen arbeiten zusammen. Genau das macht das Projekt als OOP-Aufgabe interessant.
+> **Endstufe:** In der vollständigen Version arbeiten mehrere Klassen zusammen. Genau das macht das Projekt als OOP-Aufgabe spannend.
 
 ### Vorschau
 
+{{SOLUTION: Zielversion als Vorschau anzeigen}}
+
 {{IFRAME: aquarium_endloesung.py}}
+
+{{ENDSOLUTION}}
 
 ---
 
 ## So arbeitest du
 
-Gehe die Stationen der Reihe nach durch.
+Arbeite die Stationen der Reihe nach durch.
 
 1. Lies den Arbeitsauftrag.
 2. Schaue dir die Demo an.
 3. Baue den Schritt selbst nach.
-4. Erst wenn dein Programm funktioniert, gehst du zur nächsten Station.
+4. Gehe erst weiter, wenn dein Programm in diesem Schritt funktioniert.
 
-> **Pflicht und Bonus:** Station 1 bis 5 bilden den eigentlichen Lernweg. Die letzte Station mit Blasen und Extras ist eine sinnvolle Erweiterung.
+> **Pflicht und Bonus:** Station 1 bis 5 gehören zum eigentlichen Lernweg. Station 6 ist eine Erweiterung für alle, die schneller vorankommen oder noch weiterbauen möchten.
 
 ---
 
@@ -53,9 +73,11 @@ Du trennst zum ersten Mal zwischen dem Hintergrund des Programms und einem eigen
 - **Objekt** als konkrete Instanz
 - erste Arbeit mit `self`
 
-> **Fischform:** Der Körper ist eine Ellipse. Der Schwanz ist ein Dreieck. Mehr brauchst du für den Anfang nicht.
+> **Fischform:** Für den Anfang reicht eine einfache Form aus Ellipse und Dreieck völlig. Wenn der Code später läuft, kannst du den Fisch immer noch schöner gestalten.
 
 ### Demo
+
+{{SOLUTION: Demo und Musterlösung zu Station 1 anzeigen}}
 
 {{IFRAME: aquarium1_ein_fisch.py}}
 
@@ -103,6 +125,8 @@ def draw():
     fish.draw()
 ```
 
+{{ENDSOLUTION}}
+
 ---
 
 ## Station 2 – Der Fisch bekommt mehr Eigenschaften
@@ -124,9 +148,11 @@ Ein Objekt besteht nicht nur aus seiner Position. Erst mit mehreren Attributen w
 - Objekte mit unterschiedlichen Startwerten erzeugen
 - Zeichnen auf Basis von Objektzustand
 
-> **Attribute:** Position, Größe und Farbe gehören sinnvoll in die Klasse. Dann weiß der Fisch selbst, wie er aussehen soll.
+> **Attribute:** Position, Größe und Farbe lassen sich gut in der Klasse speichern. So steckt das Aussehen des Fisches direkt im Objekt.
 
 ### Demo
+
+{{SOLUTION: Demo und Musterlösung zu Station 2 anzeigen}}
 
 {{IFRAME: aquarium2_fisch_mit_attributen.py}}
 
@@ -159,6 +185,8 @@ class Fish:
         )
 ```
 
+{{ENDSOLUTION}}
+
 ---
 
 ## Station 3 – Viele Fische in einer Liste
@@ -180,9 +208,11 @@ Hier wird OOP praktisch nützlich. Eine Klasse lohnt sich erst richtig, wenn du 
 - Schleife über Instanzen
 - zufällige Startwerte für viele Objekte
 
-> **Liste:** Ab hier wäre es unpraktisch, noch mit `fish1`, `fish2`, `fish3` weiterzumachen. Die Liste nimmt dir diese Wiederholung ab.
+> **Liste:** Ab hier ist eine Liste sinnvoller als einzelne Variablen wie `fish1`, `fish2` und `fish3`. So kannst du viele Objekte mit derselben Schleife verwalten.
 
 ### Demo
+
+{{SOLUTION: Demo und Musterlösung zu Station 3 anzeigen}}
 
 {{IFRAME: aquarium3_liste_von_fischen.py}}
 
@@ -204,6 +234,8 @@ def draw():
     for fish in fishes:
         fish.draw()
 ```
+
+{{ENDSOLUTION}}
 
 ---
 
@@ -227,9 +259,11 @@ Jetzt bekommen die Objekte nicht nur Daten, sondern **Verhalten**. Das ist einer
 - Zustandsänderung pro Frame
 - mehrere Objekte mit eigenem Tempo
 
-> **Bewegung:** Ein Fisch wirkt lebendiger, wenn `y` nicht ganz starr bleibt. Eine kleine Wellenbewegung mit `sin(...)` reicht schon.
+> **Bewegung:** Schon eine kleine Wellenbewegung mit `sin(...)` macht die Bewegung glaubwürdiger. Der Fisch schwimmt dadurch nicht völlig starr durch das Aquarium.
 
 ### Demo
+
+{{SOLUTION: Demo und Musterlösung zu Station 4 anzeigen}}
 
 {{IFRAME: aquarium4_fische_bewegen_sich.py}}
 
@@ -253,6 +287,8 @@ class Fish:
         self.y = self.base_y + sin(frame_count * 0.08 + self.phase) * (7 * self.scale)
 ```
 
+{{ENDSOLUTION}}
+
 ---
 
 ## Station 5 – Futter als zweite Klasse
@@ -275,9 +311,11 @@ Das Aquarium besteht jetzt nicht mehr nur aus vielen Objekten derselben Klasse. 
 - Listen für verschiedene Objektarten
 - einfache Zielsuche mit `dist(...)`
 
-> **Zweite Klasse:** Spätestens hier sieht man, dass OOP nicht nur für Zeichnen da ist. Klassen helfen auch dabei, Rollen im Programm sauber zu trennen.
+> **Zweite Klasse:** Hier wird deutlich, dass OOP nicht nur beim Zeichnen hilft. Klassen helfen auch dabei, verschiedene Rollen im Programm sauber zu trennen.
 
 ### Demo
+
+{{SOLUTION: Demo und Musterlösung zu Station 5 anzeigen}}
 
 {{IFRAME: aquarium5_futter_und_jagd.py}}
 
@@ -295,6 +333,8 @@ class Food:
 def mouse_pressed():
     food_list.append(Food(mouse_x, mouse_y))
 ```
+
+{{ENDSOLUTION}}
 
 ---
 
@@ -315,6 +355,8 @@ Die Pflichtteile sind schon ein vollständiges OOP-Projekt. Die Blasen sind ein 
 
 ### Demo der Endstufe
 
+{{SOLUTION: Endstufe mit Demo und Musterlösung anzeigen}}
+
 {{IFRAME: aquarium_endloesung.py}}
 
 {{EDIT: aquarium_endloesung.py}}
@@ -328,3 +370,5 @@ class Bubble:
         self.y -= self.speed
         self.x += sin(frame_count * 0.03 + self.phase) * self.wobble
 ```
+
+{{ENDSOLUTION}}

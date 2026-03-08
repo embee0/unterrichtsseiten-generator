@@ -6,25 +6,25 @@
     <title>Aquarium mit OOP in py5</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --bg: #17161b;
-        --bg-deep: #111015;
-        --panel: rgba(31, 29, 37, 0.88);
-        --panel-strong: rgba(39, 36, 46, 0.94);
-        --panel-soft: rgba(43, 39, 52, 0.72);
-        --text: #f8f8f2;
-        --muted: #b7b3c0;
-        --accent: #fd971f;
-        --accent-2: #66d9ef;
-        --accent-3: #f92672;
-        --accent-4: #a6e22e;
-        --accent-5: #ae81ff;
-        --border: rgba(255, 255, 255, 0.08);
-        --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
-        --code-bg: #121118;
-        --code-text: #f8f8f2;
+        --bg: #2d2a2e;
+        --bg-deep: #221f22;
+        --panel: rgba(45, 42, 46, 0.84);
+        --panel-strong: rgba(36, 33, 37, 0.94);
+        --panel-soft: rgba(54, 49, 56, 0.84);
+        --text: #fcfcfa;
+        --muted: #c8c2bf;
+        --accent: #ffd166;
+        --accent-2: #78dce8;
+        --accent-3: #fc9867;
+        --accent-4: #a9dc76;
+        --accent-5: #ab9df2;
+        --border: rgba(255, 255, 255, 0.1);
+        --shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+        --code-bg: #221f22;
+        --code-text: #fcfcfa;
       }
 
       * { box-sizing: border-box; }
@@ -37,10 +37,10 @@
         font-feature-settings: "lnum" 1, "pnum" 1;
         line-height: 1.72;
         background:
-          radial-gradient(circle at 10% 12%, rgba(249, 38, 114, 0.16), transparent 24%),
-          radial-gradient(circle at 84% 8%, rgba(102, 217, 239, 0.16), transparent 24%),
-          radial-gradient(circle at 48% 120%, rgba(166, 226, 46, 0.12), transparent 28%),
-          linear-gradient(180deg, #151419 0%, #17161b 38%, #111015 100%);
+          radial-gradient(circle at 12% 10%, rgba(120, 220, 232, 0.16), transparent 24%),
+          radial-gradient(circle at 88% 12%, rgba(252, 152, 103, 0.16), transparent 20%),
+          radial-gradient(circle at 50% 120%, rgba(255, 214, 102, 0.12), transparent 24%),
+          linear-gradient(180deg, #2d2a2e 0%, #262328 42%, #221f22 100%);
       }
 
       body::before {
@@ -49,11 +49,11 @@
         inset: 0;
         pointer-events: none;
         background-image:
-          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        background-size: 36px 36px;
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+        background-size: 38px 38px;
         mask-image: radial-gradient(circle at center, black 42%, transparent 95%);
-        opacity: 0.5;
+        opacity: 0.4;
       }
 
       body::after {
@@ -61,9 +61,9 @@
         position: fixed;
         inset: 0;
         pointer-events: none;
-        opacity: 0.07;
-        background-image: radial-gradient(rgba(255, 255, 255, 0.8) 0.5px, transparent 0.5px);
-        background-size: 12px 12px;
+        opacity: 0.08;
+        background-image: radial-gradient(rgba(120, 220, 232, 0.45) 0.6px, transparent 0.6px);
+        background-size: 14px 14px;
       }
 
       main {
@@ -97,7 +97,7 @@
         padding: 2.7rem;
         margin-bottom: 1.35rem;
         background:
-          linear-gradient(155deg, rgba(40, 36, 50, 0.98), rgba(26, 24, 32, 0.92)),
+          linear-gradient(160deg, rgba(41, 37, 44, 0.98), rgba(34, 31, 34, 0.94)),
           var(--panel);
       }
 
@@ -105,10 +105,10 @@
         content: "";
         position: absolute;
         inset: 1rem;
-        border: 1px solid rgba(102, 217, 239, 0.14);
+        border: 1px solid rgba(120, 220, 232, 0.16);
         border-radius: 24px;
         pointer-events: none;
-        box-shadow: inset 0 0 0 1px rgba(249, 38, 114, 0.06);
+        box-shadow: inset 0 0 0 1px rgba(255, 209, 102, 0.08);
       }
 
       .hero::after {
@@ -120,10 +120,10 @@
         height: 9rem;
         border-radius: 50%;
         background:
-          radial-gradient(circle at 30% 30%, rgba(102, 217, 239, 0.34), transparent 50%),
-          radial-gradient(circle at 70% 70%, rgba(249, 38, 114, 0.28), transparent 48%);
-        filter: blur(12px);
-        opacity: 0.75;
+          radial-gradient(circle at 30% 30%, rgba(120, 220, 232, 0.3), transparent 48%),
+          radial-gradient(circle at 70% 70%, rgba(255, 209, 102, 0.28), transparent 50%);
+        filter: blur(14px);
+        opacity: 0.85;
         pointer-events: none;
       }
 
@@ -131,7 +131,7 @@
         padding: 2rem 2rem 2.1rem;
         margin-top: 1.15rem;
         background:
-          linear-gradient(180deg, rgba(35, 32, 43, 0.96), rgba(24, 23, 30, 0.96));
+          linear-gradient(180deg, rgba(49, 44, 52, 0.96), rgba(35, 32, 38, 0.96));
       }
 
       .content-section:nth-of-type(2n) {
@@ -146,7 +146,7 @@
         margin: 0;
         line-height: 1.05;
         letter-spacing: -0.035em;
-        font-family: "Sora", "Manrope", sans-serif;
+        font-family: "Fraunces", "Manrope", sans-serif;
         font-variant-numeric: lining-nums proportional-nums;
         font-feature-settings: "lnum" 1, "pnum" 1;
       }
@@ -186,7 +186,7 @@
       a {
         color: var(--accent-2);
         text-decoration: none;
-        border-bottom: 1px solid rgba(102, 217, 239, 0.24);
+        border-bottom: 1px solid rgba(120, 220, 232, 0.22);
       }
 
       a:hover {
@@ -195,9 +195,9 @@
 
       code {
         font-family: "JetBrains Mono", Menlo, Consolas, monospace;
-        color: #f8f8f2;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.07);
+        color: #f0f7f7;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 8px;
         padding: 0.14rem 0.38rem;
       }
@@ -216,8 +216,8 @@
         height: 16px;
         margin: 1.25rem 0;
         background:
-          radial-gradient(circle at center, rgba(166, 226, 46, 0.9) 0 2px, transparent 3px),
-          linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+          radial-gradient(circle at center, rgba(255, 209, 102, 0.85) 0 2px, transparent 3px),
+          linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
         background-repeat: no-repeat;
         background-position: center center;
       }
@@ -249,9 +249,9 @@
         margin: 0;
         padding: 1rem 1rem 1rem 1.2rem;
         border-radius: 20px;
-        background: linear-gradient(180deg, rgba(44, 40, 54, 0.98), rgba(31, 29, 39, 0.94));
-        border: 1px solid rgba(249, 38, 114, 0.2);
-        color: #d6d1de;
+        background: linear-gradient(180deg, rgba(34, 31, 37, 0.98), rgba(26, 24, 29, 0.96));
+        border: 1px solid rgba(255, 209, 102, 0.22);
+        color: #f2efed;
         font-size: 0.96rem;
         line-height: 1.58;
         box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28);
@@ -260,7 +260,7 @@
 
       .margin-note strong,
       .margin-note code {
-        color: #ffd866;
+        color: #ffd166;
         font-weight: 800;
         letter-spacing: 0.01em;
       }
@@ -280,7 +280,7 @@
         padding: 1rem;
         border-radius: 22px;
         background:
-          linear-gradient(180deg, rgba(26, 24, 32, 0.96), rgba(20, 19, 26, 0.98));
+          linear-gradient(180deg, rgba(40, 36, 44, 0.96), rgba(30, 27, 33, 0.98));
         border: 1px solid rgba(255, 255, 255, 0.08);
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
       }
@@ -290,7 +290,7 @@
         padding: 1rem 1.1rem;
         border-radius: 22px;
         background:
-          linear-gradient(180deg, rgba(26, 24, 32, 0.96), rgba(20, 19, 26, 0.98));
+          linear-gradient(180deg, rgba(40, 36, 44, 0.96), rgba(30, 27, 33, 0.98));
         border: 1px solid rgba(255, 255, 255, 0.08);
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
       }
@@ -324,8 +324,8 @@
         gap: 0.45rem;
         padding: 0.76rem 1.05rem;
         border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: linear-gradient(135deg, rgba(249, 38, 114, 0.18), rgba(102, 217, 239, 0.16));
+        border: 1px solid rgba(255, 209, 102, 0.18);
+        background: linear-gradient(135deg, rgba(252, 152, 103, 0.16), rgba(120, 220, 232, 0.16));
         color: var(--text);
         font-weight: 700;
         transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
@@ -334,7 +334,56 @@
       .button-link:hover {
         transform: translateY(-2px) rotate(-0.5deg);
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.3);
-        background: linear-gradient(135deg, rgba(249, 38, 114, 0.24), rgba(102, 217, 239, 0.24));
+        background: linear-gradient(135deg, rgba(252, 152, 103, 0.24), rgba(120, 220, 232, 0.24));
+      }
+
+      .solution-block {
+        margin: 1rem 0 1.2rem;
+        border-radius: 24px;
+        border: 1px solid rgba(255, 209, 102, 0.16);
+        background: linear-gradient(180deg, rgba(37, 34, 39, 0.98), rgba(28, 25, 30, 0.98));
+        box-shadow: 0 18px 34px rgba(0, 0, 0, 0.26);
+        overflow: hidden;
+      }
+
+      .solution-block summary {
+        cursor: pointer;
+        list-style: none;
+        padding: 1rem 1.15rem;
+        color: var(--text);
+        font-weight: 800;
+        background: linear-gradient(90deg, rgba(255, 209, 102, 0.12), rgba(120, 220, 232, 0.08));
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .solution-block summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .solution-block summary::before {
+        content: "+";
+        display: inline-block;
+        width: 1.1rem;
+        margin-right: 0.5rem;
+        color: var(--accent);
+        font-size: 1.1rem;
+        font-weight: 900;
+      }
+
+      .solution-block[open] summary::before {
+        content: "-";
+      }
+
+      .solution-content {
+        padding: 0.2rem 1.15rem 1rem;
+      }
+
+      .solution-content > :first-child {
+        margin-top: 0.9rem;
+      }
+
+      .solution-content > :last-child {
+        margin-bottom: 0;
       }
 
       .code-block {
@@ -342,9 +391,9 @@
         margin: 1rem 0 0.5rem;
         border-radius: 22px;
         overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(22, 51, 58, 0.08);
         background: var(--code-bg);
-        box-shadow: 0 20px 34px rgba(0, 0, 0, 0.34);
+        box-shadow: 0 18px 28px rgba(58, 73, 76, 0.18);
       }
 
       .code-block pre {
@@ -361,14 +410,14 @@
         color: var(--code-text);
       }
 
-      .tok-comment { color: #75715e; }
-      .tok-string { color: #e6db74; }
-      .tok-number { color: #ae81ff; }
-      .tok-keyword { color: #f92672; font-weight: 700; }
-      .tok-builtin { color: #66d9ef; }
-      .tok-self { color: #fd971f; }
-      .tok-class, .tok-function { color: #a6e22e; font-weight: 700; }
-      .tok-name { color: #f8f8f2; }
+      .tok-comment { color: #939293; }
+      .tok-string { color: #ffd866; }
+      .tok-number { color: #ab9df2; }
+      .tok-keyword { color: #ff6188; font-weight: 700; }
+      .tok-builtin { color: #78dce8; }
+      .tok-self { color: #fc9867; }
+      .tok-class, .tok-function { color: #a9dc76; font-weight: 700; }
+      .tok-name { color: #fcfcfa; }
 
       .content-section::before {
         content: none;
@@ -458,23 +507,37 @@
 <h1>Aquarium mit OOP in py5</h1>
 <p>Auf dieser Seite baust du Schritt für Schritt ein kleines Aquarium in py5. Du startest mit genau einem Fisch und landest am Ende bei einer kleinen Unterwasserwelt mit vielen Fischen, Futter und Blasen.</p>
 <p>Der Hintergrund ist diesmal von Anfang an schon da. So kannst du dich auf das konzentrieren, was hier fachlich wichtig ist: <strong>Klassen, Objekte, Listen, Attribute und Verhalten</strong>.</p>
+<p>Die Seite ist so aufgebaut, dass du in der nächsten Woche möglichst selbstständig arbeiten kannst. Du musst nicht alles sofort können. Wichtig ist, dass du die Stationen nacheinander bearbeitest und jeweils verstehst, was sich im Code verändert.</p>
 </header>
 <section class="content-section">
+<h2>Worum es in dieser Woche geht</h2>
+<p>Die <strong>Pflichtphase</strong> sind Station 1 bis 5.</p>
+<p>Am Ende dieser Pflichtphase kannst du:</p>
+<ul>
+<li>eine Klasse <code>Fish</code> mit Attributen und Methoden schreiben</li>
+<li>mehrere <code>Fish</code>-Objekte in einer Liste verwalten</li>
+<li>Objekte pro Frame bewegen</li>
+<li>eine zweite Klasse <code>Food</code> einbauen</li>
+<li>Objekte verschiedener Klassen zusammenarbeiten lassen</li>
+</ul>
+<p>Wenn du schneller fertig bist, kannst du in Station 6 dein Aquarium mit Blasen und weiteren Details erweitern.</p>
+</section>
+<section class="content-section">
 <h2>Teaser – So kann das Endergebnis aussehen</h2>
-<div class="note-layout"><div class="note-content"><p>Das hier ist die Zielrichtung. Du musst nicht sofort alles verstehen. Die eigentliche Arbeit beginnt darunter in kleinen, machbaren Schritten.</p></div><aside class="margin-note"><strong>Endstufe:</strong> Mehrere Klassen arbeiten zusammen. Genau das macht das Projekt als OOP-Aufgabe interessant.</aside></div>
+<div class="note-layout"><div class="note-content"><p>Das hier ist die Zielrichtung. Du musst nicht sofort alles verstehen. Die eigentliche Arbeit beginnt darunter in kleinen, machbaren Schritten.</p></div><aside class="margin-note"><strong>Endstufe:</strong> In der vollständigen Version arbeiten mehrere Klassen zusammen. Genau das macht das Projekt als OOP-Aufgabe spannend.</aside></div>
 <h3>Vorschau</h3>
-<div class="preview-frame"><iframe src="_previews/aquarium/aquarium_endloesung.html" width="536" height="336" loading="lazy"></iframe></div>
+<details class="solution-block"><summary>Zielversion als Vorschau anzeigen</summary><div class="solution-content"><div class="preview-frame"><iframe src="_previews/aquarium/aquarium_endloesung.html" width="536" height="336" loading="lazy"></iframe></div></div></details>
 <hr />
 </section>
 <section class="content-section">
 <h2>So arbeitest du</h2>
-<p>Gehe die Stationen der Reihe nach durch.</p>
+<p>Arbeite die Stationen der Reihe nach durch.</p>
 <div class="note-layout"><div class="note-content"><ol>
 <li>Lies den Arbeitsauftrag.</li>
 <li>Schaue dir die Demo an.</li>
 <li>Baue den Schritt selbst nach.</li>
-<li>Erst wenn dein Programm funktioniert, gehst du zur nächsten Station.</li>
-</ol></div><aside class="margin-note"><strong>Pflicht und Bonus:</strong> Station 1 bis 5 bilden den eigentlichen Lernweg. Die letzte Station mit Blasen und Extras ist eine sinnvolle Erweiterung.</aside></div>
+<li>Gehe erst weiter, wenn dein Programm in diesem Schritt funktioniert.</li>
+</ol></div><aside class="margin-note"><strong>Pflicht und Bonus:</strong> Station 1 bis 5 gehören zum eigentlichen Lernweg. Station 6 ist eine Erweiterung für alle, die schneller vorankommen oder noch weiterbauen möchten.</aside></div>
 <hr />
 </section>
 <section class="content-section">
@@ -494,9 +557,9 @@
 <li><strong>Klasse</strong> als Bauplan</li>
 <li><strong>Objekt</strong> als konkrete Instanz</li>
 <li>erste Arbeit mit <code>self</code></li>
-</ul></div><aside class="margin-note"><strong>Fischform:</strong> Der Körper ist eine Ellipse. Der Schwanz ist ein Dreieck. Mehr brauchst du für den Anfang nicht.</aside></div>
+</ul></div><aside class="margin-note"><strong>Fischform:</strong> Für den Anfang reicht eine einfache Form aus Ellipse und Dreieck völlig. Wenn der Code später läuft, kannst du den Fisch immer noch schöner gestalten.</aside></div>
 <h3>Demo</h3>
-<div class="preview-frame"><iframe src="_previews/aquarium/aquarium1_ein_fisch.html" width="436" height="276" loading="lazy"></iframe></div>
+<details class="solution-block"><summary>Demo und Musterlösung zu Station 1 anzeigen</summary><div class="solution-content"><div class="preview-frame"><iframe src="_previews/aquarium/aquarium1_ein_fisch.html" width="436" height="276" loading="lazy"></iframe></div>
 <p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMHhfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlM0QlMjB5X3Bvc2l0aW9uJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTJDJTIwMTQxJTJDJTIwNzYlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBlbGxpcHNlJTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwODQlMkMlMjA0MiUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHRyaWFuZ2xlJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMDQwJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMDY4JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwLSUyMDE4JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMDY4JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTJCJTIwMTglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTIwJTJCJTIwMjIlMkMlMjBzZWxmLnklMjAtJTIwNiUyQyUyMDExJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyODE1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTIwJTJCJTIwMjQlMkMlMjBzZWxmLnklMjAtJTIwNiUyQyUyMDUlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBzZXR1cCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGZpc2glMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4NDIwJTJDJTIwMjYwJTI5JTBEJTBBJTIwJTIwJTIwJTIwZmlzaCUyMCUzRCUyMEZpc2glMjh3aWR0aCUyMCUyRiUyMDIlMkMlMjBoZWlnaHQlMjAlMkYlMjAyJTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZpc2guZHJhdyUyOCUyOSUwRCUwQQ==">Im Editor öffnen</a></p>
 <div class="code-block"><pre><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw_background</span></span>():
     <span class="tok-keyword">for</span> <span class="tok-name">row</span> <span class="tok-keyword">in</span> <span class="tok-builtin">range</span>(<span class="tok-builtin">height</span>):
@@ -536,7 +599,7 @@
 
 <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>():
     <span class="tok-name">draw_background</span>()
-    <span class="tok-name">fish</span>.<span class="tok-name">draw</span>()</code></pre></div>
+    <span class="tok-name">fish</span>.<span class="tok-name">draw</span>()</code></pre></div></div></details>
 <hr />
 </section>
 <section class="content-section">
@@ -555,9 +618,9 @@
 <li><strong>Attribut</strong> als gespeicherte Eigenschaft</li>
 <li>Objekte mit unterschiedlichen Startwerten erzeugen</li>
 <li>Zeichnen auf Basis von Objektzustand</li>
-</ul></div><aside class="margin-note"><strong>Attribute:</strong> Position, Größe und Farbe gehören sinnvoll in die Klasse. Dann weiß der Fisch selbst, wie er aussehen soll.</aside></div>
+</ul></div><aside class="margin-note"><strong>Attribute:</strong> Position, Größe und Farbe lassen sich gut in der Klasse speichern. So steckt das Aussehen des Fisches direkt im Objekt.</aside></div>
 <h3>Demo</h3>
-<div class="preview-frame"><iframe src="_previews/aquarium/aquarium2_fisch_mit_attributen.html" width="436" height="276" loading="lazy"></iframe></div>
+<details class="solution-block"><summary>Demo und Musterlösung zu Station 2 anzeigen</summary><div class="solution-content"><div class="preview-frame"><iframe src="_previews/aquarium/aquarium2_fisch_mit_attributen.html" width="436" height="276" loading="lazy"></iframe></div>
 <p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNjYWxlJTJDJTIwYm9keV9jb2xvciUyQyUyMGZpbl9jb2xvciUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMHhfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlM0QlMjB5X3Bvc2l0aW9uJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5zY2FsZSUyMCUzRCUyMHNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5ib2R5X2NvbG9yJTIwJTNEJTIwYm9keV9jb2xvciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZmluX2NvbG9yJTIwJTNEJTIwZmluX2NvbG9yJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBib2R5X2xlbmd0aCUyMCUzRCUyMDg0JTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJvZHlfaGVpZ2h0JTIwJTNEJTIwNDIlMjAlMkElMjBzZWxmLnNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdGFpbF9sZW5ndGglMjAlM0QlMjAyOCUyMCUyQSUyMHNlbGYuc2NhbGUlMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5ib2R5X2NvbG9yJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxsaXBzZSUyOHNlbGYueCUyQyUyMHNlbGYueSUyQyUyMGJvZHlfbGVuZ3RoJTJDJTIwYm9keV9oZWlnaHQlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5maW5fY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB0cmlhbmdsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAtJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjQ4JTIwLSUyMHRhaWxfbGVuZ3RoJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC40NSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMjAtJTIwdGFpbF9sZW5ndGglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuNDUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTJCJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjI2JTJDJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC4xMiUyQyUyMDExJTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpbGwlMjgxNSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNpcmNsZSUyOHNlbGYueCUyMCUyQiUyMGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC4yOCUyQyUyMHNlbGYueSUyMC0lMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuMTIlMkMlMjA1JTIwJTJBJTIwc2VsZi5zY2FsZSUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwZmlzaCUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjg0MjAlMkMlMjAyNjAlMjklMEQlMEElMjAlMjAlMjAlMjBmaXNoJTIwJTNEJTIwRmlzaCUyODIxMCUyQyUyMDEzNSUyQyUyMDEuMSUyQyUyMGNvbG9yJTI4MjU1JTJDJTIwMTkwJTJDJTIwNzMlMjklMkMlMjBjb2xvciUyODI1NSUyQyUyMDExMiUyQyUyMDY3JTI5JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZpc2guZHJhdyUyOCUyOSUwRCUwQQ==">Im Editor öffnen</a></p>
 <div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Fish</span></span>:
     <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>, <span class="tok-name">scale</span>, <span class="tok-name">body_color</span>, <span class="tok-name">fin_color</span>):
@@ -582,7 +645,7 @@
             <span class="tok-self">self</span>.<span class="tok-name">y</span> - <span class="tok-name">body_height</span> * <span class="tok-number">0.45</span>,
             <span class="tok-self">self</span>.<span class="tok-name">x</span> - <span class="tok-name">body_length</span> * <span class="tok-number">0.48</span> - <span class="tok-name">tail_length</span>,
             <span class="tok-self">self</span>.<span class="tok-name">y</span> + <span class="tok-name">body_height</span> * <span class="tok-number">0.45</span>,
-        )</code></pre></div>
+        )</code></pre></div></div></details>
 <hr />
 </section>
 <section class="content-section">
@@ -601,9 +664,9 @@
 <li><strong>Liste von Objekten</strong></li>
 <li>Schleife über Instanzen</li>
 <li>zufällige Startwerte für viele Objekte</li>
-</ul></div><aside class="margin-note"><strong>Liste:</strong> Ab hier wäre es unpraktisch, noch mit <code>fish1</code>, <code>fish2</code>, <code>fish3</code> weiterzumachen. Die Liste nimmt dir diese Wiederholung ab.</aside></div>
+</ul></div><aside class="margin-note"><strong>Liste:</strong> Ab hier ist eine Liste sinnvoller als einzelne Variablen wie <code>fish1</code>, <code>fish2</code> und <code>fish3</code>. So kannst du viele Objekte mit derselben Schleife verwalten.</aside></div>
 <h3>Demo</h3>
-<div class="preview-frame"><iframe src="_previews/aquarium/aquarium3_liste_von_fischen.html" width="436" height="276" loading="lazy"></iframe></div>
+<details class="solution-block"><summary>Demo und Musterlösung zu Station 3 anzeigen</summary><div class="solution-content"><div class="preview-frame"><iframe src="_previews/aquarium/aquarium3_liste_von_fischen.html" width="436" height="276" loading="lazy"></iframe></div>
 <p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNjYWxlJTJDJTIwYm9keV9jb2xvciUyQyUyMGZpbl9jb2xvciUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMHhfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlM0QlMjB5X3Bvc2l0aW9uJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5zY2FsZSUyMCUzRCUyMHNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5ib2R5X2NvbG9yJTIwJTNEJTIwYm9keV9jb2xvciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZmluX2NvbG9yJTIwJTNEJTIwZmluX2NvbG9yJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBib2R5X2xlbmd0aCUyMCUzRCUyMDg0JTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJvZHlfaGVpZ2h0JTIwJTNEJTIwNDIlMjAlMkElMjBzZWxmLnNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdGFpbF9sZW5ndGglMjAlM0QlMjAyOCUyMCUyQSUyMHNlbGYuc2NhbGUlMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5ib2R5X2NvbG9yJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxsaXBzZSUyOHNlbGYueCUyQyUyMHNlbGYueSUyQyUyMGJvZHlfbGVuZ3RoJTJDJTIwYm9keV9oZWlnaHQlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5maW5fY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB0cmlhbmdsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAtJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjQ4JTIwLSUyMHRhaWxfbGVuZ3RoJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC40NSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMjAtJTIwdGFpbF9sZW5ndGglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuNDUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTJCJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjI2JTJDJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC4xMiUyQyUyMDExJTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpbGwlMjgxNSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNpcmNsZSUyOHNlbGYueCUyMCUyQiUyMGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC4yOCUyQyUyMHNlbGYueSUyMC0lMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuMTIlMkMlMjA1JTIwJTJBJTIwc2VsZi5zY2FsZSUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMGNyZWF0ZV9yYW5kb21fZmlzaCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMHJldHVybiUyMEZpc2glMjglMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByYW5kb20lMjg3MCUyQyUyMHdpZHRoJTIwLSUyMDcwJTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmFuZG9tJTI4NzAlMkMlMjBoZWlnaHQlMjAtJTIwNTUlMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByYW5kb20lMjgwLjclMkMlMjAxLjI1JTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY29sb3IlMjhyYW5kb20lMjg5MCUyQyUyMDI1NSUyOSUyQyUyMHJhbmRvbSUyODEyMCUyQyUyMDIzMCUyOSUyQyUyMHJhbmRvbSUyODgwJTJDJTIwMTgwJTI5JTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY29sb3IlMjhyYW5kb20lMjgyMjAlMkMlMjAyNTUlMjklMkMlMjByYW5kb20lMjgxMTAlMkMlMjAxODAlMjklMkMlMjByYW5kb20lMjg1MCUyQyUyMDEyMCUyOSUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwZmlzaGVzJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODQyMCUyQyUyMDI2MCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZpc2hlcyUyMCUzRCUyMCU1QiU1RCUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMF8lMjBpbiUyMHJhbmdlJTI4NiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpc2hlcy5hcHBlbmQlMjhjcmVhdGVfcmFuZG9tX2Zpc2glMjglMjklMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwZmlzaCUyMGluJTIwZmlzaGVzJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlzaC5kcmF3JTI4JTI5JTBEJTBB">Im Editor öffnen</a></p>
 <div class="code-block"><pre><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">setup</span></span>():
     <span class="tok-keyword">global</span> <span class="tok-name">fishes</span>
@@ -618,7 +681,7 @@
     <span class="tok-name">draw_background</span>()
 
     <span class="tok-keyword">for</span> <span class="tok-name">fish</span> <span class="tok-keyword">in</span> <span class="tok-name">fishes</span>:
-        <span class="tok-name">fish</span>.<span class="tok-name">draw</span>()</code></pre></div>
+        <span class="tok-name">fish</span>.<span class="tok-name">draw</span>()</code></pre></div></div></details>
 <hr />
 </section>
 <section class="content-section">
@@ -638,9 +701,9 @@
 <li><strong>Methode</strong> als Verhalten eines Objekts</li>
 <li>Zustandsänderung pro Frame</li>
 <li>mehrere Objekte mit eigenem Tempo</li>
-</ul></div><aside class="margin-note"><strong>Bewegung:</strong> Ein Fisch wirkt lebendiger, wenn <code>y</code> nicht ganz starr bleibt. Eine kleine Wellenbewegung mit <code>sin(...)</code> reicht schon.</aside></div>
+</ul></div><aside class="margin-note"><strong>Bewegung:</strong> Schon eine kleine Wellenbewegung mit <code>sin(...)</code> macht die Bewegung glaubwürdiger. Der Fisch schwimmt dadurch nicht völlig starr durch das Aquarium.</aside></div>
 <h3>Demo</h3>
-<div class="preview-frame"><iframe src="_previews/aquarium/aquarium4_fische_bewegen_sich.html" width="436" height="276" loading="lazy"></iframe></div>
+<details class="solution-block"><summary>Demo und Musterlösung zu Station 4 anzeigen</summary><div class="solution-content"><div class="preview-frame"><iframe src="_previews/aquarium/aquarium4_fische_bewegen_sich.html" width="436" height="276" loading="lazy"></iframe></div>
 <p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNjYWxlJTJDJTIwYm9keV9jb2xvciUyQyUyMGZpbl9jb2xvciUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuYmFzZV95JTIwJTNEJTIweV9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNjYWxlJTIwJTNEJTIwc2NhbGUlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLmJvZHlfY29sb3IlMjAlM0QlMjBib2R5X2NvbG9yJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5maW5fY29sb3IlMjAlM0QlMjBmaW5fY29sb3IlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNwZWVkJTIwJTNEJTIwc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLmR4JTIwJTNEJTIwc3BlZWQlMjBpZiUyMHJhbmRvbSUyODElMjklMjAlM0MlMjAwLjUlMjBlbHNlJTIwLXNwZWVkJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5waGFzZSUyMCUzRCUyMHJhbmRvbSUyOFRXT19QSSUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMG1vdmUlMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTJCJTNEJTIwc2VsZi5keCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHNlbGYuYmFzZV95JTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkElMjAwLjA4JTIwJTJCJTIwc2VsZi5waGFzZSUyOSUyMCUyQSUyMCUyODclMjAlMkElMjBzZWxmLnNjYWxlJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwaWYlMjBzZWxmLnglMjAlM0MlMjA0OCUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMDQ4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5keCUyMCUzRCUyMGFicyUyOHNlbGYuc3BlZWQlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBlbGlmJTIwc2VsZi54JTIwJTNFJTIwd2lkdGglMjAtJTIwNDglM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB3aWR0aCUyMC0lMjA0OCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHglMjAlM0QlMjAtYWJzJTI4c2VsZi5zcGVlZCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZGlyZWN0aW9uJTIwJTNEJTIwMSUyMGlmJTIwc2VsZi5keCUyMCUzRSUzRCUyMDAlMjBlbHNlJTIwLTElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBib2R5X2xlbmd0aCUyMCUzRCUyMDg0JTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJvZHlfaGVpZ2h0JTIwJTNEJTIwNDIlMjAlMkElMjBzZWxmLnNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdGFpbF9sZW5ndGglMjAlM0QlMjAyOCUyMCUyQSUyMHNlbGYuc2NhbGUlMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5ib2R5X2NvbG9yJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxsaXBzZSUyOHNlbGYueCUyQyUyMHNlbGYueSUyQyUyMGJvZHlfbGVuZ3RoJTJDJTIwYm9keV9oZWlnaHQlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5maW5fY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB0cmlhbmdsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBkaXJlY3Rpb24lMjAlMkElMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAtJTIwZGlyZWN0aW9uJTIwJTJBJTIwJTI4Ym9keV9sZW5ndGglMjAlMkElMjAwLjQ4JTIwJTJCJTIwdGFpbF9sZW5ndGglMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjQ1JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMGRpcmVjdGlvbiUyMCUyQSUyMCUyOGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC40OCUyMCUyQiUyMHRhaWxfbGVuZ3RoJTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTJCJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjQ1JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyODI1NSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNpcmNsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUyQiUyMGRpcmVjdGlvbiUyMCUyQSUyMGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC4yNiUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMC0lMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuMTIlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAxMSUyMCUyQSUyMHNlbGYuc2NhbGUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjglMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlMkIlMjBkaXJlY3Rpb24lMjAlMkElMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuMjglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjEyJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwNSUyMCUyQSUyMHNlbGYuc2NhbGUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBjcmVhdGVfcmFuZG9tX2Zpc2glMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjByZXR1cm4lMjBGaXNoJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmFuZG9tJTI4NzAlMkMlMjB3aWR0aCUyMC0lMjA3MCUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHJhbmRvbSUyODcwJTJDJTIwaGVpZ2h0JTIwLSUyMDU1JTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmFuZG9tJTI4MC43JTJDJTIwMS4yNSUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNvbG9yJTI4cmFuZG9tJTI4OTAlMkMlMjAyNTUlMjklMkMlMjByYW5kb20lMjgxMjAlMkMlMjAyMzAlMjklMkMlMjByYW5kb20lMjg4MCUyQyUyMDE4MCUyOSUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNvbG9yJTI4cmFuZG9tJTI4MjIwJTJDJTIwMjU1JTI5JTJDJTIwcmFuZG9tJTI4MTEwJTJDJTIwMTgwJTI5JTJDJTIwcmFuZG9tJTI4NTAlMkMlMjAxMjAlMjklMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByYW5kb20lMjgwLjglMkMlMjAxLjglMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBzZXR1cCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGZpc2hlcyUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjg0MjAlMkMlMjAyNjAlMjklMEQlMEElMjAlMjAlMjAlMjBmaXNoZXMlMjAlM0QlMjAlNUIlNUQlMEQlMEElMEQlMEElMjAlMjAlMjAlMjBmb3IlMjBfJTIwaW4lMjByYW5nZSUyODclMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaXNoZXMuYXBwZW5kJTI4Y3JlYXRlX3JhbmRvbV9maXNoJTI4JTI5JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMGZpc2glMjBpbiUyMGZpc2hlcyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpc2gubW92ZSUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpc2guZHJhdyUyOCUyOSUwRCUwQQ==">Im Editor öffnen</a></p>
 <div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Fish</span></span>:
     <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>, <span class="tok-name">scale</span>, <span class="tok-name">body_color</span>, <span class="tok-name">fin_color</span>, <span class="tok-name">speed</span>):
@@ -656,7 +719,7 @@
 
     <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">move</span></span>(<span class="tok-self">self</span>):
         <span class="tok-self">self</span>.<span class="tok-name">x</span> += <span class="tok-self">self</span>.<span class="tok-name">dx</span>
-        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-self">self</span>.<span class="tok-name">base_y</span> + <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> * <span class="tok-number">0.08</span> + <span class="tok-self">self</span>.<span class="tok-name">phase</span>) * (<span class="tok-number">7</span> * <span class="tok-self">self</span>.<span class="tok-name">scale</span>)</code></pre></div>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-self">self</span>.<span class="tok-name">base_y</span> + <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> * <span class="tok-number">0.08</span> + <span class="tok-self">self</span>.<span class="tok-name">phase</span>) * (<span class="tok-number">7</span> * <span class="tok-self">self</span>.<span class="tok-name">scale</span>)</code></pre></div></div></details>
 <hr />
 </section>
 <section class="content-section">
@@ -676,9 +739,9 @@
 <li>Zusammenarbeit mehrerer Klassen</li>
 <li>Listen für verschiedene Objektarten</li>
 <li>einfache Zielsuche mit <code>dist(...)</code></li>
-</ul></div><aside class="margin-note"><strong>Zweite Klasse:</strong> Spätestens hier sieht man, dass OOP nicht nur für Zeichnen da ist. Klassen helfen auch dabei, Rollen im Programm sauber zu trennen.</aside></div>
+</ul></div><aside class="margin-note"><strong>Zweite Klasse:</strong> Hier wird deutlich, dass OOP nicht nur beim Zeichnen hilft. Klassen helfen auch dabei, verschiedene Rollen im Programm sauber zu trennen.</aside></div>
 <h3>Demo</h3>
-<div class="preview-frame"><iframe src="_previews/aquarium/aquarium5_futter_und_jagd.html" width="436" height="276" loading="lazy"></iframe></div>
+<details class="solution-block"><summary>Demo und Musterlösung zu Station 5 anzeigen</summary><div class="solution-content"><div class="preview-frame"><iframe src="_previews/aquarium/aquarium5_futter_und_jagd.html" width="436" height="276" loading="lazy"></iframe></div>
 <div class="sketch-fallback"><p class="sketch-fallback-title">Editor-Link ersetzt</p><p>Dieser Sketch ist zu lang für einen py5-Editorlink mit ?sketch=. Arbeite stattdessen direkt mit der Python-Datei aus diesem Ordner.</p><p class="sketch-fallback-link"><a class="button-link" href="../themen/aquarium/aquarium5_futter_und_jagd.py">Python-Datei öffnen</a></p></div>
 <div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Food</span></span>:
     <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>):
@@ -689,7 +752,7 @@
 
 
 <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">mouse_pressed</span></span>():
-    <span class="tok-name">food_list</span>.<span class="tok-name">append</span>(<span class="tok-name">Food</span>(<span class="tok-builtin">mouse_x</span>, <span class="tok-builtin">mouse_y</span>))</code></pre></div>
+    <span class="tok-name">food_list</span>.<span class="tok-name">append</span>(<span class="tok-name">Food</span>(<span class="tok-builtin">mouse_x</span>, <span class="tok-builtin">mouse_y</span>))</code></pre></div></div></details>
 <hr />
 </section>
 <section class="content-section">
@@ -705,7 +768,7 @@
 <h3>Warum ist das eine gute Erweiterung?</h3>
 <p>Die Pflichtteile sind schon ein vollständiges OOP-Projekt. Die Blasen sind ein sauberer Bonus, weil du dieselben Prinzipien noch einmal auf eine neue Objektart anwendest.</p>
 <h3>Demo der Endstufe</h3>
-<div class="preview-frame"><iframe src="_previews/aquarium/aquarium_endloesung.html" width="536" height="336" loading="lazy"></iframe></div>
+<details class="solution-block"><summary>Endstufe mit Demo und Musterlösung anzeigen</summary><div class="solution-content"><div class="preview-frame"><iframe src="_previews/aquarium/aquarium_endloesung.html" width="536" height="336" loading="lazy"></iframe></div>
 <div class="sketch-fallback"><p class="sketch-fallback-title">Editor-Link ersetzt</p><p>Dieser Sketch ist zu lang für einen py5-Editorlink mit ?sketch=. Arbeite stattdessen direkt mit der Python-Datei aus diesem Ordner.</p><p class="sketch-fallback-link"><a class="button-link" href="../themen/aquarium/aquarium_endloesung.py">Python-Datei öffnen</a></p></div>
 <div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Bubble</span></span>:
     <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>):
@@ -713,7 +776,7 @@
 
     <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">update</span></span>(<span class="tok-self">self</span>):
         <span class="tok-self">self</span>.<span class="tok-name">y</span> -= <span class="tok-self">self</span>.<span class="tok-name">speed</span>
-        <span class="tok-self">self</span>.<span class="tok-name">x</span> += <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> * <span class="tok-number">0.03</span> + <span class="tok-self">self</span>.<span class="tok-name">phase</span>) * <span class="tok-self">self</span>.<span class="tok-name">wobble</span></code></pre></div>
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> += <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> * <span class="tok-number">0.03</span> + <span class="tok-self">self</span>.<span class="tok-name">phase</span>) * <span class="tok-self">self</span>.<span class="tok-name">wobble</span></code></pre></div></div></details>
 </section>
     </main>
   </body>
