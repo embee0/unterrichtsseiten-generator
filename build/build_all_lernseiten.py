@@ -1,0 +1,11 @@
+from build import build_lernseite as builder
+from build.site_config import get_all_sites
+
+
+def main() -> None:
+    for site in get_all_sites():
+        builder.build_site(source=site.source, target=site.target, title=site.title)
+
+
+if __name__ == "__main__":
+    main()

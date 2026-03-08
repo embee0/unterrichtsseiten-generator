@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aquarium mit OOP in py5</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #17161b;
+        --bg-deep: #111015;
+        --panel: rgba(31, 29, 37, 0.88);
+        --panel-strong: rgba(39, 36, 46, 0.94);
+        --panel-soft: rgba(43, 39, 52, 0.72);
+        --text: #f8f8f2;
+        --muted: #b7b3c0;
+        --accent: #fd971f;
+        --accent-2: #66d9ef;
+        --accent-3: #f92672;
+        --accent-4: #a6e22e;
+        --accent-5: #ae81ff;
+        --border: rgba(255, 255, 255, 0.08);
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+        --code-bg: #121118;
+        --code-text: #f8f8f2;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        color: var(--text);
+        font-family: "Manrope", "Segoe UI", sans-serif;
+        font-variant-numeric: lining-nums proportional-nums;
+        font-feature-settings: "lnum" 1, "pnum" 1;
+        line-height: 1.72;
+        background:
+          radial-gradient(circle at 10% 12%, rgba(249, 38, 114, 0.16), transparent 24%),
+          radial-gradient(circle at 84% 8%, rgba(102, 217, 239, 0.16), transparent 24%),
+          radial-gradient(circle at 48% 120%, rgba(166, 226, 46, 0.12), transparent 28%),
+          linear-gradient(180deg, #151419 0%, #17161b 38%, #111015 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 36px 36px;
+        mask-image: radial-gradient(circle at center, black 42%, transparent 95%);
+        opacity: 0.5;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.07;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.8) 0.5px, transparent 0.5px);
+        background-size: 12px 12px;
+      }
+
+      main {
+        position: relative;
+        width: min(calc(100% - 2rem), 1040px);
+        margin: 0 auto;
+        padding: 2rem 0 5rem;
+        counter-reset: lesson;
+      }
+
+      .hero,
+      .content-section {
+        position: relative;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 30px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+        overflow: visible;
+        animation: rise-in 680ms cubic-bezier(.2,.8,.2,1) both;
+      }
+
+      .hero::after,
+      .content-section::after {
+        content: "";
+        display: block;
+        clear: both;
+      }
+
+      .hero {
+        padding: 2.7rem;
+        margin-bottom: 1.35rem;
+        background:
+          linear-gradient(155deg, rgba(40, 36, 50, 0.98), rgba(26, 24, 32, 0.92)),
+          var(--panel);
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 1rem;
+        border: 1px solid rgba(102, 217, 239, 0.14);
+        border-radius: 24px;
+        pointer-events: none;
+        box-shadow: inset 0 0 0 1px rgba(249, 38, 114, 0.06);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        right: 2rem;
+        top: 1.8rem;
+        width: 9rem;
+        height: 9rem;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 30% 30%, rgba(102, 217, 239, 0.34), transparent 50%),
+          radial-gradient(circle at 70% 70%, rgba(249, 38, 114, 0.28), transparent 48%);
+        filter: blur(12px);
+        opacity: 0.75;
+        pointer-events: none;
+      }
+
+      .content-section {
+        padding: 2rem 2rem 2.1rem;
+        margin-top: 1.15rem;
+        background:
+          linear-gradient(180deg, rgba(35, 32, 43, 0.96), rgba(24, 23, 30, 0.96));
+      }
+
+      .content-section:nth-of-type(2n) {
+        transform: translateX(0.6rem);
+      }
+
+      .content-section:nth-of-type(2n + 1) {
+        transform: translateX(-0.35rem);
+      }
+
+      h1, h2, h3 {
+        margin: 0;
+        line-height: 1.05;
+        letter-spacing: -0.035em;
+        font-family: "Sora", "Manrope", sans-serif;
+        font-variant-numeric: lining-nums proportional-nums;
+        font-feature-settings: "lnum" 1, "pnum" 1;
+      }
+
+      h1 {
+        margin-top: 0;
+        font-size: clamp(2.8rem, 7vw, 5.2rem);
+        max-width: 9ch;
+        text-wrap: balance;
+      }
+
+      h2 {
+        font-size: clamp(1.9rem, 4vw, 2.7rem);
+        margin-bottom: 1.1rem;
+        padding-top: 0.25rem;
+      }
+
+      h3 {
+        font-size: 1.28rem;
+        color: var(--accent-3);
+        margin-top: 1.5rem;
+        margin-bottom: 0.45rem;
+      }
+
+      p, li {
+        color: var(--muted);
+        margin: 0.62rem 0;
+        font-size: 1.02rem;
+        font-variant-numeric: lining-nums proportional-nums;
+        font-feature-settings: "lnum" 1, "pnum" 1;
+      }
+
+      strong {
+        color: var(--text);
+      }
+
+      a {
+        color: var(--accent-2);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(102, 217, 239, 0.24);
+      }
+
+      a:hover {
+        color: var(--accent);
+      }
+
+      code {
+        font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+        color: #f8f8f2;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 8px;
+        padding: 0.14rem 0.38rem;
+      }
+
+      ul, ol {
+        padding-left: 1.4rem;
+        margin: 0.55rem 0 0.95rem;
+      }
+
+      li::marker {
+        color: var(--accent);
+      }
+
+      hr {
+        border: 0;
+        height: 16px;
+        margin: 1.25rem 0;
+        background:
+          radial-gradient(circle at center, rgba(166, 226, 46, 0.9) 0 2px, transparent 3px),
+          linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+
+      .margin-note {
+        float: right;
+        width: min(16rem, 42%);
+        margin: 0.15rem 0 0.9rem 1.4rem;
+        padding: 1rem 1rem 1rem 1.2rem;
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(44, 40, 54, 0.98), rgba(31, 29, 39, 0.94));
+        border: 1px solid rgba(249, 38, 114, 0.2);
+        color: #d6d1de;
+        font-size: 0.96rem;
+        line-height: 1.58;
+        box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28);
+        transform: none;
+      }
+
+      .margin-note strong,
+      .margin-note code {
+        color: #ffd866;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+      }
+
+      .margin-note code {
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        padding: 0;
+      }
+
+      .preview-frame {
+        display: inline-block;
+        width: fit-content;
+        max-width: 100%;
+        margin: 1.1rem 0 0.95rem;
+        padding: 1rem;
+        border-radius: 22px;
+        background:
+          linear-gradient(180deg, rgba(26, 24, 32, 0.96), rgba(20, 19, 26, 0.98));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+
+      .sketch-fallback {
+        margin: 1.1rem 0 0.95rem;
+        padding: 1rem 1.1rem;
+        border-radius: 22px;
+        background:
+          linear-gradient(180deg, rgba(26, 24, 32, 0.96), rgba(20, 19, 26, 0.98));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+
+      .sketch-fallback-title {
+        margin-top: 0;
+        color: var(--text);
+        font-weight: 800;
+      }
+
+      .sketch-fallback-link {
+        margin-bottom: 0;
+      }
+
+      iframe {
+        display: block;
+        max-width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        background: white;
+        box-shadow: 0 18px 30px rgba(0, 0, 0, 0.28);
+      }
+
+      .editor-link {
+        margin: 0.55rem 0 1rem;
+      }
+
+      .button-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.76rem 1.05rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(135deg, rgba(249, 38, 114, 0.18), rgba(102, 217, 239, 0.16));
+        color: var(--text);
+        font-weight: 700;
+        transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      }
+
+      .button-link:hover {
+        transform: translateY(-2px) rotate(-0.5deg);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(135deg, rgba(249, 38, 114, 0.24), rgba(102, 217, 239, 0.24));
+      }
+
+      .code-block {
+        clear: both;
+        margin: 1rem 0 0.5rem;
+        border-radius: 22px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: var(--code-bg);
+        box-shadow: 0 20px 34px rgba(0, 0, 0, 0.34);
+      }
+
+      .code-block pre {
+        margin: 0;
+        padding: 1rem 1.1rem 1.15rem;
+        overflow-x: auto;
+      }
+
+      .code-block code {
+        display: block;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        color: var(--code-text);
+      }
+
+      .tok-comment { color: #75715e; }
+      .tok-string { color: #e6db74; }
+      .tok-number { color: #ae81ff; }
+      .tok-keyword { color: #f92672; font-weight: 700; }
+      .tok-builtin { color: #66d9ef; }
+      .tok-self { color: #fd971f; }
+      .tok-class, .tok-function { color: #a6e22e; font-weight: 700; }
+      .tok-name { color: #f8f8f2; }
+
+      .content-section::before {
+        content: none;
+      }
+
+      .hero > p:last-of-type {
+        max-width: 58ch;
+        font-size: 1.08rem;
+      }
+
+      .content-section p + .preview-frame,
+      .content-section p + .editor-link,
+      .content-section p + .code-block {
+        margin-top: 0.95rem;
+      }
+
+      @keyframes rise-in {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 920px) {
+        .content-section:nth-of-type(2n),
+        .content-section:nth-of-type(2n + 1) {
+          transform: none;
+        }
+
+        .margin-note {
+          float: none;
+          width: auto;
+          margin: 0 0 0.8rem;
+        }
+      }
+
+      @media (max-width: 700px) {
+        body {
+          line-height: 1.66;
+        }
+
+        .margin-note {
+          padding: 0.9rem 0.95rem;
+        }
+
+        main {
+          width: min(calc(100% - 1rem), 1020px);
+          padding-top: 1rem;
+        }
+
+        .hero,
+        .content-section {
+          padding: 1.3rem;
+          border-radius: 22px;
+        }
+
+        .hero::before {
+          inset: 0.8rem;
+          border-radius: 18px;
+        }
+
+        h1 {
+          max-width: none;
+          font-size: clamp(2.35rem, 11vw, 3.5rem);
+        }
+
+        h2 {
+          font-size: clamp(1.7rem, 8vw, 2.2rem);
+        }
+
+        iframe {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+<h1>Aquarium mit OOP in py5</h1>
+<p>Auf dieser Seite baust du Schritt für Schritt ein kleines Aquarium in py5. Du startest mit genau einem Fisch und landest am Ende bei einer kleinen Unterwasserwelt mit vielen Fischen, Futter und Blasen.</p>
+<p>Der Hintergrund ist diesmal von Anfang an schon da. So kannst du dich auf das konzentrieren, was hier fachlich wichtig ist: <strong>Klassen, Objekte, Listen, Attribute und Verhalten</strong>.</p>
+</header>
+<section class="content-section">
+<h2>Teaser – So kann das Endergebnis aussehen</h2>
+<aside class="margin-note"><strong>Endstufe:</strong> Mehrere Klassen arbeiten zusammen. Genau das macht das Projekt als OOP-Aufgabe interessant.</aside>
+<p>Das hier ist die Zielrichtung. Du musst nicht sofort alles verstehen. Die eigentliche Arbeit beginnt darunter in kleinen, machbaren Schritten.</p>
+<h3>Vorschau</h3>
+<div class="sketch-fallback"><p class="sketch-fallback-title">Vorschau nicht direkt eingebettet</p><p>Dieser py5-Sketch ist zu lang für die URL-basierte Vorschau. Die Seite zeigt deshalb hier absichtlich keinen kaputten iframe an.</p><p class="sketch-fallback-link"><a class="button-link" href="../themen/aquarium/aquarium_endloesung.py">Python-Datei öffnen</a></p></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>So arbeitest du</h2>
+<p>Gehe die Stationen der Reihe nach durch.</p>
+<ol>
+<li>Lies den Arbeitsauftrag.</li>
+<li>Schaue dir die Demo an.</li>
+<li>Baue den Schritt selbst nach.</li>
+<li>Erst wenn dein Programm funktioniert, gehst du zur nächsten Station.</li>
+</ol>
+<aside class="margin-note"><strong>Pflicht und Bonus:</strong> Station 1 bis 5 bilden den eigentlichen Lernweg. Die letzte Station mit Blasen und Extras ist eine sinnvolle Erweiterung.</aside>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 1 – Ein einzelner Fisch als Objekt</h2>
+<h3>Arbeitsauftrag</h3>
+<ol>
+<li>Lege eine Klasse <code>Fish</code> an.</li>
+<li>Schreibe einen Konstruktor mit <code>x</code> und <code>y</code>.</li>
+<li>Schreibe eine Methode <code>draw()</code>.</li>
+<li>Zeichne den Fisch aus einer Ellipse und einem Dreieck.</li>
+<li>Erzeuge in <code>setup()</code> genau einen Fisch und zeichne ihn in <code>draw()</code>.</li>
+</ol>
+<h3>Warum dieser Schritt?</h3>
+<p>Du trennst zum ersten Mal zwischen dem Hintergrund des Programms und einem eigenen Objekt. Der Fisch ist nicht mehr nur lose Zeichencodes, sondern bekommt eine eigene Klasse.</p>
+<h3>Dabei lernst du</h3>
+<ul>
+<li><strong>Klasse</strong> als Bauplan</li>
+<li><strong>Objekt</strong> als konkrete Instanz</li>
+<li>erste Arbeit mit <code>self</code></li>
+</ul>
+<aside class="margin-note"><strong>Fischform:</strong> Der Körper ist eine Ellipse. Der Schwanz ist ein Dreieck. Mehr brauchst du für den Anfang nicht.</aside>
+<h3>Demo</h3>
+<div class="preview-frame"><iframe src="https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMHhfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlM0QlMjB5X3Bvc2l0aW9uJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTJDJTIwMTQxJTJDJTIwNzYlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBlbGxpcHNlJTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwODQlMkMlMjA0MiUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHRyaWFuZ2xlJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMDQwJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMDY4JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwLSUyMDE4JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMDY4JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTJCJTIwMTglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTIwJTJCJTIwMjIlMkMlMjBzZWxmLnklMjAtJTIwNiUyQyUyMDExJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyODE1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTIwJTJCJTIwMjQlMkMlMjBzZWxmLnklMjAtJTIwNiUyQyUyMDUlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBzZXR1cCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGZpc2glMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4NDIwJTJDJTIwMjYwJTI5JTBEJTBBJTIwJTIwJTIwJTIwZmlzaCUyMCUzRCUyMEZpc2glMjh3aWR0aCUyMCUyRiUyMDIlMkMlMjBoZWlnaHQlMjAlMkYlMjAyJTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZpc2guZHJhdyUyOCUyOSUwRCUwQQ==" width="436" height="276" loading="lazy"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMHhfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlM0QlMjB5X3Bvc2l0aW9uJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTJDJTIwMTQxJTJDJTIwNzYlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBlbGxpcHNlJTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwODQlMkMlMjA0MiUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHRyaWFuZ2xlJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMDQwJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMDY4JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwLSUyMDE4JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMDY4JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTJCJTIwMTglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTIwJTJCJTIwMjIlMkMlMjBzZWxmLnklMjAtJTIwNiUyQyUyMDExJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyODE1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTIwJTJCJTIwMjQlMkMlMjBzZWxmLnklMjAtJTIwNiUyQyUyMDUlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBzZXR1cCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGZpc2glMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4NDIwJTJDJTIwMjYwJTI5JTBEJTBBJTIwJTIwJTIwJTIwZmlzaCUyMCUzRCUyMEZpc2glMjh3aWR0aCUyMCUyRiUyMDIlMkMlMjBoZWlnaHQlMjAlMkYlMjAyJTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZpc2guZHJhdyUyOCUyOSUwRCUwQQ==">Im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw_background</span></span>():
+    <span class="tok-keyword">for</span> <span class="tok-name">row</span> <span class="tok-keyword">in</span> <span class="tok-builtin">range</span>(<span class="tok-builtin">height</span>):
+        <span class="tok-name">blend</span> = <span class="tok-name">row</span> / <span class="tok-builtin">height</span>
+        <span class="tok-builtin">stroke</span>(<span class="tok-number">18</span>, <span class="tok-number">110</span> + <span class="tok-number">60</span> * <span class="tok-name">blend</span>, <span class="tok-number">170</span> + <span class="tok-number">40</span> * <span class="tok-name">blend</span>)
+        <span class="tok-builtin">line</span>(<span class="tok-number">0</span>, <span class="tok-name">row</span>, <span class="tok-builtin">width</span>, <span class="tok-name">row</span>)
+
+    <span class="tok-builtin">no_stroke</span>()
+    <span class="tok-builtin">fill</span>(<span class="tok-number">19</span>, <span class="tok-number">100</span>, <span class="tok-number">70</span>, <span class="tok-number">170</span>)
+    <span class="tok-builtin">rect</span>(<span class="tok-number">0</span>, <span class="tok-builtin">height</span> - <span class="tok-number">38</span>, <span class="tok-builtin">width</span>, <span class="tok-number">38</span>)
+
+    <span class="tok-builtin">fill</span>(<span class="tok-number">204</span>, <span class="tok-number">182</span>, <span class="tok-number">112</span>)
+    <span class="tok-builtin">rect</span>(<span class="tok-number">0</span>, <span class="tok-builtin">height</span> - <span class="tok-number">14</span>, <span class="tok-builtin">width</span>, <span class="tok-number">14</span>)
+
+
+<span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Fish</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y_position</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-builtin">no_stroke</span>()
+        <span class="tok-builtin">fill</span>(<span class="tok-number">255</span>, <span class="tok-number">141</span>, <span class="tok-number">76</span>)
+        <span class="tok-builtin">ellipse</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span>, <span class="tok-number">84</span>, <span class="tok-number">42</span>)
+        <span class="tok-builtin">triangle</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span> - <span class="tok-number">40</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span>, <span class="tok-self">self</span>.<span class="tok-name">x</span> - <span class="tok-number">68</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span> - <span class="tok-number">18</span>, <span class="tok-self">self</span>.<span class="tok-name">x</span> - <span class="tok-number">68</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span> + <span class="tok-number">18</span>)
+        <span class="tok-builtin">fill</span>(<span class="tok-number">255</span>)
+        <span class="tok-builtin">circle</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span> + <span class="tok-number">22</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span> - <span class="tok-number">6</span>, <span class="tok-number">11</span>)
+        <span class="tok-builtin">fill</span>(<span class="tok-number">15</span>)
+        <span class="tok-builtin">circle</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span> + <span class="tok-number">24</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span> - <span class="tok-number">6</span>, <span class="tok-number">5</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">setup</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">fish</span>
+    <span class="tok-builtin">size</span>(<span class="tok-number">420</span>, <span class="tok-number">260</span>)
+    <span class="tok-name">fish</span> = <span class="tok-name">Fish</span>(<span class="tok-builtin">width</span> / <span class="tok-number">2</span>, <span class="tok-builtin">height</span> / <span class="tok-number">2</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>():
+    <span class="tok-name">draw_background</span>()
+    <span class="tok-name">fish</span>.<span class="tok-name">draw</span>()</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 2 – Der Fisch bekommt mehr Eigenschaften</h2>
+<h3>Arbeitsauftrag</h3>
+<ol>
+<li>Ergänze den Konstruktor um weitere Attribute.</li>
+<li>Speichere mindestens <code>scale</code>, <code>body_color</code> und <code>fin_color</code> im Objekt.</li>
+<li>Passe die Methode <code>draw()</code> so an, dass diese Werte benutzt werden.</li>
+<li>Erzeuge wieder genau einen Fisch, aber diesmal mit eigenen Eigenschaften.</li>
+</ol>
+<h3>Warum dieser Schritt?</h3>
+<p>Ein Objekt besteht nicht nur aus seiner Position. Erst mit mehreren Attributen wird deutlich, dass jedes Objekt seinen eigenen Zustand besitzt.</p>
+<h3>Dabei lernst du</h3>
+<ul>
+<li><strong>Attribut</strong> als gespeicherte Eigenschaft</li>
+<li>Objekte mit unterschiedlichen Startwerten erzeugen</li>
+<li>Zeichnen auf Basis von Objektzustand</li>
+</ul>
+<aside class="margin-note"><strong>Attribute:</strong> Position, Größe und Farbe gehören sinnvoll in die Klasse. Dann weiß der Fisch selbst, wie er aussehen soll.</aside>
+<h3>Demo</h3>
+<div class="preview-frame"><iframe src="https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNjYWxlJTJDJTIwYm9keV9jb2xvciUyQyUyMGZpbl9jb2xvciUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMHhfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlM0QlMjB5X3Bvc2l0aW9uJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5zY2FsZSUyMCUzRCUyMHNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5ib2R5X2NvbG9yJTIwJTNEJTIwYm9keV9jb2xvciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZmluX2NvbG9yJTIwJTNEJTIwZmluX2NvbG9yJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBib2R5X2xlbmd0aCUyMCUzRCUyMDg0JTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJvZHlfaGVpZ2h0JTIwJTNEJTIwNDIlMjAlMkElMjBzZWxmLnNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdGFpbF9sZW5ndGglMjAlM0QlMjAyOCUyMCUyQSUyMHNlbGYuc2NhbGUlMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5ib2R5X2NvbG9yJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxsaXBzZSUyOHNlbGYueCUyQyUyMHNlbGYueSUyQyUyMGJvZHlfbGVuZ3RoJTJDJTIwYm9keV9oZWlnaHQlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5maW5fY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB0cmlhbmdsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAtJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjQ4JTIwLSUyMHRhaWxfbGVuZ3RoJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC40NSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMjAtJTIwdGFpbF9sZW5ndGglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuNDUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTJCJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjI2JTJDJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC4xMiUyQyUyMDExJTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpbGwlMjgxNSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNpcmNsZSUyOHNlbGYueCUyMCUyQiUyMGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC4yOCUyQyUyMHNlbGYueSUyMC0lMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuMTIlMkMlMjA1JTIwJTJBJTIwc2VsZi5zY2FsZSUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwZmlzaCUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjg0MjAlMkMlMjAyNjAlMjklMEQlMEElMjAlMjAlMjAlMjBmaXNoJTIwJTNEJTIwRmlzaCUyODIxMCUyQyUyMDEzNSUyQyUyMDEuMSUyQyUyMGNvbG9yJTI4MjU1JTJDJTIwMTkwJTJDJTIwNzMlMjklMkMlMjBjb2xvciUyODI1NSUyQyUyMDExMiUyQyUyMDY3JTI5JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZpc2guZHJhdyUyOCUyOSUwRCUwQQ==" width="436" height="276" loading="lazy"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNjYWxlJTJDJTIwYm9keV9jb2xvciUyQyUyMGZpbl9jb2xvciUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMHhfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlM0QlMjB5X3Bvc2l0aW9uJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5zY2FsZSUyMCUzRCUyMHNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5ib2R5X2NvbG9yJTIwJTNEJTIwYm9keV9jb2xvciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZmluX2NvbG9yJTIwJTNEJTIwZmluX2NvbG9yJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBib2R5X2xlbmd0aCUyMCUzRCUyMDg0JTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJvZHlfaGVpZ2h0JTIwJTNEJTIwNDIlMjAlMkElMjBzZWxmLnNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdGFpbF9sZW5ndGglMjAlM0QlMjAyOCUyMCUyQSUyMHNlbGYuc2NhbGUlMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5ib2R5X2NvbG9yJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxsaXBzZSUyOHNlbGYueCUyQyUyMHNlbGYueSUyQyUyMGJvZHlfbGVuZ3RoJTJDJTIwYm9keV9oZWlnaHQlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5maW5fY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB0cmlhbmdsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAtJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjQ4JTIwLSUyMHRhaWxfbGVuZ3RoJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC40NSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMjAtJTIwdGFpbF9sZW5ndGglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuNDUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTJCJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjI2JTJDJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC4xMiUyQyUyMDExJTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpbGwlMjgxNSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNpcmNsZSUyOHNlbGYueCUyMCUyQiUyMGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC4yOCUyQyUyMHNlbGYueSUyMC0lMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuMTIlMkMlMjA1JTIwJTJBJTIwc2VsZi5zY2FsZSUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwZmlzaCUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjg0MjAlMkMlMjAyNjAlMjklMEQlMEElMjAlMjAlMjAlMjBmaXNoJTIwJTNEJTIwRmlzaCUyODIxMCUyQyUyMDEzNSUyQyUyMDEuMSUyQyUyMGNvbG9yJTI4MjU1JTJDJTIwMTkwJTJDJTIwNzMlMjklMkMlMjBjb2xvciUyODI1NSUyQyUyMDExMiUyQyUyMDY3JTI5JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZpc2guZHJhdyUyOCUyOSUwRCUwQQ==">Im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Fish</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>, <span class="tok-name">scale</span>, <span class="tok-name">body_color</span>, <span class="tok-name">fin_color</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">scale</span> = <span class="tok-name">scale</span>
+        <span class="tok-self">self</span>.<span class="tok-name">body_color</span> = <span class="tok-name">body_color</span>
+        <span class="tok-self">self</span>.<span class="tok-name">fin_color</span> = <span class="tok-name">fin_color</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-name">body_length</span> = <span class="tok-number">84</span> * <span class="tok-self">self</span>.<span class="tok-name">scale</span>
+        <span class="tok-name">body_height</span> = <span class="tok-number">42</span> * <span class="tok-self">self</span>.<span class="tok-name">scale</span>
+        <span class="tok-name">tail_length</span> = <span class="tok-number">28</span> * <span class="tok-self">self</span>.<span class="tok-name">scale</span>
+        <span class="tok-builtin">no_stroke</span>()
+        <span class="tok-builtin">fill</span>(<span class="tok-self">self</span>.<span class="tok-name">body_color</span>)
+        <span class="tok-builtin">ellipse</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span>, <span class="tok-name">body_length</span>, <span class="tok-name">body_height</span>)
+        <span class="tok-builtin">fill</span>(<span class="tok-self">self</span>.<span class="tok-name">fin_color</span>)
+        <span class="tok-builtin">triangle</span>(
+            <span class="tok-self">self</span>.<span class="tok-name">x</span> - <span class="tok-name">body_length</span> * <span class="tok-number">0.48</span>,
+            <span class="tok-self">self</span>.<span class="tok-name">y</span>,
+            <span class="tok-self">self</span>.<span class="tok-name">x</span> - <span class="tok-name">body_length</span> * <span class="tok-number">0.48</span> - <span class="tok-name">tail_length</span>,
+            <span class="tok-self">self</span>.<span class="tok-name">y</span> - <span class="tok-name">body_height</span> * <span class="tok-number">0.45</span>,
+            <span class="tok-self">self</span>.<span class="tok-name">x</span> - <span class="tok-name">body_length</span> * <span class="tok-number">0.48</span> - <span class="tok-name">tail_length</span>,
+            <span class="tok-self">self</span>.<span class="tok-name">y</span> + <span class="tok-name">body_height</span> * <span class="tok-number">0.45</span>,
+        )</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 3 – Viele Fische in einer Liste</h2>
+<h3>Arbeitsauftrag</h3>
+<ol>
+<li>Erzeuge nicht mehr nur ein Objekt, sondern mehrere.</li>
+<li>Speichere alle Fische in einer Liste <code>fishes</code>.</li>
+<li>Gehe in <code>draw()</code> mit einer Schleife durch die Liste.</li>
+<li>Zeichne alle Fische nacheinander.</li>
+</ol>
+<h3>Warum dieser Schritt?</h3>
+<p>Hier wird OOP praktisch nützlich. Eine Klasse lohnt sich erst richtig, wenn du viele ähnliche Objekte mit wenig Code verwalten willst.</p>
+<h3>Dabei lernst du</h3>
+<ul>
+<li><strong>Liste von Objekten</strong></li>
+<li>Schleife über Instanzen</li>
+<li>zufällige Startwerte für viele Objekte</li>
+</ul>
+<aside class="margin-note"><strong>Liste:</strong> Ab hier wäre es unpraktisch, noch mit <code>fish1</code>, <code>fish2</code>, <code>fish3</code> weiterzumachen. Die Liste nimmt dir diese Wiederholung ab.</aside>
+<h3>Demo</h3>
+<div class="preview-frame"><iframe src="https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNjYWxlJTJDJTIwYm9keV9jb2xvciUyQyUyMGZpbl9jb2xvciUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMHhfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlM0QlMjB5X3Bvc2l0aW9uJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5zY2FsZSUyMCUzRCUyMHNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5ib2R5X2NvbG9yJTIwJTNEJTIwYm9keV9jb2xvciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZmluX2NvbG9yJTIwJTNEJTIwZmluX2NvbG9yJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBib2R5X2xlbmd0aCUyMCUzRCUyMDg0JTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJvZHlfaGVpZ2h0JTIwJTNEJTIwNDIlMjAlMkElMjBzZWxmLnNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdGFpbF9sZW5ndGglMjAlM0QlMjAyOCUyMCUyQSUyMHNlbGYuc2NhbGUlMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5ib2R5X2NvbG9yJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxsaXBzZSUyOHNlbGYueCUyQyUyMHNlbGYueSUyQyUyMGJvZHlfbGVuZ3RoJTJDJTIwYm9keV9oZWlnaHQlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5maW5fY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB0cmlhbmdsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAtJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjQ4JTIwLSUyMHRhaWxfbGVuZ3RoJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC40NSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMjAtJTIwdGFpbF9sZW5ndGglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuNDUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTJCJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjI2JTJDJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC4xMiUyQyUyMDExJTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpbGwlMjgxNSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNpcmNsZSUyOHNlbGYueCUyMCUyQiUyMGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC4yOCUyQyUyMHNlbGYueSUyMC0lMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuMTIlMkMlMjA1JTIwJTJBJTIwc2VsZi5zY2FsZSUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMGNyZWF0ZV9yYW5kb21fZmlzaCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMHJldHVybiUyMEZpc2glMjglMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByYW5kb20lMjg3MCUyQyUyMHdpZHRoJTIwLSUyMDcwJTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmFuZG9tJTI4NzAlMkMlMjBoZWlnaHQlMjAtJTIwNTUlMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByYW5kb20lMjgwLjclMkMlMjAxLjI1JTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY29sb3IlMjhyYW5kb20lMjg5MCUyQyUyMDI1NSUyOSUyQyUyMHJhbmRvbSUyODEyMCUyQyUyMDIzMCUyOSUyQyUyMHJhbmRvbSUyODgwJTJDJTIwMTgwJTI5JTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY29sb3IlMjhyYW5kb20lMjgyMjAlMkMlMjAyNTUlMjklMkMlMjByYW5kb20lMjgxMTAlMkMlMjAxODAlMjklMkMlMjByYW5kb20lMjg1MCUyQyUyMDEyMCUyOSUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwZmlzaGVzJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODQyMCUyQyUyMDI2MCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZpc2hlcyUyMCUzRCUyMCU1QiU1RCUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMF8lMjBpbiUyMHJhbmdlJTI4NiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpc2hlcy5hcHBlbmQlMjhjcmVhdGVfcmFuZG9tX2Zpc2glMjglMjklMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwZmlzaCUyMGluJTIwZmlzaGVzJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlzaC5kcmF3JTI4JTI5JTBEJTBB" width="436" height="276" loading="lazy"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNjYWxlJTJDJTIwYm9keV9jb2xvciUyQyUyMGZpbl9jb2xvciUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMHhfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlM0QlMjB5X3Bvc2l0aW9uJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5zY2FsZSUyMCUzRCUyMHNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5ib2R5X2NvbG9yJTIwJTNEJTIwYm9keV9jb2xvciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZmluX2NvbG9yJTIwJTNEJTIwZmluX2NvbG9yJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBib2R5X2xlbmd0aCUyMCUzRCUyMDg0JTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJvZHlfaGVpZ2h0JTIwJTNEJTIwNDIlMjAlMkElMjBzZWxmLnNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdGFpbF9sZW5ndGglMjAlM0QlMjAyOCUyMCUyQSUyMHNlbGYuc2NhbGUlMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5ib2R5X2NvbG9yJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxsaXBzZSUyOHNlbGYueCUyQyUyMHNlbGYueSUyQyUyMGJvZHlfbGVuZ3RoJTJDJTIwYm9keV9oZWlnaHQlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5maW5fY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB0cmlhbmdsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAtJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjQ4JTIwLSUyMHRhaWxfbGVuZ3RoJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC40NSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMjAtJTIwdGFpbF9sZW5ndGglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuNDUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTJCJTIwYm9keV9sZW5ndGglMjAlMkElMjAwLjI2JTJDJTIwc2VsZi55JTIwLSUyMGJvZHlfaGVpZ2h0JTIwJTJBJTIwMC4xMiUyQyUyMDExJTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpbGwlMjgxNSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNpcmNsZSUyOHNlbGYueCUyMCUyQiUyMGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC4yOCUyQyUyMHNlbGYueSUyMC0lMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuMTIlMkMlMjA1JTIwJTJBJTIwc2VsZi5zY2FsZSUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMGNyZWF0ZV9yYW5kb21fZmlzaCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMHJldHVybiUyMEZpc2glMjglMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByYW5kb20lMjg3MCUyQyUyMHdpZHRoJTIwLSUyMDcwJTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmFuZG9tJTI4NzAlMkMlMjBoZWlnaHQlMjAtJTIwNTUlMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByYW5kb20lMjgwLjclMkMlMjAxLjI1JTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY29sb3IlMjhyYW5kb20lMjg5MCUyQyUyMDI1NSUyOSUyQyUyMHJhbmRvbSUyODEyMCUyQyUyMDIzMCUyOSUyQyUyMHJhbmRvbSUyODgwJTJDJTIwMTgwJTI5JTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY29sb3IlMjhyYW5kb20lMjgyMjAlMkMlMjAyNTUlMjklMkMlMjByYW5kb20lMjgxMTAlMkMlMjAxODAlMjklMkMlMjByYW5kb20lMjg1MCUyQyUyMDEyMCUyOSUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwZmlzaGVzJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODQyMCUyQyUyMDI2MCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZpc2hlcyUyMCUzRCUyMCU1QiU1RCUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMF8lMjBpbiUyMHJhbmdlJTI4NiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpc2hlcy5hcHBlbmQlMjhjcmVhdGVfcmFuZG9tX2Zpc2glMjglMjklMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwZmlzaCUyMGluJTIwZmlzaGVzJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlzaC5kcmF3JTI4JTI5JTBEJTBB">Im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">setup</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">fishes</span>
+    <span class="tok-builtin">size</span>(<span class="tok-number">420</span>, <span class="tok-number">260</span>)
+    <span class="tok-name">fishes</span> = []
+
+    <span class="tok-keyword">for</span> <span class="tok-name">_</span> <span class="tok-keyword">in</span> <span class="tok-builtin">range</span>(<span class="tok-number">6</span>):
+        <span class="tok-name">fishes</span>.<span class="tok-name">append</span>(<span class="tok-name">create_random_fish</span>())
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>():
+    <span class="tok-name">draw_background</span>()
+
+    <span class="tok-keyword">for</span> <span class="tok-name">fish</span> <span class="tok-keyword">in</span> <span class="tok-name">fishes</span>:
+        <span class="tok-name">fish</span>.<span class="tok-name">draw</span>()</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 4 – Die Fische bewegen sich selbst</h2>
+<h3>Arbeitsauftrag</h3>
+<ol>
+<li>Ergänze die Klasse <code>Fish</code> um eine Geschwindigkeit.</li>
+<li>Schreibe eine Methode <code>move()</code>.</li>
+<li>Lasse die Fische horizontal schwimmen.</li>
+<li>Wenn ein Fisch den Rand erreicht, soll er umdrehen.</li>
+<li>Zeichne den Schwanz passend zur Schwimmrichtung.</li>
+</ol>
+<h3>Warum dieser Schritt?</h3>
+<p>Jetzt bekommen die Objekte nicht nur Daten, sondern <strong>Verhalten</strong>. Das ist einer der zentralen Gedanken der Objektorientierung.</p>
+<h3>Dabei lernst du</h3>
+<ul>
+<li><strong>Methode</strong> als Verhalten eines Objekts</li>
+<li>Zustandsänderung pro Frame</li>
+<li>mehrere Objekte mit eigenem Tempo</li>
+</ul>
+<aside class="margin-note"><strong>Bewegung:</strong> Ein Fisch wirkt lebendiger, wenn <code>y</code> nicht ganz starr bleibt. Eine kleine Wellenbewegung mit <code>sin(...)</code> reicht schon.</aside>
+<h3>Demo</h3>
+<div class="preview-frame"><iframe src="https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNjYWxlJTJDJTIwYm9keV9jb2xvciUyQyUyMGZpbl9jb2xvciUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuYmFzZV95JTIwJTNEJTIweV9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNjYWxlJTIwJTNEJTIwc2NhbGUlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLmJvZHlfY29sb3IlMjAlM0QlMjBib2R5X2NvbG9yJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5maW5fY29sb3IlMjAlM0QlMjBmaW5fY29sb3IlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNwZWVkJTIwJTNEJTIwc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLmR4JTIwJTNEJTIwc3BlZWQlMjBpZiUyMHJhbmRvbSUyODElMjklMjAlM0MlMjAwLjUlMjBlbHNlJTIwLXNwZWVkJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5waGFzZSUyMCUzRCUyMHJhbmRvbSUyOFRXT19QSSUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMG1vdmUlMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTJCJTNEJTIwc2VsZi5keCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHNlbGYuYmFzZV95JTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkElMjAwLjA4JTIwJTJCJTIwc2VsZi5waGFzZSUyOSUyMCUyQSUyMCUyODclMjAlMkElMjBzZWxmLnNjYWxlJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwaWYlMjBzZWxmLnglMjAlM0MlMjA0OCUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMDQ4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5keCUyMCUzRCUyMGFicyUyOHNlbGYuc3BlZWQlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBlbGlmJTIwc2VsZi54JTIwJTNFJTIwd2lkdGglMjAtJTIwNDglM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB3aWR0aCUyMC0lMjA0OCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHglMjAlM0QlMjAtYWJzJTI4c2VsZi5zcGVlZCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZGlyZWN0aW9uJTIwJTNEJTIwMSUyMGlmJTIwc2VsZi5keCUyMCUzRSUzRCUyMDAlMjBlbHNlJTIwLTElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBib2R5X2xlbmd0aCUyMCUzRCUyMDg0JTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJvZHlfaGVpZ2h0JTIwJTNEJTIwNDIlMjAlMkElMjBzZWxmLnNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdGFpbF9sZW5ndGglMjAlM0QlMjAyOCUyMCUyQSUyMHNlbGYuc2NhbGUlMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5ib2R5X2NvbG9yJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxsaXBzZSUyOHNlbGYueCUyQyUyMHNlbGYueSUyQyUyMGJvZHlfbGVuZ3RoJTJDJTIwYm9keV9oZWlnaHQlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5maW5fY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB0cmlhbmdsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBkaXJlY3Rpb24lMjAlMkElMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAtJTIwZGlyZWN0aW9uJTIwJTJBJTIwJTI4Ym9keV9sZW5ndGglMjAlMkElMjAwLjQ4JTIwJTJCJTIwdGFpbF9sZW5ndGglMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjQ1JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMGRpcmVjdGlvbiUyMCUyQSUyMCUyOGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC40OCUyMCUyQiUyMHRhaWxfbGVuZ3RoJTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTJCJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjQ1JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyODI1NSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNpcmNsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUyQiUyMGRpcmVjdGlvbiUyMCUyQSUyMGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC4yNiUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMC0lMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuMTIlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAxMSUyMCUyQSUyMHNlbGYuc2NhbGUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjglMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlMkIlMjBkaXJlY3Rpb24lMjAlMkElMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuMjglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjEyJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwNSUyMCUyQSUyMHNlbGYuc2NhbGUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBjcmVhdGVfcmFuZG9tX2Zpc2glMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjByZXR1cm4lMjBGaXNoJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmFuZG9tJTI4NzAlMkMlMjB3aWR0aCUyMC0lMjA3MCUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHJhbmRvbSUyODcwJTJDJTIwaGVpZ2h0JTIwLSUyMDU1JTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmFuZG9tJTI4MC43JTJDJTIwMS4yNSUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNvbG9yJTI4cmFuZG9tJTI4OTAlMkMlMjAyNTUlMjklMkMlMjByYW5kb20lMjgxMjAlMkMlMjAyMzAlMjklMkMlMjByYW5kb20lMjg4MCUyQyUyMDE4MCUyOSUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNvbG9yJTI4cmFuZG9tJTI4MjIwJTJDJTIwMjU1JTI5JTJDJTIwcmFuZG9tJTI4MTEwJTJDJTIwMTgwJTI5JTJDJTIwcmFuZG9tJTI4NTAlMkMlMjAxMjAlMjklMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByYW5kb20lMjgwLjglMkMlMjAxLjglMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBzZXR1cCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGZpc2hlcyUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjg0MjAlMkMlMjAyNjAlMjklMEQlMEElMjAlMjAlMjAlMjBmaXNoZXMlMjAlM0QlMjAlNUIlNUQlMEQlMEElMEQlMEElMjAlMjAlMjAlMjBmb3IlMjBfJTIwaW4lMjByYW5nZSUyODclMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaXNoZXMuYXBwZW5kJTI4Y3JlYXRlX3JhbmRvbV9maXNoJTI4JTI5JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMGZpc2glMjBpbiUyMGZpc2hlcyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpc2gubW92ZSUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpc2guZHJhdyUyOCUyOSUwRCUwQQ==" width="436" height="276" loading="lazy"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNjYWxlJTJDJTIwYm9keV9jb2xvciUyQyUyMGZpbl9jb2xvciUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuYmFzZV95JTIwJTNEJTIweV9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNjYWxlJTIwJTNEJTIwc2NhbGUlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLmJvZHlfY29sb3IlMjAlM0QlMjBib2R5X2NvbG9yJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5maW5fY29sb3IlMjAlM0QlMjBmaW5fY29sb3IlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNwZWVkJTIwJTNEJTIwc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLmR4JTIwJTNEJTIwc3BlZWQlMjBpZiUyMHJhbmRvbSUyODElMjklMjAlM0MlMjAwLjUlMjBlbHNlJTIwLXNwZWVkJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5waGFzZSUyMCUzRCUyMHJhbmRvbSUyOFRXT19QSSUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMG1vdmUlMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTJCJTNEJTIwc2VsZi5keCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHNlbGYuYmFzZV95JTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkElMjAwLjA4JTIwJTJCJTIwc2VsZi5waGFzZSUyOSUyMCUyQSUyMCUyODclMjAlMkElMjBzZWxmLnNjYWxlJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwaWYlMjBzZWxmLnglMjAlM0MlMjA0OCUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMDQ4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5keCUyMCUzRCUyMGFicyUyOHNlbGYuc3BlZWQlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBlbGlmJTIwc2VsZi54JTIwJTNFJTIwd2lkdGglMjAtJTIwNDglM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB3aWR0aCUyMC0lMjA0OCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHglMjAlM0QlMjAtYWJzJTI4c2VsZi5zcGVlZCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZGlyZWN0aW9uJTIwJTNEJTIwMSUyMGlmJTIwc2VsZi5keCUyMCUzRSUzRCUyMDAlMjBlbHNlJTIwLTElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBib2R5X2xlbmd0aCUyMCUzRCUyMDg0JTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJvZHlfaGVpZ2h0JTIwJTNEJTIwNDIlMjAlMkElMjBzZWxmLnNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdGFpbF9sZW5ndGglMjAlM0QlMjAyOCUyMCUyQSUyMHNlbGYuc2NhbGUlMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5ib2R5X2NvbG9yJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxsaXBzZSUyOHNlbGYueCUyQyUyMHNlbGYueSUyQyUyMGJvZHlfbGVuZ3RoJTJDJTIwYm9keV9oZWlnaHQlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5maW5fY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB0cmlhbmdsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBkaXJlY3Rpb24lMjAlMkElMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAtJTIwZGlyZWN0aW9uJTIwJTJBJTIwJTI4Ym9keV9sZW5ndGglMjAlMkElMjAwLjQ4JTIwJTJCJTIwdGFpbF9sZW5ndGglMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjQ1JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMGRpcmVjdGlvbiUyMCUyQSUyMCUyOGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC40OCUyMCUyQiUyMHRhaWxfbGVuZ3RoJTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTJCJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjQ1JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyODI1NSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNpcmNsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUyQiUyMGRpcmVjdGlvbiUyMCUyQSUyMGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC4yNiUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMC0lMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuMTIlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAxMSUyMCUyQSUyMHNlbGYuc2NhbGUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjglMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlMkIlMjBkaXJlY3Rpb24lMjAlMkElMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuMjglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjEyJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwNSUyMCUyQSUyMHNlbGYuc2NhbGUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBjcmVhdGVfcmFuZG9tX2Zpc2glMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjByZXR1cm4lMjBGaXNoJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmFuZG9tJTI4NzAlMkMlMjB3aWR0aCUyMC0lMjA3MCUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHJhbmRvbSUyODcwJTJDJTIwaGVpZ2h0JTIwLSUyMDU1JTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmFuZG9tJTI4MC43JTJDJTIwMS4yNSUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNvbG9yJTI4cmFuZG9tJTI4OTAlMkMlMjAyNTUlMjklMkMlMjByYW5kb20lMjgxMjAlMkMlMjAyMzAlMjklMkMlMjByYW5kb20lMjg4MCUyQyUyMDE4MCUyOSUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNvbG9yJTI4cmFuZG9tJTI4MjIwJTJDJTIwMjU1JTI5JTJDJTIwcmFuZG9tJTI4MTEwJTJDJTIwMTgwJTI5JTJDJTIwcmFuZG9tJTI4NTAlMkMlMjAxMjAlMjklMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByYW5kb20lMjgwLjglMkMlMjAxLjglMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBzZXR1cCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGZpc2hlcyUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjg0MjAlMkMlMjAyNjAlMjklMEQlMEElMjAlMjAlMjAlMjBmaXNoZXMlMjAlM0QlMjAlNUIlNUQlMEQlMEElMEQlMEElMjAlMjAlMjAlMjBmb3IlMjBfJTIwaW4lMjByYW5nZSUyODclMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaXNoZXMuYXBwZW5kJTI4Y3JlYXRlX3JhbmRvbV9maXNoJTI4JTI5JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMGZpc2glMjBpbiUyMGZpc2hlcyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpc2gubW92ZSUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpc2guZHJhdyUyOCUyOSUwRCUwQQ==">Im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Fish</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>, <span class="tok-name">scale</span>, <span class="tok-name">body_color</span>, <span class="tok-name">fin_color</span>, <span class="tok-name">speed</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">base_y</span> = <span class="tok-name">y_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">scale</span> = <span class="tok-name">scale</span>
+        <span class="tok-self">self</span>.<span class="tok-name">body_color</span> = <span class="tok-name">body_color</span>
+        <span class="tok-self">self</span>.<span class="tok-name">fin_color</span> = <span class="tok-name">fin_color</span>
+        <span class="tok-self">self</span>.<span class="tok-name">speed</span> = <span class="tok-name">speed</span>
+        <span class="tok-self">self</span>.<span class="tok-name">dx</span> = <span class="tok-name">speed</span> <span class="tok-keyword">if</span> <span class="tok-builtin">random</span>(<span class="tok-number">1</span>) &lt; <span class="tok-number">0.5</span> <span class="tok-keyword">else</span> -<span class="tok-name">speed</span>
+        <span class="tok-self">self</span>.<span class="tok-name">phase</span> = <span class="tok-builtin">random</span>(<span class="tok-builtin">TWO_PI</span>)
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">move</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> += <span class="tok-self">self</span>.<span class="tok-name">dx</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-self">self</span>.<span class="tok-name">base_y</span> + <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> * <span class="tok-number">0.08</span> + <span class="tok-self">self</span>.<span class="tok-name">phase</span>) * (<span class="tok-number">7</span> * <span class="tok-self">self</span>.<span class="tok-name">scale</span>)</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 5 – Futter als zweite Klasse</h2>
+<h3>Arbeitsauftrag</h3>
+<ol>
+<li>Lege eine zweite Klasse <code>Food</code> an.</li>
+<li>Futter soll nach unten fallen.</li>
+<li>Ein Mausklick soll neues Futter erzeugen.</li>
+<li>Fische sollen sich zum nächsten Futter bewegen.</li>
+<li>Wenn ein Fisch nah genug dran ist, verschwindet das Futter.</li>
+</ol>
+<h3>Warum dieser Schritt?</h3>
+<p>Das Aquarium besteht jetzt nicht mehr nur aus vielen Objekten derselben Klasse. Mehrere Klassen greifen ineinander und bilden zusammen eine kleine Welt.</p>
+<h3>Dabei lernst du</h3>
+<ul>
+<li>Zusammenarbeit mehrerer Klassen</li>
+<li>Listen für verschiedene Objektarten</li>
+<li>einfache Zielsuche mit <code>dist(...)</code></li>
+</ul>
+<aside class="margin-note"><strong>Zweite Klasse:</strong> Spätestens hier sieht man, dass OOP nicht nur für Zeichnen da ist. Klassen helfen auch dabei, Rollen im Programm sauber zu trennen.</aside>
+<h3>Demo</h3>
+<div class="sketch-fallback"><p class="sketch-fallback-title">Vorschau nicht direkt eingebettet</p><p>Dieser py5-Sketch ist zu lang für die URL-basierte Vorschau. Die Seite zeigt deshalb hier absichtlich keinen kaputten iframe an.</p><p class="sketch-fallback-link"><a class="button-link" href="../themen/aquarium/aquarium5_futter_und_jagd.py">Python-Datei öffnen</a></p></div>
+<div class="sketch-fallback"><p class="sketch-fallback-title">Editor-Link ersetzt</p><p>Dieser Sketch ist zu lang für einen py5-Editorlink mit ?sketch=. Arbeite stattdessen direkt mit der Python-Datei aus diesem Ordner.</p><p class="sketch-fallback-link"><a class="button-link" href="../themen/aquarium/aquarium5_futter_und_jagd.py">Python-Datei öffnen</a></p></div>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Food</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y_position</span>
+        <span class="tok-self">self</span>.<span class="tok-builtin">size</span> = <span class="tok-builtin">random</span>(<span class="tok-number">6</span>, <span class="tok-number">10</span>)
+        <span class="tok-self">self</span>.<span class="tok-name">speed</span> = <span class="tok-builtin">random</span>(<span class="tok-number">1.1</span>, <span class="tok-number">1.9</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">mouse_pressed</span></span>():
+    <span class="tok-name">food_list</span>.<span class="tok-name">append</span>(<span class="tok-name">Food</span>(<span class="tok-builtin">mouse_x</span>, <span class="tok-builtin">mouse_y</span>))</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 6 – Erweiterung zur Endstufe</h2>
+<h3>Arbeitsauftrag</h3>
+<p>Wenn du bis hier gekommen bist, erweitere dein Aquarium weiter:</p>
+<ol>
+<li>Ergänze eine Klasse <code>Bubble</code>.</li>
+<li>Lasse Blasen nach oben steigen.</li>
+<li>Wenn eine Blase oben angekommen ist, soll sie unten neu erscheinen.</li>
+<li>Gestalte die Unterwasserwelt lebendiger.</li>
+</ol>
+<h3>Warum ist das eine gute Erweiterung?</h3>
+<p>Die Pflichtteile sind schon ein vollständiges OOP-Projekt. Die Blasen sind ein sauberer Bonus, weil du dieselben Prinzipien noch einmal auf eine neue Objektart anwendest.</p>
+<h3>Demo der Endstufe</h3>
+<div class="sketch-fallback"><p class="sketch-fallback-title">Vorschau nicht direkt eingebettet</p><p>Dieser py5-Sketch ist zu lang für die URL-basierte Vorschau. Die Seite zeigt deshalb hier absichtlich keinen kaputten iframe an.</p><p class="sketch-fallback-link"><a class="button-link" href="../themen/aquarium/aquarium_endloesung.py">Python-Datei öffnen</a></p></div>
+<div class="sketch-fallback"><p class="sketch-fallback-title">Editor-Link ersetzt</p><p>Dieser Sketch ist zu lang für einen py5-Editorlink mit ?sketch=. Arbeite stattdessen direkt mit der Python-Datei aus diesem Ordner.</p><p class="sketch-fallback-link"><a class="button-link" href="../themen/aquarium/aquarium_endloesung.py">Python-Datei öffnen</a></p></div>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Bubble</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">reset</span>(<span class="tok-builtin">random</span>(<span class="tok-builtin">width</span>), <span class="tok-builtin">random</span>(<span class="tok-builtin">height</span>), <span class="tok-builtin">random</span>(<span class="tok-number">8</span>, <span class="tok-number">22</span>))
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">update</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> -= <span class="tok-self">self</span>.<span class="tok-name">speed</span>
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> += <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> * <span class="tok-number">0.03</span> + <span class="tok-self">self</span>.<span class="tok-name">phase</span>) * <span class="tok-self">self</span>.<span class="tok-name">wobble</span></code></pre></div>
+</section>
+    </main>
+  </body>
+</html>

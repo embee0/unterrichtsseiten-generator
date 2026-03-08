@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OOP mit py5 – Lernseite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #17161b;
+        --bg-deep: #111015;
+        --panel: rgba(31, 29, 37, 0.88);
+        --panel-strong: rgba(39, 36, 46, 0.94);
+        --panel-soft: rgba(43, 39, 52, 0.72);
+        --text: #f8f8f2;
+        --muted: #b7b3c0;
+        --accent: #fd971f;
+        --accent-2: #66d9ef;
+        --accent-3: #f92672;
+        --accent-4: #a6e22e;
+        --accent-5: #ae81ff;
+        --border: rgba(255, 255, 255, 0.08);
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+        --code-bg: #121118;
+        --code-text: #f8f8f2;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        color: var(--text);
+        font-family: "Manrope", "Segoe UI", sans-serif;
+        font-variant-numeric: lining-nums proportional-nums;
+        font-feature-settings: "lnum" 1, "pnum" 1;
+        line-height: 1.72;
+        background:
+          radial-gradient(circle at 10% 12%, rgba(249, 38, 114, 0.16), transparent 24%),
+          radial-gradient(circle at 84% 8%, rgba(102, 217, 239, 0.16), transparent 24%),
+          radial-gradient(circle at 48% 120%, rgba(166, 226, 46, 0.12), transparent 28%),
+          linear-gradient(180deg, #151419 0%, #17161b 38%, #111015 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 36px 36px;
+        mask-image: radial-gradient(circle at center, black 42%, transparent 95%);
+        opacity: 0.5;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.07;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.8) 0.5px, transparent 0.5px);
+        background-size: 12px 12px;
+      }
+
+      main {
+        position: relative;
+        width: min(calc(100% - 2rem), 1040px);
+        margin: 0 auto;
+        padding: 2rem 0 5rem;
+        counter-reset: lesson;
+      }
+
+      .hero,
+      .content-section {
+        position: relative;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 30px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+        overflow: visible;
+        animation: rise-in 680ms cubic-bezier(.2,.8,.2,1) both;
+      }
+
+      .hero::after,
+      .content-section::after {
+        content: "";
+        display: block;
+        clear: both;
+      }
+
+      .hero {
+        padding: 2.7rem;
+        margin-bottom: 1.35rem;
+        background:
+          linear-gradient(155deg, rgba(40, 36, 50, 0.98), rgba(26, 24, 32, 0.92)),
+          var(--panel);
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 1rem;
+        border: 1px solid rgba(102, 217, 239, 0.14);
+        border-radius: 24px;
+        pointer-events: none;
+        box-shadow: inset 0 0 0 1px rgba(249, 38, 114, 0.06);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        right: 2rem;
+        top: 1.8rem;
+        width: 9rem;
+        height: 9rem;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 30% 30%, rgba(102, 217, 239, 0.34), transparent 50%),
+          radial-gradient(circle at 70% 70%, rgba(249, 38, 114, 0.28), transparent 48%);
+        filter: blur(12px);
+        opacity: 0.75;
+        pointer-events: none;
+      }
+
+      .content-section {
+        padding: 2rem 2rem 2.1rem;
+        margin-top: 1.15rem;
+        background:
+          linear-gradient(180deg, rgba(35, 32, 43, 0.96), rgba(24, 23, 30, 0.96));
+      }
+
+      .content-section:nth-of-type(2n) {
+        transform: translateX(0.6rem);
+      }
+
+      .content-section:nth-of-type(2n + 1) {
+        transform: translateX(-0.35rem);
+      }
+
+      h1, h2, h3 {
+        margin: 0;
+        line-height: 1.05;
+        letter-spacing: -0.035em;
+        font-family: "Sora", "Manrope", sans-serif;
+        font-variant-numeric: lining-nums proportional-nums;
+        font-feature-settings: "lnum" 1, "pnum" 1;
+      }
+
+      h1 {
+        margin-top: 0;
+        font-size: clamp(2.8rem, 7vw, 5.2rem);
+        max-width: 9ch;
+        text-wrap: balance;
+      }
+
+      h2 {
+        font-size: clamp(1.9rem, 4vw, 2.7rem);
+        margin-bottom: 1.1rem;
+        padding-top: 0.25rem;
+      }
+
+      h3 {
+        font-size: 1.28rem;
+        color: var(--accent-3);
+        margin-top: 1.5rem;
+        margin-bottom: 0.45rem;
+      }
+
+      p, li {
+        color: var(--muted);
+        margin: 0.62rem 0;
+        font-size: 1.02rem;
+        font-variant-numeric: lining-nums proportional-nums;
+        font-feature-settings: "lnum" 1, "pnum" 1;
+      }
+
+      strong {
+        color: var(--text);
+      }
+
+      a {
+        color: var(--accent-2);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(102, 217, 239, 0.24);
+      }
+
+      a:hover {
+        color: var(--accent);
+      }
+
+      code {
+        font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+        color: #f8f8f2;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 8px;
+        padding: 0.14rem 0.38rem;
+      }
+
+      ul, ol {
+        padding-left: 1.4rem;
+        margin: 0.55rem 0 0.95rem;
+      }
+
+      li::marker {
+        color: var(--accent);
+      }
+
+      hr {
+        border: 0;
+        height: 16px;
+        margin: 1.25rem 0;
+        background:
+          radial-gradient(circle at center, rgba(166, 226, 46, 0.9) 0 2px, transparent 3px),
+          linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+
+      .margin-note {
+        float: right;
+        width: min(16rem, 42%);
+        margin: 0.15rem 0 0.9rem 1.4rem;
+        padding: 1rem 1rem 1rem 1.2rem;
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(44, 40, 54, 0.98), rgba(31, 29, 39, 0.94));
+        border: 1px solid rgba(249, 38, 114, 0.2);
+        color: #d6d1de;
+        font-size: 0.96rem;
+        line-height: 1.58;
+        box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28);
+        transform: none;
+      }
+
+      .margin-note strong,
+      .margin-note code {
+        color: #ffd866;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+      }
+
+      .margin-note code {
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        padding: 0;
+      }
+
+      .preview-frame {
+        display: inline-block;
+        width: fit-content;
+        max-width: 100%;
+        margin: 1.1rem 0 0.95rem;
+        padding: 1rem;
+        border-radius: 22px;
+        background:
+          linear-gradient(180deg, rgba(26, 24, 32, 0.96), rgba(20, 19, 26, 0.98));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+
+      .sketch-fallback {
+        margin: 1.1rem 0 0.95rem;
+        padding: 1rem 1.1rem;
+        border-radius: 22px;
+        background:
+          linear-gradient(180deg, rgba(26, 24, 32, 0.96), rgba(20, 19, 26, 0.98));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+
+      .sketch-fallback-title {
+        margin-top: 0;
+        color: var(--text);
+        font-weight: 800;
+      }
+
+      .sketch-fallback-link {
+        margin-bottom: 0;
+      }
+
+      iframe {
+        display: block;
+        max-width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        background: white;
+        box-shadow: 0 18px 30px rgba(0, 0, 0, 0.28);
+      }
+
+      .editor-link {
+        margin: 0.55rem 0 1rem;
+      }
+
+      .button-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.76rem 1.05rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(135deg, rgba(249, 38, 114, 0.18), rgba(102, 217, 239, 0.16));
+        color: var(--text);
+        font-weight: 700;
+        transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      }
+
+      .button-link:hover {
+        transform: translateY(-2px) rotate(-0.5deg);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(135deg, rgba(249, 38, 114, 0.24), rgba(102, 217, 239, 0.24));
+      }
+
+      .code-block {
+        clear: both;
+        margin: 1rem 0 0.5rem;
+        border-radius: 22px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: var(--code-bg);
+        box-shadow: 0 20px 34px rgba(0, 0, 0, 0.34);
+      }
+
+      .code-block pre {
+        margin: 0;
+        padding: 1rem 1.1rem 1.15rem;
+        overflow-x: auto;
+      }
+
+      .code-block code {
+        display: block;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        color: var(--code-text);
+      }
+
+      .tok-comment { color: #75715e; }
+      .tok-string { color: #e6db74; }
+      .tok-number { color: #ae81ff; }
+      .tok-keyword { color: #f92672; font-weight: 700; }
+      .tok-builtin { color: #66d9ef; }
+      .tok-self { color: #fd971f; }
+      .tok-class, .tok-function { color: #a6e22e; font-weight: 700; }
+      .tok-name { color: #f8f8f2; }
+
+      .content-section::before {
+        content: none;
+      }
+
+      .hero > p:last-of-type {
+        max-width: 58ch;
+        font-size: 1.08rem;
+      }
+
+      .content-section p + .preview-frame,
+      .content-section p + .editor-link,
+      .content-section p + .code-block {
+        margin-top: 0.95rem;
+      }
+
+      @keyframes rise-in {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 920px) {
+        .content-section:nth-of-type(2n),
+        .content-section:nth-of-type(2n + 1) {
+          transform: none;
+        }
+
+        .margin-note {
+          float: none;
+          width: auto;
+          margin: 0 0 0.8rem;
+        }
+      }
+
+      @media (max-width: 700px) {
+        body {
+          line-height: 1.66;
+        }
+
+        .margin-note {
+          padding: 0.9rem 0.95rem;
+        }
+
+        main {
+          width: min(calc(100% - 1rem), 1020px);
+          padding-top: 1rem;
+        }
+
+        .hero,
+        .content-section {
+          padding: 1.3rem;
+          border-radius: 22px;
+        }
+
+        .hero::before {
+          inset: 0.8rem;
+          border-radius: 18px;
+        }
+
+        h1 {
+          max-width: none;
+          font-size: clamp(2.35rem, 11vw, 3.5rem);
+        }
+
+        h2 {
+          font-size: clamp(1.7rem, 8vw, 2.2rem);
+        }
+
+        iframe {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+<h1>OOP mit Py5: Kreise, Kreise und noch mehr Kreise</h1>
+<p>Auf dieser Seite gehst du Schritt für Schritt von einem einfachen <em>nicht</em> objektorientierten py5-Programm zu einem objektorientierten Programm mit vielen Kreisen. Dabei lernst du die OOP-Begriffe <strong>Klasse</strong>, <strong>Objekt</strong>, <strong>Attribut</strong>, <strong>Methode</strong> und <strong>Konstruktor</strong> nicht nur als Wörter kennen, sondern direkt im Code.</p>
+<p>Am Ende dieses Lernwegs gibt es viele Kreise in unterschiedlichen Farben und Größen. Der Code bleibt trotzdem übersichtlich, weil alle Kreise nach demselben Bauplan entstehen, aber jeder Kreis seine eigenen Werte für Position, Größe und Farbe mitbringt und sich auch um Bewegung und Darstellung selbst kümmert.</p>
+<p>Das ist das Grundprinzip der Objektorientierung: <strong>Jedes Objekt kümmert sich um seinen eigenen Zustand und sein eigenes Verhalten.</strong></p>
+</header>
+<section class="content-section">
+<h2>So arbeitest du mit der Seite</h2>
+<p>Die Seite ist so aufgebaut, dass du den Weg von Station zu Station nachvollziehen kannst. Es geht nicht darum, jede Definition sofort auswendig zu können, sondern zu verstehen, warum der Code an jeder Stelle umgebaut wird.</p>
+<p>In jedem Schritt stellen wir drei Fragen:</p>
+<ol>
+<li><strong>Was wird geändert?</strong></li>
+<li><strong>Warum wird das geändert?</strong></li>
+<li><strong>Welcher OOP-Begriff steckt dahinter?</strong></li>
+</ol>
+<aside class="margin-note"><strong>OOP:</strong> Du musst hier nicht alles auf einmal verstehen. OOP ist kein Zaubertrick. Eher eine Art, Ordnung in das Programm zu bringen, bevor das Programm beschließt, selber chaotisch zu werden.</aside>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 0 – Ein Kreis ohne OOP</h2>
+<h3>Was passiert hier?</h3>
+<p>Wir starten mit einem sehr einfachen py5-Programm. Es zeichnet einen Kreis in die Mitte des Fensters. Dieser Kreis wird größer und kleiner. Das Programm ist also schon <strong>animiert</strong>.</p>
+<h3>Warum starten wir so?</h3>
+<p>Bevor wir Klassen, Objekte und Attribute einführen, brauchen wir eine funktionierende Ausgangslage. Erst wenn klar ist, wie <code>setup()</code> und <code>draw()</code> zusammenarbeiten, lohnt sich der nächste Schritt.</p>
+<h3>Begriff</h3>
+<aside class="margin-note"><strong>frame_count:</strong> Das ist so etwas wie die eingebaute Stoppuhr des Programms. Sie fragt nicht, ob du bereit bist. Sie zählt einfach weiter.</aside>
+<p><strong>Animation</strong> bedeutet hier: Das Bild wird immer wieder neu gezeichnet, und dabei verändern sich Werte.</p>
+<h3>Vorschau</h3>
+<div class="preview-frame"><iframe src="https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?sketch=ZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4MjAwJTJDJTIwMjAwJTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGJhY2tncm91bmQlMjgyMDAlMjklMEQlMEElMjAlMjAlMjAlMjBkdXJjaG1lc3NlciUyMCUzRCUyMHdpZHRoJTIwJTJGJTIwMiUwRCUwQSUyMCUyMCUyMCUyMG1heF9hZW5kZXJ1bmclMjAlM0QlMjAyMCUwRCUwQSUyMCUyMCUyMCUyMGFrdHVlbGxlcl9kdXJjaG1lc3NlciUyMCUzRCUyMGR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjBjaXJjbGUlMjh3aWR0aCUyMCUyRiUyMDIlMkMlMjBoZWlnaHQlMjAlMkYlMjAyJTJDJTIwYWt0dWVsbGVyX2R1cmNobWVzc2VyJTI5JTBEJTBB" width="216" height="216" loading="lazy"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4MjAwJTJDJTIwMjAwJTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGJhY2tncm91bmQlMjgyMDAlMjklMEQlMEElMjAlMjAlMjAlMjBkdXJjaG1lc3NlciUyMCUzRCUyMHdpZHRoJTIwJTJGJTIwMiUwRCUwQSUyMCUyMCUyMCUyMG1heF9hZW5kZXJ1bmclMjAlM0QlMjAyMCUwRCUwQSUyMCUyMCUyMCUyMGFrdHVlbGxlcl9kdXJjaG1lc3NlciUyMCUzRCUyMGR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjBjaXJjbGUlMjh3aWR0aCUyMCUyRiUyMDIlMkMlMjBoZWlnaHQlMjAlMkYlMjAyJTJDJTIwYWt0dWVsbGVyX2R1cmNobWVzc2VyJTI5JTBEJTBB">Im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">setup</span></span>():
+    <span class="tok-builtin">size</span>(<span class="tok-number">200</span>, <span class="tok-number">200</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>():
+    <span class="tok-builtin">background</span>(<span class="tok-number">200</span>)
+    <span class="tok-name">durchmesser</span> = <span class="tok-builtin">width</span> / <span class="tok-number">2</span>
+    <span class="tok-name">max_aenderung</span> = <span class="tok-number">20</span>
+    <span class="tok-name">aktueller_durchmesser</span> = <span class="tok-name">durchmesser</span> + <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> / <span class="tok-number">30</span>) * <span class="tok-name">max_aenderung</span>
+    <span class="tok-builtin">fill</span>(<span class="tok-number">0</span>, <span class="tok-number">0</span>, <span class="tok-number">255</span>)
+    <span class="tok-builtin">circle</span>(<span class="tok-builtin">width</span> / <span class="tok-number">2</span>, <span class="tok-builtin">height</span> / <span class="tok-number">2</span>, <span class="tok-name">aktueller_durchmesser</span>)</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 1 – Eine Klasse für einen Kreis</h2>
+<h3>Was wird geändert?</h3>
+<p>Jetzt bekommt der Kreis eine eigene <strong>Klasse</strong>. Seine Position wird nicht mehr irgendwo lose gespeichert, sondern direkt im Objekt.</p>
+<h3>Warum ist das sinnvoll?</h3>
+<p>Ein Kreis weiß jetzt selbst, wo er gezeichnet werden soll. Das Hauptprogramm muss sich nicht mehr um jedes einzelne Detail kümmern.</p>
+<h3>Begriffe</h3>
+<ul>
+<li><strong>Klasse</strong>: ein Bauplan</li>
+<li><strong>Konstruktor</strong>: <code>__init__()</code> setzt die Anfangswerte</li>
+</ul>
+<aside class="margin-note"><strong>Klasse und Objekt:</strong> Eine Klasse ist ein Bauplan. Ein Objekt ist das gebaute Ding. Also: erst Plan, dann Kreis. Nicht andersherum. Sonst wird es avantgardistisch.</aside>
+<h3>Vorschau</h3>
+<div class="preview-frame"><iframe src="https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBkcmF3JTI4c2VsZiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGRpYW1ldGVyJTIwJTNEJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjA2MCUyOSUyMCUyQSUyMDIwJTIwJTJCJTIwODAlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBkaWFtZXRlciUyOSUwRCUwQSUwRCUwQSUwRCUwQSUyMyUyME1haW4lMEQlMEElMEQlMEElMEQlMEFkZWYlMjBzZXR1cCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGsxJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODIwMCUyQyUyMDIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGsxJTIwJTNEJTIwS3JlaXMlMjgxMDAlMkMlMjAxMDAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwazElMEQlMEElMjAlMjAlMjAlMjBiYWNrZ3JvdW5kJTI4MjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwazEuZHJhdyUyOCUyOSUwRCUwQQ==" width="216" height="216" loading="lazy"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBkcmF3JTI4c2VsZiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGRpYW1ldGVyJTIwJTNEJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjA2MCUyOSUyMCUyQSUyMDIwJTIwJTJCJTIwODAlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBkaWFtZXRlciUyOSUwRCUwQSUwRCUwQSUwRCUwQSUyMyUyME1haW4lMEQlMEElMEQlMEElMEQlMEFkZWYlMjBzZXR1cCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGsxJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODIwMCUyQyUyMDIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGsxJTIwJTNEJTIwS3JlaXMlMjgxMDAlMkMlMjAxMDAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwazElMEQlMEElMjAlMjAlMjAlMjBiYWNrZ3JvdW5kJTI4MjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwazEuZHJhdyUyOCUyOSUwRCUwQQ==">Im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Kreis</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x</span>, <span class="tok-name">y</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-name">diameter</span> = <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> / <span class="tok-number">60</span>) * <span class="tok-number">20</span> + <span class="tok-number">80</span>
+        <span class="tok-builtin">fill</span>(<span class="tok-number">0</span>, <span class="tok-number">0</span>, <span class="tok-number">255</span>)
+        <span class="tok-builtin">circle</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span>, <span class="tok-name">diameter</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">setup</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">k1</span>
+    <span class="tok-builtin">size</span>(<span class="tok-number">200</span>, <span class="tok-number">200</span>)
+    <span class="tok-name">k1</span> = <span class="tok-name">Kreis</span>(<span class="tok-number">100</span>, <span class="tok-number">100</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">k1</span>
+    <span class="tok-builtin">background</span>(<span class="tok-number">200</span>)
+    <span class="tok-name">k1</span>.<span class="tok-name">draw</span>()</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 2 – Der Kreis bekommt ein Attribut mehr</h2>
+<h3>Was wird geändert?</h3>
+<p>Der Kreis speichert jetzt nicht nur <code>x</code> und <code>y</code>, sondern auch <code>durchmesser</code>.</p>
+<h3>Warum ist das sinnvoll?</h3>
+<p>Ein Objekt hat meistens mehrere Eigenschaften. Ein Kreis hat eben nicht nur einen Ort, sondern auch eine Größe.</p>
+<h3>Begriff</h3>
+<aside class="margin-note"><strong>self.durchmesser:</strong> Das gehört zu genau diesem Kreis. Nicht zu allen. Nicht zur ganzen Datei. Nur zu diesem einen Objekt. Ein bisschen Privatbesitz muss in Python offenbar sein.</aside>
+<p><strong>Attribut</strong> = eine gespeicherte Eigenschaft eines Objekts.</p>
+<h3>Vorschau</h3>
+<div class="preview-frame"><iframe src="https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbWF4X2FlbmRlcnVuZyUyMCUzRCUyMDAuMiUyMCUyQSUyMHNlbGYuZHVyY2htZXNzZXIlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjAlM0QlMjBzZWxmLmR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjklMEQlMEElMEQlMEElMEQlMEElMjMlMjBNYWluJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrMSUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjgyMDAlMkMlMjAyMDAlMjklMEQlMEElMjAlMjAlMjAlMjBrMSUyMCUzRCUyMEtyZWlzJTI4MTAwJTJDJTIwMTAwJTJDJTIwOTAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwazElMEQlMEElMjAlMjAlMjAlMjBiYWNrZ3JvdW5kJTI4MjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwazEuZHJhdyUyOCUyOSUwRCUwQQ==" width="216" height="216" loading="lazy"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbWF4X2FlbmRlcnVuZyUyMCUzRCUyMDAuMiUyMCUyQSUyMHNlbGYuZHVyY2htZXNzZXIlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjAlM0QlMjBzZWxmLmR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjklMEQlMEElMEQlMEElMEQlMEElMjMlMjBNYWluJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrMSUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjgyMDAlMkMlMjAyMDAlMjklMEQlMEElMjAlMjAlMjAlMjBrMSUyMCUzRCUyMEtyZWlzJTI4MTAwJTJDJTIwMTAwJTJDJTIwOTAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwazElMEQlMEElMjAlMjAlMjAlMjBiYWNrZ3JvdW5kJTI4MjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwazEuZHJhdyUyOCUyOSUwRCUwQQ==">Im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Kreis</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x</span>, <span class="tok-name">y</span>, <span class="tok-name">durchmesser</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y</span>
+        <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span> = <span class="tok-name">durchmesser</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-name">max_aenderung</span> = <span class="tok-number">0.2</span> * <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span>
+        <span class="tok-name">aktueller_durchmesser</span> = <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span> + <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> / <span class="tok-number">30</span>) * <span class="tok-name">max_aenderung</span>
+        <span class="tok-builtin">fill</span>(<span class="tok-number">0</span>, <span class="tok-number">0</span>, <span class="tok-number">255</span>)
+        <span class="tok-builtin">circle</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span>, <span class="tok-name">aktueller_durchmesser</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">setup</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">k1</span>
+    <span class="tok-builtin">size</span>(<span class="tok-number">200</span>, <span class="tok-number">200</span>)
+    <span class="tok-name">k1</span> = <span class="tok-name">Kreis</span>(<span class="tok-number">100</span>, <span class="tok-number">100</span>, <span class="tok-number">90</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">k1</span>
+    <span class="tok-builtin">background</span>(<span class="tok-number">200</span>)
+    <span class="tok-name">k1</span>.<span class="tok-name">draw</span>()</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 3 – Zwei Objekte derselben Klasse</h2>
+<h3>Was wird geändert?</h3>
+<p>Jetzt erzeugen wir zwei Kreise aus derselben Klasse.</p>
+<h3>Warum ist das sinnvoll?</h3>
+<p>Hier sieht man zum ersten Mal deutlich: Eine Klasse ist ein Bauplan, und aus einem Bauplan kann man mehrere Objekte erzeugen.</p>
+<h3>Begriff</h3>
+<aside class="margin-note"><strong>Instanzen:</strong> Zwei Objekte, eine Klasse. Das ist keine Gruppentherapie, sondern Wiederverwendung von Code.</aside>
+<p><strong>Objekt</strong> oder <strong>Instanz</strong> = ein konkretes Exemplar einer Klasse.</p>
+<h3>Vorschau</h3>
+<div class="preview-frame"><iframe src="https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbWF4X2FlbmRlcnVuZyUyMCUzRCUyMDAuMiUyMCUyQSUyMHNlbGYuZHVyY2htZXNzZXIlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjAlM0QlMjBzZWxmLmR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjklMEQlMEElMEQlMEElMEQlMEElMjMlMjBNYWluJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrMSUyQyUyMGsyJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODIwMCUyQyUyMDIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGsxJTIwJTNEJTIwS3JlaXMlMjgxNDUlMkMlMjA2MCUyQyUyMDM1JTI5JTBEJTBBJTIwJTIwJTIwJTIwazIlMjAlM0QlMjBLcmVpcyUyODgwJTJDJTIwMTQ1JTJDJTIwOTAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwazElMkMlMjBrMiUwRCUwQSUyMCUyMCUyMCUyMGJhY2tncm91bmQlMjgyMDAlMjklMEQlMEElMjAlMjAlMjAlMjBrMS5kcmF3JTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwazIuZHJhdyUyOCUyOSUwRCUwQQ==" width="216" height="216" loading="lazy"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbWF4X2FlbmRlcnVuZyUyMCUzRCUyMDAuMiUyMCUyQSUyMHNlbGYuZHVyY2htZXNzZXIlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjAlM0QlMjBzZWxmLmR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjklMEQlMEElMEQlMEElMEQlMEElMjMlMjBNYWluJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrMSUyQyUyMGsyJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODIwMCUyQyUyMDIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGsxJTIwJTNEJTIwS3JlaXMlMjgxNDUlMkMlMjA2MCUyQyUyMDM1JTI5JTBEJTBBJTIwJTIwJTIwJTIwazIlMjAlM0QlMjBLcmVpcyUyODgwJTJDJTIwMTQ1JTJDJTIwOTAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwazElMkMlMjBrMiUwRCUwQSUyMCUyMCUyMCUyMGJhY2tncm91bmQlMjgyMDAlMjklMEQlMEElMjAlMjAlMjAlMjBrMS5kcmF3JTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwazIuZHJhdyUyOCUyOSUwRCUwQQ==">Im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Kreis</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x</span>, <span class="tok-name">y</span>, <span class="tok-name">durchmesser</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y</span>
+        <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span> = <span class="tok-name">durchmesser</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-name">max_aenderung</span> = <span class="tok-number">0.2</span> * <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span>
+        <span class="tok-name">aktueller_durchmesser</span> = <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span> + <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> / <span class="tok-number">30</span>) * <span class="tok-name">max_aenderung</span>
+        <span class="tok-builtin">fill</span>(<span class="tok-number">0</span>, <span class="tok-number">0</span>, <span class="tok-number">255</span>)
+        <span class="tok-builtin">circle</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span>, <span class="tok-name">aktueller_durchmesser</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">setup</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">k1</span>, <span class="tok-name">k2</span>
+    <span class="tok-builtin">size</span>(<span class="tok-number">200</span>, <span class="tok-number">200</span>)
+    <span class="tok-name">k1</span> = <span class="tok-name">Kreis</span>(<span class="tok-number">145</span>, <span class="tok-number">60</span>, <span class="tok-number">35</span>)
+    <span class="tok-name">k2</span> = <span class="tok-name">Kreis</span>(<span class="tok-number">80</span>, <span class="tok-number">145</span>, <span class="tok-number">90</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">k1</span>, <span class="tok-name">k2</span>
+    <span class="tok-builtin">background</span>(<span class="tok-number">200</span>)
+    <span class="tok-name">k1</span>.<span class="tok-name">draw</span>()
+    <span class="tok-name">k2</span>.<span class="tok-name">draw</span>()</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 4 – Viele Objekte in einer Liste</h2>
+<h3>Was wird geändert?</h3>
+<p>Statt einzelner Variablen wie <code>k1</code> und <code>k2</code> benutzen wir jetzt eine Liste.</p>
+<h3>Warum ist das sinnvoll?</h3>
+<p>Mit einer Liste kann man viele Objekte gleich behandeln. Das spart Wiederholungen und macht den Code deutlich flexibler.</p>
+<h3>Begriff</h3>
+<aside class="margin-note"><strong>Liste:</strong> Wenn du ab hier noch für jeden Kreis eine eigene Variable anlegen willst, gewinnt kurz die Verzweiflung. Dann gewinnt die Liste.</aside>
+<p><strong>Liste von Objekten</strong> = viele Instanzen gemeinsam speichern und mit einer Schleife bearbeiten.</p>
+<h3>Vorschau</h3>
+<div class="preview-frame"><iframe src="https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbWF4X2FlbmRlcnVuZyUyMCUzRCUyMDAuMiUyMCUyQSUyMHNlbGYuZHVyY2htZXNzZXIlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjAlM0QlMjBzZWxmLmR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjklMEQlMEElMEQlMEElMEQlMEElMjMlMjBNYWluJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrcmVpc2UlMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4MjAwJTJDJTIwMjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwa3JlaXNlJTIwJTNEJTIwJTVCJTVEJTBEJTBBJTIwJTIwJTIwJTIwa3JlaXNlLmFwcGVuZCUyOEtyZWlzJTI4MTQ1JTJDJTIwNjAlMkMlMjAzNSUyOSUyOSUwRCUwQSUyMCUyMCUyMCUyMGtyZWlzZS5hcHBlbmQlMjhLcmVpcyUyODgwJTJDJTIwMTQ1JTJDJTIwOTAlMjklMjklMEQlMEElMjAlMjAlMjAlMjBrcmVpc2UuYXBwZW5kJTI4S3JlaXMlMjg0NSUyQyUyMDg1JTJDJTIwNDIlMjklMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwa3JlaXNlJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMGtyZWlzJTIwaW4lMjBrcmVpc2UlM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5kcmF3JTI4JTI5JTBEJTBB" width="216" height="216" loading="lazy"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbWF4X2FlbmRlcnVuZyUyMCUzRCUyMDAuMiUyMCUyQSUyMHNlbGYuZHVyY2htZXNzZXIlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjAlM0QlMjBzZWxmLmR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjklMEQlMEElMEQlMEElMEQlMEElMjMlMjBNYWluJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrcmVpc2UlMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4MjAwJTJDJTIwMjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwa3JlaXNlJTIwJTNEJTIwJTVCJTVEJTBEJTBBJTIwJTIwJTIwJTIwa3JlaXNlLmFwcGVuZCUyOEtyZWlzJTI4MTQ1JTJDJTIwNjAlMkMlMjAzNSUyOSUyOSUwRCUwQSUyMCUyMCUyMCUyMGtyZWlzZS5hcHBlbmQlMjhLcmVpcyUyODgwJTJDJTIwMTQ1JTJDJTIwOTAlMjklMjklMEQlMEElMjAlMjAlMjAlMjBrcmVpc2UuYXBwZW5kJTI4S3JlaXMlMjg0NSUyQyUyMDg1JTJDJTIwNDIlMjklMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwa3JlaXNlJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMGtyZWlzJTIwaW4lMjBrcmVpc2UlM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5kcmF3JTI4JTI5JTBEJTBB">Im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Kreis</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x</span>, <span class="tok-name">y</span>, <span class="tok-name">durchmesser</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y</span>
+        <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span> = <span class="tok-name">durchmesser</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-name">max_aenderung</span> = <span class="tok-number">0.2</span> * <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span>
+        <span class="tok-name">aktueller_durchmesser</span> = <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span> + <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> / <span class="tok-number">30</span>) * <span class="tok-name">max_aenderung</span>
+        <span class="tok-builtin">fill</span>(<span class="tok-number">0</span>, <span class="tok-number">0</span>, <span class="tok-number">255</span>)
+        <span class="tok-builtin">circle</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span>, <span class="tok-name">aktueller_durchmesser</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">setup</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">kreise</span>
+    <span class="tok-builtin">size</span>(<span class="tok-number">200</span>, <span class="tok-number">200</span>)
+    <span class="tok-name">kreise</span> = []
+    <span class="tok-name">kreise</span>.<span class="tok-name">append</span>(<span class="tok-name">Kreis</span>(<span class="tok-number">145</span>, <span class="tok-number">60</span>, <span class="tok-number">35</span>))
+    <span class="tok-name">kreise</span>.<span class="tok-name">append</span>(<span class="tok-name">Kreis</span>(<span class="tok-number">80</span>, <span class="tok-number">145</span>, <span class="tok-number">90</span>))
+    <span class="tok-name">kreise</span>.<span class="tok-name">append</span>(<span class="tok-name">Kreis</span>(<span class="tok-number">45</span>, <span class="tok-number">85</span>, <span class="tok-number">42</span>))
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">kreise</span>
+    <span class="tok-builtin">background</span>(<span class="tok-number">200</span>)
+    <span class="tok-keyword">for</span> <span class="tok-name">kreis</span> <span class="tok-keyword">in</span> <span class="tok-name">kreise</span>:
+        <span class="tok-name">kreis</span>.<span class="tok-name">draw</span>()</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 5 – Verhalten als Methode</h2>
+<h3>Was wird geändert?</h3>
+<p>Die Kreise können jetzt selbst etwas tun: Sie fallen nach unten.</p>
+<h3>Warum ist das sinnvoll?</h3>
+<p>In der Objektorientierung speichert ein Objekt nicht nur Daten. Es kann auch Verhalten mitbringen.</p>
+<h3>Begriff</h3>
+<aside class="margin-note"><strong>Methode:</strong> Ein Kreis, der fallen kann, ist programmiertechnisch interessanter als ein Kreis, der nur sehr still herumliegt.</aside>
+<p><strong>Methode</strong> = eine Funktion innerhalb einer Klasse.</p>
+<h3>Vorschau</h3>
+<div class="preview-frame"><iframe src="https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZmFyYmUlMjAlM0QlMjBjb2xvciUyODUwJTJDJTIwcmFuZG9tJTI4MTAwJTJDJTIwMjMwJTI5JTJDJTIwMCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGZhbGxlX3J1bnRlciUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlM0QlMjAxJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBtYXhfYWVuZGVydW5nJTIwJTNEJTIwMC4yJTIwJTJBJTIwc2VsZi5kdXJjaG1lc3NlciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGFrdHVlbGxlcl9kdXJjaG1lc3NlciUyMCUzRCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlMkIlMjBzaW4lMjhmcmFtZV9jb3VudCUyMCUyRiUyMDMwJTI5JTIwJTJBJTIwbWF4X2FlbmRlcnVuZyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpbGwlMjhzZWxmLmZhcmJlJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwYWt0dWVsbGVyX2R1cmNobWVzc2VyJTI5JTBEJTBBJTBEJTBBJTBEJTBBJTIzJTIwTWFpbiUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwa3JlaXNlJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODIwMCUyQyUyMDIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGtyZWlzZSUyMCUzRCUyMCU1QiU1RCUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMG5yJTIwaW4lMjByYW5nZSUyODQwJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwa3JlaXNlLmFwcGVuZCUyOEtyZWlzJTI4cmFuZG9tX2ludCUyODAlMkMlMjB3aWR0aCUyOSUyQyUyMHJhbmRvbV9pbnQlMjgwJTJDJTIwaGVpZ2h0JTI5JTJDJTIwMTYlMjklMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwa3JlaXNlJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMGtyZWlzJTIwaW4lMjBrcmVpc2UlM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5mYWxsZV9ydW50ZXIlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5kcmF3JTI4JTI5JTBEJTBB" width="216" height="216" loading="lazy"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZmFyYmUlMjAlM0QlMjBjb2xvciUyODUwJTJDJTIwcmFuZG9tJTI4MTAwJTJDJTIwMjMwJTI5JTJDJTIwMCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGZhbGxlX3J1bnRlciUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlM0QlMjAxJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBtYXhfYWVuZGVydW5nJTIwJTNEJTIwMC4yJTIwJTJBJTIwc2VsZi5kdXJjaG1lc3NlciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGFrdHVlbGxlcl9kdXJjaG1lc3NlciUyMCUzRCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlMkIlMjBzaW4lMjhmcmFtZV9jb3VudCUyMCUyRiUyMDMwJTI5JTIwJTJBJTIwbWF4X2FlbmRlcnVuZyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpbGwlMjhzZWxmLmZhcmJlJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwYWt0dWVsbGVyX2R1cmNobWVzc2VyJTI5JTBEJTBBJTBEJTBBJTBEJTBBJTIzJTIwTWFpbiUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwa3JlaXNlJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODIwMCUyQyUyMDIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGtyZWlzZSUyMCUzRCUyMCU1QiU1RCUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMG5yJTIwaW4lMjByYW5nZSUyODQwJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwa3JlaXNlLmFwcGVuZCUyOEtyZWlzJTI4cmFuZG9tX2ludCUyODAlMkMlMjB3aWR0aCUyOSUyQyUyMHJhbmRvbV9pbnQlMjgwJTJDJTIwaGVpZ2h0JTI5JTJDJTIwMTYlMjklMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwa3JlaXNlJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMGtyZWlzJTIwaW4lMjBrcmVpc2UlM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5mYWxsZV9ydW50ZXIlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5kcmF3JTI4JTI5JTBEJTBB">Im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Kreis</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x</span>, <span class="tok-name">y</span>, <span class="tok-name">durchmesser</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y</span>
+        <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span> = <span class="tok-name">durchmesser</span>
+        <span class="tok-self">self</span>.<span class="tok-name">farbe</span> = <span class="tok-builtin">color</span>(<span class="tok-number">50</span>, <span class="tok-builtin">random</span>(<span class="tok-number">100</span>, <span class="tok-number">230</span>), <span class="tok-number">0</span>)
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">falle_runter</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> += <span class="tok-number">1</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-name">max_aenderung</span> = <span class="tok-number">0.2</span> * <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span>
+        <span class="tok-name">aktueller_durchmesser</span> = <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span> + <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> / <span class="tok-number">30</span>) * <span class="tok-name">max_aenderung</span>
+        <span class="tok-builtin">fill</span>(<span class="tok-self">self</span>.<span class="tok-name">farbe</span>)
+        <span class="tok-builtin">circle</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span>, <span class="tok-name">aktueller_durchmesser</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">setup</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">kreise</span>
+    <span class="tok-builtin">size</span>(<span class="tok-number">200</span>, <span class="tok-number">200</span>)
+    <span class="tok-name">kreise</span> = []
+    <span class="tok-keyword">for</span> <span class="tok-name">nr</span> <span class="tok-keyword">in</span> <span class="tok-builtin">range</span>(<span class="tok-number">40</span>):
+        <span class="tok-name">kreise</span>.<span class="tok-name">append</span>(<span class="tok-name">Kreis</span>(<span class="tok-builtin">random_int</span>(<span class="tok-number">0</span>, <span class="tok-builtin">width</span>), <span class="tok-builtin">random_int</span>(<span class="tok-number">0</span>, <span class="tok-builtin">height</span>), <span class="tok-number">16</span>))
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">kreise</span>
+    <span class="tok-builtin">background</span>(<span class="tok-number">200</span>)
+    <span class="tok-keyword">for</span> <span class="tok-name">kreis</span> <span class="tok-keyword">in</span> <span class="tok-name">kreise</span>:
+        <span class="tok-name">kreis</span>.<span class="tok-name">falle_runter</span>()
+        <span class="tok-name">kreis</span>.<span class="tok-name">draw</span>()</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 6 – Viele Kreise mit eigenem Zustand</h2>
+<h3>Was wird geändert?</h3>
+<p>Im letzten Schritt gibt es viele Kreise, und jeder bringt seine eigene Farbe mit.</p>
+<h3>Warum ist das sinnvoll?</h3>
+<p>Jetzt wird sichtbar, was Objektorientierung praktisch bedeutet: gleiche Struktur, aber unterschiedliche Werte pro Objekt.</p>
+<h3>Begriff</h3>
+<aside class="margin-note"><strong>Zustand:</strong> Alle Kreise folgen demselben Bauplan. Trotzdem sieht keiner exakt aus wie der andere. Das ist OOP. Und ein kleines bisschen Kindergarten in sehr geordnet.</aside>
+<p><strong>Zustand eines Objekts</strong> = alle aktuellen Attributwerte zusammen.</p>
+<h3>Vorschau</h3>
+<div class="preview-frame"><iframe src="https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHIlMjAlM0QlMjA1MCUyMCUyMCUyMyUyMHJhbmRvbSUyODI1NSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGclMjAlM0QlMjByYW5kb20lMjgxMDAlMkMlMjAyMzAlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBiJTIwJTNEJTIwMCUyMCUyMCUyMyUyMHJhbmRvbSUyODI1NSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuY29sb3IlMjAlM0QlMjBjb2xvciUyOHIlMkMlMjBnJTJDJTIwYiUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGZhbGxlX3J1bnRlciUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlM0QlMjAxJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBtYXhfYWVuZGVydW5nJTIwJTNEJTIwMC4yJTIwJTJBJTIwc2VsZi5kdXJjaG1lc3NlciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMyUyMER1cmNoJTIwc2luJTI4ZnJhbWVfY291bnQlMjklMjAlQzMlQTRuZGVydCUyMHNpY2glMjBkZXIlMjBEdXJjaG1lc3NlciUyMGltJTIwTGF1ZmUlMjBkZXIlMjBaZWl0JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwYWt0dWVsbGVyX2R1cmNobWVzc2VyJTIwJTNEJTIwc2VsZi5kdXJjaG1lc3NlciUyMCUyQiUyMHNpbiUyOGZyYW1lX2NvdW50JTIwJTJGJTIwMzAlMjklMjAlMkElMjBtYXhfYWVuZGVydW5nJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyOHNlbGYuY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjklMEQlMEElMEQlMEElMEQlMEElMjMlMjBNYWluJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrcmVpc2UlMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4MjAwJTJDJTIwMjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwa3JlaXNlJTIwJTNEJTIwJTVCJTVEJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwbnIlMjBpbiUyMHJhbmdlJTI4MTgwJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwayUyMCUzRCUyMEtyZWlzJTI4cmFuZG9tX2ludCUyODAlMkMlMjB3aWR0aCUyOSUyQyUyMHJhbmRvbV9pbnQlMjgwJTJDJTIwaGVpZ2h0JTI5JTJDJTIwMTYlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpc2UuYXBwZW5kJTI4ayUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMGRyYXclMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrcmVpc2UlMjAlMjAlMjMlMjBMaXN0ZSUyMHZvbiUyMEtyZWlzZW4lMEQlMEElMjAlMjAlMjAlMjBiYWNrZ3JvdW5kJTI4MjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwa3JlaXMlMjBpbiUyMGtyZWlzZSUzQSUyMCUyMCUyMyUyMGVpbnplbG5lciUyMGtyZWlzJTIwYXVzJTIwZGVyJTIwTGlzdGUlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5mYWxsZV9ydW50ZXIlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5kcmF3JTI4JTI5JTBEJTBB" width="216" height="216" loading="lazy"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHIlMjAlM0QlMjA1MCUyMCUyMCUyMyUyMHJhbmRvbSUyODI1NSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGclMjAlM0QlMjByYW5kb20lMjgxMDAlMkMlMjAyMzAlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBiJTIwJTNEJTIwMCUyMCUyMCUyMyUyMHJhbmRvbSUyODI1NSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuY29sb3IlMjAlM0QlMjBjb2xvciUyOHIlMkMlMjBnJTJDJTIwYiUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGZhbGxlX3J1bnRlciUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlM0QlMjAxJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBtYXhfYWVuZGVydW5nJTIwJTNEJTIwMC4yJTIwJTJBJTIwc2VsZi5kdXJjaG1lc3NlciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMyUyMER1cmNoJTIwc2luJTI4ZnJhbWVfY291bnQlMjklMjAlQzMlQTRuZGVydCUyMHNpY2glMjBkZXIlMjBEdXJjaG1lc3NlciUyMGltJTIwTGF1ZmUlMjBkZXIlMjBaZWl0JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwYWt0dWVsbGVyX2R1cmNobWVzc2VyJTIwJTNEJTIwc2VsZi5kdXJjaG1lc3NlciUyMCUyQiUyMHNpbiUyOGZyYW1lX2NvdW50JTIwJTJGJTIwMzAlMjklMjAlMkElMjBtYXhfYWVuZGVydW5nJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyOHNlbGYuY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjklMEQlMEElMEQlMEElMEQlMEElMjMlMjBNYWluJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrcmVpc2UlMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4MjAwJTJDJTIwMjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwa3JlaXNlJTIwJTNEJTIwJTVCJTVEJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwbnIlMjBpbiUyMHJhbmdlJTI4MTgwJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwayUyMCUzRCUyMEtyZWlzJTI4cmFuZG9tX2ludCUyODAlMkMlMjB3aWR0aCUyOSUyQyUyMHJhbmRvbV9pbnQlMjgwJTJDJTIwaGVpZ2h0JTI5JTJDJTIwMTYlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpc2UuYXBwZW5kJTI4ayUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMGRyYXclMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrcmVpc2UlMjAlMjAlMjMlMjBMaXN0ZSUyMHZvbiUyMEtyZWlzZW4lMEQlMEElMjAlMjAlMjAlMjBiYWNrZ3JvdW5kJTI4MjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwa3JlaXMlMjBpbiUyMGtyZWlzZSUzQSUyMCUyMCUyMyUyMGVpbnplbG5lciUyMGtyZWlzJTIwYXVzJTIwZGVyJTIwTGlzdGUlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5mYWxsZV9ydW50ZXIlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5kcmF3JTI4JTI5JTBEJTBB">Im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Kreis</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x</span>, <span class="tok-name">y</span>, <span class="tok-name">durchmesser</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y</span>
+        <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span> = <span class="tok-name">durchmesser</span>
+        <span class="tok-name">r</span> = <span class="tok-number">50</span>
+        <span class="tok-name">g</span> = <span class="tok-builtin">random</span>(<span class="tok-number">100</span>, <span class="tok-number">230</span>)
+        <span class="tok-name">b</span> = <span class="tok-number">0</span>
+        <span class="tok-self">self</span>.<span class="tok-builtin">color</span> = <span class="tok-builtin">color</span>(<span class="tok-name">r</span>, <span class="tok-name">g</span>, <span class="tok-name">b</span>)
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">falle_runter</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> += <span class="tok-number">1</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-name">max_aenderung</span> = <span class="tok-number">0.2</span> * <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span>
+        <span class="tok-name">aktueller_durchmesser</span> = <span class="tok-self">self</span>.<span class="tok-name">durchmesser</span> + <span class="tok-builtin">sin</span>(<span class="tok-builtin">frame_count</span> / <span class="tok-number">30</span>) * <span class="tok-name">max_aenderung</span>
+        <span class="tok-builtin">fill</span>(<span class="tok-self">self</span>.<span class="tok-builtin">color</span>)
+        <span class="tok-builtin">circle</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span>, <span class="tok-name">aktueller_durchmesser</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">setup</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">kreise</span>
+    <span class="tok-builtin">size</span>(<span class="tok-number">200</span>, <span class="tok-number">200</span>)
+    <span class="tok-name">kreise</span> = []
+    <span class="tok-keyword">for</span> <span class="tok-name">nr</span> <span class="tok-keyword">in</span> <span class="tok-builtin">range</span>(<span class="tok-number">180</span>):
+        <span class="tok-name">k</span> = <span class="tok-name">Kreis</span>(<span class="tok-builtin">random_int</span>(<span class="tok-number">0</span>, <span class="tok-builtin">width</span>), <span class="tok-builtin">random_int</span>(<span class="tok-number">0</span>, <span class="tok-builtin">height</span>), <span class="tok-number">16</span>)
+        <span class="tok-name">kreise</span>.<span class="tok-name">append</span>(<span class="tok-name">k</span>)
+
+
+<span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>():
+    <span class="tok-keyword">global</span> <span class="tok-name">kreise</span>
+    <span class="tok-builtin">background</span>(<span class="tok-number">200</span>)
+    <span class="tok-keyword">for</span> <span class="tok-name">kreis</span> <span class="tok-keyword">in</span> <span class="tok-name">kreise</span>:
+        <span class="tok-name">kreis</span>.<span class="tok-name">falle_runter</span>()
+        <span class="tok-name">kreis</span>.<span class="tok-name">draw</span>()</code></pre></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Mögliche Denkfragen</h2>
+<ol>
+<li>Warum ist eine Liste besser als viele Variablen wie <code>k1</code>, <code>k2</code>, <code>k3</code>?</li>
+<li>Welche Eigenschaften eines Kreises würden sich noch als Attribute eignen?</li>
+<li>Welche neue Methode könnte man ergänzen, damit die Kreise nicht nur fallen?</li>
+<li>Was müsste man ändern, damit jeder Kreis eine andere Geschwindigkeit hat?</li>
+</ol>
+</section>
+<section class="content-section">
+<h2>Merksätze</h2>
+<ul>
+<li>Eine <strong>Klasse</strong> ist ein Bauplan.</li>
+<li>Ein <strong>Objekt</strong> ist ein konkretes Exemplar einer Klasse.</li>
+<li>Ein <strong>Attribut</strong> speichert Daten.</li>
+<li>Eine <strong>Methode</strong> beschreibt Verhalten.</li>
+<li>Der <strong>Konstruktor</strong> setzt Anfangswerte.</li>
+</ul>
+</section>
+    </main>
+  </body>
+</html>
