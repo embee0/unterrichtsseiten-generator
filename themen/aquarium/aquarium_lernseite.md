@@ -31,12 +31,7 @@ Das hier ist die Zielrichtung. Du musst nicht sofort alles verstehen. Die eigent
 > **Endstufe:** In der vollständigen Version arbeiten mehrere Klassen zusammen. Genau das macht das Projekt als OOP-Aufgabe spannend.
 
 ### Vorschau
-
-{{SOLUTION: Zielversion als Vorschau anzeigen}}
-
 {{IFRAME: aquarium_endloesung.py}}
-
-{{ENDSOLUTION}}
 
 ---
 
@@ -77,11 +72,11 @@ Du trennst zum ersten Mal zwischen dem Hintergrund des Programms und einem eigen
 
 ### Demo
 
-{{SOLUTION: Demo und Musterlösung zu Station 1 anzeigen}}
-
 {{IFRAME: aquarium1_ein_fisch.py}}
 
 {{EDIT: aquarium1_ein_fisch.py}}
+
+{{SOLUTION: Lösungscode zu Station 1 anzeigen}}
 
 ```python
 def draw_background():
@@ -152,11 +147,11 @@ Ein Objekt besteht nicht nur aus seiner Position. Erst mit mehreren Attributen w
 
 ### Demo
 
-{{SOLUTION: Demo und Musterlösung zu Station 2 anzeigen}}
-
 {{IFRAME: aquarium2_fisch_mit_attributen.py}}
 
 {{EDIT: aquarium2_fisch_mit_attributen.py}}
+
+{{SOLUTION: Lösungscode zu Station 2 anzeigen}}
 
 ```python
 class Fish:
@@ -212,11 +207,11 @@ Hier wird OOP praktisch nützlich. Eine Klasse lohnt sich erst richtig, wenn du 
 
 ### Demo
 
-{{SOLUTION: Demo und Musterlösung zu Station 3 anzeigen}}
-
 {{IFRAME: aquarium3_liste_von_fischen.py}}
 
 {{EDIT: aquarium3_liste_von_fischen.py}}
+
+{{SOLUTION: Lösungscode zu Station 3 anzeigen}}
 
 ```python
 def setup():
@@ -263,11 +258,11 @@ Jetzt bekommen die Objekte nicht nur Daten, sondern **Verhalten**. Das ist einer
 
 ### Demo
 
-{{SOLUTION: Demo und Musterlösung zu Station 4 anzeigen}}
-
 {{IFRAME: aquarium4_fische_bewegen_sich.py}}
 
 {{EDIT: aquarium4_fische_bewegen_sich.py}}
+
+{{SOLUTION: Lösungscode zu Station 4 anzeigen}}
 
 ```python
 class Fish:
@@ -315,11 +310,11 @@ Das Aquarium besteht jetzt nicht mehr nur aus vielen Objekten derselben Klasse. 
 
 ### Demo
 
-{{SOLUTION: Demo und Musterlösung zu Station 5 anzeigen}}
-
 {{IFRAME: aquarium5_futter_und_jagd.py}}
 
 {{EDIT: aquarium5_futter_und_jagd.py}}
+
+{{SOLUTION: Lösungscode zu Station 5 anzeigen}}
 
 ```python
 class Food:
@@ -355,11 +350,11 @@ Die Pflichtteile sind schon ein vollständiges OOP-Projekt. Die Blasen sind ein 
 
 ### Demo der Endstufe
 
-{{SOLUTION: Endstufe mit Demo und Musterlösung anzeigen}}
-
 {{IFRAME: aquarium_endloesung.py}}
 
 {{EDIT: aquarium_endloesung.py}}
+
+{{SOLUTION: Lösungscode der Endstufe anzeigen}}
 
 ```python
 class Bubble:

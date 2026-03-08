@@ -543,7 +543,7 @@ HTML_TEMPLATE = """<!doctype html>
     <title>__TITLE__</title>
     <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\" />
     <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
       :root {
         --bg: #2d2a2e;
@@ -683,7 +683,7 @@ HTML_TEMPLATE = """<!doctype html>
         margin: 0;
         line-height: 1.05;
         letter-spacing: -0.035em;
-        font-family: "Fraunces", "Manrope", sans-serif;
+        font-family: "Syne", "Manrope", sans-serif;
         font-variant-numeric: lining-nums proportional-nums;
         font-feature-settings: "lnum" 1, "pnum" 1;
       }
