@@ -20,7 +20,7 @@ PRESENT_BASE = "https://abav.lugaralgum.com/pyp5js/py5mode/presentation.html?ske
 MAX_SKETCH_URL_LENGTH = 8000
 
 IFRAME_RE = re.compile(r"\{\{IFRAME:\s*([^}]+?)\s*\}\}")
-EDIT_RE = re.compile(r"\{\{EDIT:\s*([^}]+?)\s*\}\}")
+EDIT_RE = re.compile(r"\{\{EDIT:\s*([^}|]+?)(?:\|\s*([^}]+?))?\s*\}\}")
 SOLUTION_START_RE = re.compile(r"\{\{SOLUTION:\s*([^}]+?)\s*\}\}")
 SOLUTION_END_RE = re.compile(r"\{\{ENDSOLUTION\s*\}\}")
 SIZE_RE = re.compile(r"\bsize\s*\(\s*(\d+)\s*,\s*(\d+)\s*\)")
@@ -124,30 +124,32 @@ def sketch_url_is_safe(filename: str, *, presentation: bool) -> bool:
     )
 
 
-def render_sketch_fallback(filename: str, *, presentation: bool) -> str:
-    if presentation:
-        title = "Vorschau nicht direkt eingebettet"
-        text = (
-            "Dieser py5-Sketch ist zu lang für die URL-basierte Vorschau. "
-            "Die Seite zeigt deshalb hier absichtlich keinen kaputten iframe an."
-        )
-        button_label = "Python-Datei öffnen"
-    else:
-        title = "Editor-Link ersetzt"
-        text = (
-            "Dieser Sketch ist zu lang für einen py5-Editorlink mit ?sketch=. "
-            "Arbeite stattdessen direkt mit der Python-Datei aus diesem Ordner."
-        )
-        button_label = "Python-Datei öffnen"
-
-    href = quote(get_target_relative_path(filename))
-    return (
-        '<div class="sketch-fallback">'
-        f'<p class="sketch-fallback-title">{html.escape(title)}</p>'
-        f"<p>{html.escape(text)}</p>"
-        f'<p class="sketch-fallback-link"><a class="button-link" href="{html.escape(href, quote=True)}">{html.escape(button_label)}</a></p>'
-        "</div>"
+def render_sketch_fallback(
+  filename: str, *, presentation: bool, button_label: str | None = None
+) -> str:
+  if presentation:
+    title = "Vorschau nicht direkt eingebettet"
+    text = (
+      "Dieser py5-Sketch ist zu lang für die URL-basierte Vorschau. "
+      "Die Seite zeigt deshalb hier absichtlich keinen kaputten iframe an."
     )
+    resolved_button_label = button_label or "Python-Datei öffnen"
+  else:
+    title = "Editor-Link ersetzt"
+    text = (
+      "Dieser Sketch ist zu lang für einen py5-Editorlink mit ?sketch=. "
+      "Arbeite stattdessen direkt mit der Python-Datei aus diesem Ordner."
+    )
+    resolved_button_label = button_label or "Python-Datei öffnen"
+
+  href = quote(get_target_relative_path(filename))
+  return (
+    '<div class="sketch-fallback">'
+    f'<p class="sketch-fallback-title">{html.escape(title)}</p>'
+    f"<p>{html.escape(text)}</p>"
+    f'<p class="sketch-fallback-link"><a class="button-link" href="{html.escape(href, quote=True)}">{html.escape(resolved_button_label)}</a></p>'
+    "</div>"
+  )
 
 
 def get_sketch_dimensions(filename: str) -> tuple[int, int]:
@@ -329,14 +331,16 @@ def render_iframe(filename: str) -> str:
     )
 
 
-def render_edit_link(filename: str) -> str:
+def render_edit_link(filename: str, label: str = "Im Editor öffnen") -> str:
     if not sketch_url_is_safe(filename, presentation=False):
-        return render_sketch_fallback(filename, presentation=False)
+        return render_sketch_fallback(
+            filename, presentation=False, button_label=label
+        )
 
     url = make_sketch_link(filename, presentation=False)
     return (
         '<p class="editor-link">'
-        f'<a class="button-link" href="{html.escape(url, quote=True)}">Im Editor öffnen</a>'
+    f'<a class="button-link" href="{html.escape(url, quote=True)}">{html.escape(label)}</a>'
         "</p>"
     )
 
@@ -463,7 +467,9 @@ def render_markdown(lines: list[str]) -> str:
         edit_match = EDIT_RE.fullmatch(stripped)
         if edit_match:
             in_ul, in_ol = close_lists(active_parts, in_ul, in_ol)
-            active_parts.append(render_edit_link(edit_match.group(1).strip()))
+            filename = edit_match.group(1).strip()
+            label = edit_match.group(2).strip() if edit_match.group(2) else "Im Editor öffnen"
+            active_parts.append(render_edit_link(filename, label))
             continue
 
         if stripped.startswith("# "):
