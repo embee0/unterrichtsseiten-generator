@@ -6,6 +6,10 @@
 
 Auf dieser Seite baust du Schritt für Schritt ein kleines Aquarium in py5. Du startest mit genau einem Fisch und landest am Ende bei einer kleinen Unterwasserwelt mit vielen Fischen, Futter und Blasen.
 
+{{IFRAME: aquarium_endloesung.py}}
+
+> **Vorschau:** So könnte das fertige Aquarium am Ende aussehen. Du musst das nicht sofort verstehen. Wir arbeiten uns Schritt für Schritt dorthin.
+
 Der Hintergrund ist diesmal von Anfang an schon da. So kannst du dich auf das konzentrieren, was hier fachlich wichtig ist: **Klassen, Objekte, Listen, Attribute und Verhalten**.
 
 Die Seite ist so aufgebaut, dass du in der nächsten Woche möglichst selbstständig arbeiten kannst. Du musst nicht alles sofort können. Wichtig ist, dass du die Stationen nacheinander bearbeitest und jeweils verstehst, was sich im Code verändert.
@@ -23,15 +27,6 @@ Am Ende dieser Pflichtphase kannst du:
 - Objekte verschiedener Klassen zusammenarbeiten lassen
 
 Wenn du schneller fertig bist, kannst du in Station 6 dein Aquarium mit Blasen und weiteren Details erweitern.
-
-## Teaser – So kann das Endergebnis aussehen
-
-Das hier ist die Zielrichtung. Du musst nicht sofort alles verstehen. Die eigentliche Arbeit beginnt darunter in kleinen, machbaren Schritten.
-
-> **Endstufe:** In der vollständigen Version arbeiten mehrere Klassen zusammen. Genau das macht das Projekt als OOP-Aufgabe spannend.
-
-### Vorschau
-{{IFRAME: aquarium_endloesung.py}}
 
 ---
 
