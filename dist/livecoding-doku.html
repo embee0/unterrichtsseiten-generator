@@ -7,501 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-    <style>
-      :root {
-        --bg: #2d2a2e;
-        --bg-deep: #221f22;
-        --panel: rgba(45, 42, 46, 0.84);
-        --panel-strong: rgba(36, 33, 37, 0.94);
-        --panel-soft: rgba(54, 49, 56, 0.84);
-        --text: #fcfcfa;
-        --muted: #c8c2bf;
-        --accent: #ffd866;
-        --accent-2: #78dce8;
-        --accent-3: #fc9867;
-        --accent-4: #a9dc76;
-        --accent-5: #ab9df2;
-        --border: rgba(255, 255, 255, 0.1);
-        --shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
-        --code-bg: #2d2a2e;
-        --code-line: #403e41;
-        --code-text: #fcfcfa;
-      }
-
-      * { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
-      body {
-        margin: 0;
-        color: var(--text);
-        font-family: "Manrope", "Segoe UI", sans-serif;
-        font-variant-numeric: lining-nums proportional-nums;
-        font-feature-settings: "lnum" 1, "pnum" 1;
-        line-height: 1.72;
-        background:
-          radial-gradient(circle at 12% 10%, rgba(120, 220, 232, 0.16), transparent 24%),
-          radial-gradient(circle at 88% 12%, rgba(252, 152, 103, 0.16), transparent 20%),
-          radial-gradient(circle at 50% 120%, rgba(255, 214, 102, 0.12), transparent 24%),
-          linear-gradient(180deg, #2d2a2e 0%, #262328 42%, #221f22 100%);
-      }
-
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-        background-size: 38px 38px;
-        mask-image: radial-gradient(circle at center, black 42%, transparent 95%);
-        opacity: 0.4;
-      }
-
-      body::after {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.08;
-        background-image: radial-gradient(rgba(120, 220, 232, 0.45) 0.6px, transparent 0.6px);
-        background-size: 14px 14px;
-      }
-
-      main {
-        position: relative;
-        width: min(calc(100% - 2rem), 1040px);
-        margin: 0 auto;
-        padding: 2rem 0 5rem;
-        counter-reset: lesson;
-      }
-
-      .hero,
-      .content-section {
-        position: relative;
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 30px;
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(14px);
-        overflow: visible;
-        animation: rise-in 680ms cubic-bezier(.2,.8,.2,1) both;
-      }
-
-      .hero::after,
-      .content-section::after {
-        content: "";
-        display: block;
-        clear: both;
-      }
-
-      .hero {
-        padding: 2.7rem;
-        margin-bottom: 1.35rem;
-        background:
-          linear-gradient(160deg, rgba(41, 37, 44, 0.98), rgba(34, 31, 34, 0.94)),
-          var(--panel);
-      }
-
-      .hero::before {
-        content: "";
-        position: absolute;
-        inset: 1rem;
-        border: 1px solid rgba(120, 220, 232, 0.16);
-        border-radius: 24px;
-        pointer-events: none;
-        box-shadow: inset 0 0 0 1px rgba(255, 209, 102, 0.08);
-      }
-
-      .hero::after {
-        content: "";
-        position: absolute;
-        right: 2rem;
-        top: 1.8rem;
-        width: 9rem;
-        height: 9rem;
-        border-radius: 50%;
-        background:
-          radial-gradient(circle at 30% 30%, rgba(120, 220, 232, 0.3), transparent 48%),
-          radial-gradient(circle at 70% 70%, rgba(255, 209, 102, 0.28), transparent 50%);
-        filter: blur(14px);
-        opacity: 0.85;
-        pointer-events: none;
-      }
-
-      .content-section {
-        padding: 2rem 2rem 2.1rem;
-        margin-top: 1.15rem;
-        background:
-          linear-gradient(180deg, rgba(49, 44, 52, 0.96), rgba(35, 32, 38, 0.96));
-      }
-
-      .content-section:nth-of-type(2n) {
-        transform: translateX(0.6rem);
-      }
-
-      .content-section:nth-of-type(2n + 1) {
-        transform: translateX(-0.35rem);
-      }
-
-      h1, h2, h3 {
-        margin: 0;
-        line-height: 1.05;
-        letter-spacing: -0.035em;
-        font-family: "Syne", "Manrope", sans-serif;
-        font-variant-numeric: lining-nums proportional-nums;
-        font-feature-settings: "lnum" 1, "pnum" 1;
-      }
-
-      h1 {
-        margin-top: 0;
-        font-size: clamp(2.8rem, 7vw, 5.2rem);
-        max-width: 9ch;
-        text-wrap: balance;
-      }
-
-      h2 {
-        font-size: clamp(1.9rem, 4vw, 2.7rem);
-        margin-bottom: 1.1rem;
-        padding-top: 0.25rem;
-      }
-
-      h3 {
-        font-size: 1.28rem;
-        color: var(--accent-3);
-        margin-top: 1.5rem;
-        margin-bottom: 0.45rem;
-      }
-
-      p, li {
-        color: var(--muted);
-        margin: 0.62rem 0;
-        font-size: 1.02rem;
-        font-variant-numeric: lining-nums proportional-nums;
-        font-feature-settings: "lnum" 1, "pnum" 1;
-      }
-
-      strong {
-        color: var(--text);
-      }
-
-      a {
-        color: var(--accent-2);
-        text-decoration: none;
-        border-bottom: 1px solid rgba(120, 220, 232, 0.22);
-      }
-
-      a:hover {
-        color: var(--accent);
-      }
-
-      code {
-        font-family: "JetBrains Mono", Menlo, Consolas, monospace;
-        color: #f0f7f7;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 8px;
-        padding: 0.14rem 0.38rem;
-      }
-
-      ul, ol {
-        padding-left: 1.4rem;
-        margin: 0.55rem 0 0.95rem;
-      }
-
-      li::marker {
-        color: var(--accent);
-      }
-
-      hr {
-        border: 0;
-        height: 16px;
-        margin: 1.25rem 0;
-        background:
-          radial-gradient(circle at center, rgba(255, 209, 102, 0.85) 0 2px, transparent 3px),
-          linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
-        background-repeat: no-repeat;
-        background-position: center center;
-      }
-
-      .note-layout {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(14rem, 16rem);
-        align-items: start;
-        gap: 1.4rem;
-        margin: 0.7rem 0 1rem;
-      }
-
-      .note-content > :first-child {
-        margin-top: 0;
-      }
-
-      .note-content > :last-child {
-        margin-bottom: 0;
-      }
-
-      .note-content ul,
-      .note-content ol {
-        margin-top: 0;
-        margin-bottom: 0;
-      }
-
-      .margin-note {
-        width: 100%;
-        margin: 0;
-        padding: 1rem 1rem 1rem 1.2rem;
-        border-radius: 20px;
-        background: linear-gradient(180deg, rgba(34, 31, 37, 0.98), rgba(26, 24, 29, 0.96));
-        border: 1px solid rgba(255, 209, 102, 0.22);
-        color: #f2efed;
-        font-size: 0.96rem;
-        line-height: 1.58;
-        box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28);
-        transform: none;
-      }
-
-      .margin-note strong,
-      .margin-note code {
-        color: #ffd866;
-        font-weight: 800;
-        letter-spacing: 0.01em;
-      }
-
-      .margin-note code {
-        background: transparent;
-        border: 0;
-        border-radius: 0;
-        padding: 0;
-      }
-
-      .preview-frame {
-        display: inline-block;
-        width: fit-content;
-        max-width: 100%;
-        margin: 1.1rem 0 0.95rem;
-        padding: 1rem;
-        border-radius: 22px;
-        background:
-          linear-gradient(180deg, rgba(40, 36, 44, 0.96), rgba(30, 27, 33, 0.98));
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
-      }
-
-      .sketch-fallback {
-        margin: 1.1rem 0 0.95rem;
-        padding: 1rem 1.1rem;
-        border-radius: 22px;
-        background:
-          linear-gradient(180deg, rgba(40, 36, 44, 0.96), rgba(30, 27, 33, 0.98));
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
-      }
-
-      .sketch-fallback-title {
-        margin-top: 0;
-        color: var(--text);
-        font-weight: 800;
-      }
-
-      .sketch-fallback-link {
-        margin-bottom: 0;
-      }
-
-      iframe {
-        display: block;
-        max-width: 100%;
-        border: 0;
-        border-radius: 18px;
-        background: transparent;
-        box-shadow: 0 18px 30px rgba(0, 0, 0, 0.28);
-      }
-
-      .editor-link {
-        margin: 0.55rem 0 1rem;
-      }
-
-      .button-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.76rem 1.05rem;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 209, 102, 0.18);
-        background: linear-gradient(135deg, rgba(252, 152, 103, 0.16), rgba(120, 220, 232, 0.16));
-        color: var(--text);
-        font-weight: 700;
-        transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
-      }
-
-      .button-link:hover {
-        transform: translateY(-2px) rotate(-0.5deg);
-        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.3);
-        background: linear-gradient(135deg, rgba(252, 152, 103, 0.24), rgba(120, 220, 232, 0.24));
-      }
-
-      .solution-block {
-        margin: 1rem 0 1.2rem;
-        border-radius: 24px;
-        border: 1px solid var(--code-line);
-        background: linear-gradient(180deg, rgba(45, 42, 46, 0.98), rgba(34, 31, 34, 0.98));
-        box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
-        overflow: hidden;
-      }
-
-      .solution-block summary {
-        cursor: pointer;
-        list-style: none;
-        padding: 1rem 1.15rem;
-        color: var(--text);
-        font-weight: 800;
-        background: linear-gradient(90deg, rgba(64, 62, 65, 0.98), rgba(52, 49, 53, 0.98));
-        border-bottom: 1px solid var(--code-line);
-      }
-
-      .solution-block summary::-webkit-details-marker {
-        display: none;
-      }
-
-      .solution-block summary::before {
-        content: "+";
-        display: inline-block;
-        width: 1.1rem;
-        margin-right: 0.5rem;
-        color: var(--accent);
-        font-size: 1.1rem;
-        font-weight: 900;
-      }
-
-      .solution-block[open] summary::before {
-        content: "-";
-      }
-
-      .solution-content {
-        padding: 0.2rem 1.15rem 1rem;
-        background: rgba(45, 42, 46, 0.82);
-      }
-
-      .solution-content > :first-child {
-        margin-top: 0.9rem;
-      }
-
-      .solution-content > :last-child {
-        margin-bottom: 0;
-      }
-
-      .code-block {
-        clear: both;
-        margin: 1rem 0 0.5rem;
-        border-radius: 22px;
-        overflow: hidden;
-        border: 1px solid var(--code-line);
-        background: var(--code-bg);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
-      }
-
-      .code-block pre {
-        margin: 0;
-        padding: 1rem 1.1rem 1.15rem;
-        overflow-x: auto;
-      }
-
-      .code-block code {
-        display: block;
-        background: transparent;
-        border: 0;
-        padding: 0;
-        color: var(--code-text);
-      }
-
-      .tok-comment { color: #727072; }
-      .tok-string { color: #ffd866; }
-      .tok-number { color: #ab9df2; }
-      .tok-keyword { color: #ff6188; font-weight: 700; }
-      .tok-builtin { color: #78dce8; }
-      .tok-self { color: #fc9867; }
-      .tok-class, .tok-function { color: #a9dc76; font-weight: 700; }
-      .tok-name { color: #fcfcfa; }
-
-      .content-section::before {
-        content: none;
-      }
-
-      .hero > p:last-of-type {
-        max-width: 58ch;
-        font-size: 1.08rem;
-      }
-
-      .content-section p + .preview-frame,
-      .content-section p + .editor-link,
-      .content-section p + .code-block {
-        margin-top: 0.95rem;
-      }
-
-      @keyframes rise-in {
-        from {
-          opacity: 0;
-          transform: translateY(18px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @media (max-width: 920px) {
-        .content-section:nth-of-type(2n),
-        .content-section:nth-of-type(2n + 1) {
-          transform: none;
-        }
-
-        .note-layout {
-          grid-template-columns: 1fr;
-          gap: 0.8rem;
-        }
-
-        .margin-note {
-          width: auto;
-        }
-      }
-
-      @media (max-width: 700px) {
-        body {
-          line-height: 1.66;
-        }
-
-        .margin-note {
-          padding: 0.9rem 0.95rem;
-        }
-
-        main {
-          width: min(calc(100% - 1rem), 1020px);
-          padding-top: 1rem;
-        }
-
-        .hero,
-        .content-section {
-          padding: 1.3rem;
-          border-radius: 22px;
-        }
-
-        .hero::before {
-          inset: 0.8rem;
-          border-radius: 18px;
-        }
-
-        h1 {
-          max-width: none;
-          font-size: clamp(2.35rem, 11vw, 3.5rem);
-        }
-
-        h2 {
-          font-size: clamp(1.7rem, 8vw, 2.2rem);
-        }
-
-        iframe {
-          max-width: 100%;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="assets/lernseite.css" />
   </head>
   <body>
     <main>
@@ -514,8 +20,8 @@
 <section class="content-section">
 <h2>So arbeitest du mit der Seite</h2>
 <p>Die Seite ist so aufgebaut, dass du den Weg von Station zu Station nachvollziehen kannst. Es geht nicht darum, jede Definition sofort auswendig zu können, sondern zu verstehen, warum der Code an jeder Stelle umgebaut wird.</p>
-<p>In jedem Schritt stellen wir drei Fragen:</p>
-<div class="note-layout"><div class="note-content"><ol>
+<div class="note-layout"><div class="note-content"><p>In jedem Schritt stellen wir drei Fragen:</p>
+<ol>
 <li><strong>Was wird geändert?</strong></li>
 <li><strong>Warum wird das geändert?</strong></li>
 <li><strong>Welcher OOP-Begriff steckt dahinter?</strong></li>
@@ -528,8 +34,8 @@
 <p>Wir starten mit einem sehr einfachen py5-Programm. Es zeichnet einen Kreis in die Mitte des Fensters. Dieser Kreis wird größer und kleiner. Das Programm ist also schon <strong>animiert</strong>.</p>
 <h3>Warum starten wir so?</h3>
 <p>Bevor wir Klassen, Objekte und Attribute einführen, brauchen wir eine funktionierende Ausgangslage. Erst wenn klar ist, wie <code>setup()</code> und <code>draw()</code> zusammenarbeiten, lohnt sich der nächste Schritt.</p>
-<h3>Begriff</h3>
-<div class="note-layout"><div class="note-content"><p><strong>Animation</strong> bedeutet hier: Das Bild wird immer wieder neu gezeichnet, und dabei verändern sich Werte.</p></div><aside class="margin-note"><strong>frame_count:</strong> Das ist so etwas wie die eingebaute Stoppuhr des Programms. Sie fragt nicht, ob du bereit bist. Sie zählt einfach weiter.</aside></div>
+<div class="note-layout"><div class="note-content"><h3>Begriff</h3>
+<p><strong>Animation</strong> bedeutet hier: Das Bild wird immer wieder neu gezeichnet, und dabei verändern sich Werte.</p></div><aside class="margin-note"><strong>frame_count:</strong> Das ist so etwas wie die eingebaute Stoppuhr des Programms. Sie fragt nicht, ob du bereit bist. Sie zählt einfach weiter.</aside></div>
 <h3>Vorschau</h3>
 <div class="preview-frame"><iframe src="_previews/kreise/kreise0noch_ohne_OO.html" width="200" height="200" loading="lazy"></iframe></div>
 <p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4MjAwJTJDJTIwMjAwJTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGJhY2tncm91bmQlMjgyMDAlMjklMEQlMEElMjAlMjAlMjAlMjBkdXJjaG1lc3NlciUyMCUzRCUyMHdpZHRoJTIwJTJGJTIwMiUwRCUwQSUyMCUyMCUyMCUyMG1heF9hZW5kZXJ1bmclMjAlM0QlMjAyMCUwRCUwQSUyMCUyMCUyMCUyMGFrdHVlbGxlcl9kdXJjaG1lc3NlciUyMCUzRCUyMGR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjBjaXJjbGUlMjh3aWR0aCUyMCUyRiUyMDIlMkMlMjBoZWlnaHQlMjAlMkYlMjAyJTJDJTIwYWt0dWVsbGVyX2R1cmNobWVzc2VyJTI5JTBEJTBB">Aufgabe im Editor öffnen</a></p>
@@ -553,8 +59,8 @@
 <p>Jetzt bekommt der Kreis eine eigene <strong>Klasse</strong>. Seine Position wird nicht mehr irgendwo lose gespeichert, sondern direkt im Objekt.</p>
 <h3>Warum ist das sinnvoll?</h3>
 <p>Ein Kreis weiß jetzt selbst, wo er gezeichnet werden soll. Das Hauptprogramm muss sich nicht mehr um jedes einzelne Detail kümmern.</p>
-<h3>Begriffe</h3>
-<div class="note-layout"><div class="note-content"><ul>
+<div class="note-layout"><div class="note-content"><h3>Begriffe</h3>
+<ul>
 <li><strong>Klasse</strong>: ein Bauplan</li>
 <li><strong>Konstruktor</strong>: <code>__init__()</code> setzt die Anfangswerte</li>
 </ul></div><aside class="margin-note"><strong>Klasse und Objekt:</strong> Eine Klasse ist ein Bauplan. Ein Objekt ist das gebaute Ding. Also: erst Plan, dann Kreis. Nicht andersherum. Sonst wird es avantgardistisch.</aside></div>
@@ -591,8 +97,8 @@
 <p>Der Kreis speichert jetzt nicht nur <code>x</code> und <code>y</code>, sondern auch <code>durchmesser</code>.</p>
 <h3>Warum ist das sinnvoll?</h3>
 <p>Ein Objekt hat meistens mehrere Eigenschaften. Ein Kreis hat eben nicht nur einen Ort, sondern auch eine Größe.</p>
-<h3>Begriff</h3>
-<div class="note-layout"><div class="note-content"><p><strong>Attribut</strong> = eine gespeicherte Eigenschaft eines Objekts.</p></div><aside class="margin-note"><strong>self.durchmesser:</strong> Das gehört zu genau diesem Kreis. Nicht zu allen. Nicht zur ganzen Datei. Nur zu diesem einen Objekt. Ein bisschen Privatbesitz muss in Python offenbar sein.</aside></div>
+<div class="note-layout"><div class="note-content"><h3>Begriff</h3>
+<p><strong>Attribut</strong> = eine gespeicherte Eigenschaft eines Objekts.</p></div><aside class="margin-note"><strong>self.durchmesser:</strong> Das gehört zu genau diesem Kreis. Nicht zu allen. Nicht zur ganzen Datei. Nur zu diesem einen Objekt. Ein bisschen Privatbesitz muss in Python offenbar sein.</aside></div>
 <h3>Vorschau</h3>
 <div class="preview-frame"><iframe src="_previews/kreise/kreise1bOO_mit_durchmesser.html" width="200" height="200" loading="lazy"></iframe></div>
 <p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBkcmF3JTI4c2VsZiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGRpYW1ldGVyJTIwJTNEJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjA2MCUyOSUyMCUyQSUyMDIwJTIwJTJCJTIwODAlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBkaWFtZXRlciUyOSUwRCUwQSUwRCUwQSUwRCUwQSUyMyUyME1haW4lMEQlMEElMEQlMEElMEQlMEFkZWYlMjBzZXR1cCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGsxJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODIwMCUyQyUyMDIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGsxJTIwJTNEJTIwS3JlaXMlMjgxMDAlMkMlMjAxMDAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwazElMEQlMEElMjAlMjAlMjAlMjBiYWNrZ3JvdW5kJTI4MjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwazEuZHJhdyUyOCUyOSUwRCUwQQ==">Aufgabe im Editor öffnen</a></p>
@@ -628,8 +134,8 @@
 <p>Jetzt erzeugen wir zwei Kreise aus derselben Klasse.</p>
 <h3>Warum ist das sinnvoll?</h3>
 <p>Hier sieht man zum ersten Mal deutlich: Eine Klasse ist ein Bauplan, und aus einem Bauplan kann man mehrere Objekte erzeugen.</p>
-<h3>Begriff</h3>
-<div class="note-layout"><div class="note-content"><p><strong>Objekt</strong> oder <strong>Instanz</strong> = ein konkretes Exemplar einer Klasse.</p></div><aside class="margin-note"><strong>Instanzen:</strong> Zwei Objekte, eine Klasse. Das ist keine Gruppentherapie, sondern Wiederverwendung von Code.</aside></div>
+<div class="note-layout"><div class="note-content"><h3>Begriff</h3>
+<p><strong>Objekt</strong> oder <strong>Instanz</strong> = ein konkretes Exemplar einer Klasse.</p></div><aside class="margin-note"><strong>Instanzen:</strong> Zwei Objekte, eine Klasse. Das ist keine Gruppentherapie, sondern Wiederverwendung von Code.</aside></div>
 <h3>Vorschau</h3>
 <div class="preview-frame"><iframe src="_previews/kreise/kreise2aOO_zwei_objekte.html" width="200" height="200" loading="lazy"></iframe></div>
 <p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbWF4X2FlbmRlcnVuZyUyMCUzRCUyMDAuMiUyMCUyQSUyMHNlbGYuZHVyY2htZXNzZXIlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjAlM0QlMjBzZWxmLmR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjklMEQlMEElMEQlMEElMEQlMEElMjMlMjBNYWluJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrMSUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjgyMDAlMkMlMjAyMDAlMjklMEQlMEElMjAlMjAlMjAlMjBrMSUyMCUzRCUyMEtyZWlzJTI4MTAwJTJDJTIwMTAwJTJDJTIwOTAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwazElMEQlMEElMjAlMjAlMjAlMjBiYWNrZ3JvdW5kJTI4MjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwazEuZHJhdyUyOCUyOSUwRCUwQQ==">Aufgabe im Editor öffnen</a></p>
@@ -667,8 +173,8 @@
 <p>Statt einzelner Variablen wie <code>k1</code> und <code>k2</code> benutzen wir jetzt eine Liste.</p>
 <h3>Warum ist das sinnvoll?</h3>
 <p>Mit einer Liste kann man viele Objekte gleich behandeln. Das spart Wiederholungen und macht den Code deutlich flexibler.</p>
-<h3>Begriff</h3>
-<div class="note-layout"><div class="note-content"><p><strong>Liste von Objekten</strong> = viele Instanzen gemeinsam speichern und mit einer Schleife bearbeiten.</p></div><aside class="margin-note"><strong>Liste:</strong> Wenn du ab hier noch für jeden Kreis eine eigene Variable anlegen willst, gewinnt kurz die Verzweiflung. Dann gewinnt die Liste.</aside></div>
+<div class="note-layout"><div class="note-content"><h3>Begriff</h3>
+<p><strong>Liste von Objekten</strong> = viele Instanzen gemeinsam speichern und mit einer Schleife bearbeiten.</p></div><aside class="margin-note"><strong>Liste:</strong> Wenn du ab hier noch für jeden Kreis eine eigene Variable anlegen willst, gewinnt kurz die Verzweiflung. Dann gewinnt die Liste.</aside></div>
 <h3>Vorschau</h3>
 <div class="preview-frame"><iframe src="_previews/kreise/kreise2bOO_liste_von_objekten.html" width="200" height="200" loading="lazy"></iframe></div>
 <p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbWF4X2FlbmRlcnVuZyUyMCUzRCUyMDAuMiUyMCUyQSUyMHNlbGYuZHVyY2htZXNzZXIlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjAlM0QlMjBzZWxmLmR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjklMEQlMEElMEQlMEElMEQlMEElMjMlMjBNYWluJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrMSUyQyUyMGsyJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODIwMCUyQyUyMDIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGsxJTIwJTNEJTIwS3JlaXMlMjgxNDUlMkMlMjA2MCUyQyUyMDM1JTI5JTBEJTBBJTIwJTIwJTIwJTIwazIlMjAlM0QlMjBLcmVpcyUyODgwJTJDJTIwMTQ1JTJDJTIwOTAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwazElMkMlMjBrMiUwRCUwQSUyMCUyMCUyMCUyMGJhY2tncm91bmQlMjgyMDAlMjklMEQlMEElMjAlMjAlMjAlMjBrMS5kcmF3JTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwazIuZHJhdyUyOCUyOSUwRCUwQQ==">Aufgabe im Editor öffnen</a></p>
@@ -708,8 +214,8 @@
 <p>Die Kreise können jetzt selbst etwas tun: Sie fallen nach unten.</p>
 <h3>Warum ist das sinnvoll?</h3>
 <p>In der Objektorientierung speichert ein Objekt nicht nur Daten. Es kann auch Verhalten mitbringen.</p>
-<h3>Begriff</h3>
-<div class="note-layout"><div class="note-content"><p><strong>Methode</strong> = eine Funktion innerhalb einer Klasse.</p></div><aside class="margin-note"><strong>Methode:</strong> Ein Kreis, der fallen kann, ist programmiertechnisch interessanter als ein Kreis, der nur sehr still herumliegt.</aside></div>
+<div class="note-layout"><div class="note-content"><h3>Begriff</h3>
+<p><strong>Methode</strong> = eine Funktion innerhalb einer Klasse.</p></div><aside class="margin-note"><strong>Methode:</strong> Ein Kreis, der fallen kann, ist programmiertechnisch interessanter als ein Kreis, der nur sehr still herumliegt.</aside></div>
 <h3>Vorschau</h3>
 <div class="preview-frame"><iframe src="_previews/kreise/kreise3aOO_verhalten_und_farbe.html" width="200" height="200" loading="lazy"></iframe></div>
 <p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbWF4X2FlbmRlcnVuZyUyMCUzRCUyMDAuMiUyMCUyQSUyMHNlbGYuZHVyY2htZXNzZXIlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjAlM0QlMjBzZWxmLmR1cmNobWVzc2VyJTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkYlMjAzMCUyOSUyMCUyQSUyMG1heF9hZW5kZXJ1bmclMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MCUyQyUyMDAlMkMlMjAyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjhzZWxmLnglMkMlMjBzZWxmLnklMkMlMjBha3R1ZWxsZXJfZHVyY2htZXNzZXIlMjklMEQlMEElMEQlMEElMEQlMEElMjMlMjBNYWluJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBrcmVpc2UlMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4MjAwJTJDJTIwMjAwJTI5JTBEJTBBJTIwJTIwJTIwJTIwa3JlaXNlJTIwJTNEJTIwJTVCJTVEJTBEJTBBJTIwJTIwJTIwJTIwa3JlaXNlLmFwcGVuZCUyOEtyZWlzJTI4MTQ1JTJDJTIwNjAlMkMlMjAzNSUyOSUyOSUwRCUwQSUyMCUyMCUyMCUyMGtyZWlzZS5hcHBlbmQlMjhLcmVpcyUyODgwJTJDJTIwMTQ1JTJDJTIwOTAlMjklMjklMEQlMEElMjAlMjAlMjAlMjBrcmVpc2UuYXBwZW5kJTI4S3JlaXMlMjg0NSUyQyUyMDg1JTJDJTIwNDIlMjklMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwa3JlaXNlJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMGtyZWlzJTIwaW4lMjBrcmVpc2UlM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5kcmF3JTI4JTI5JTBEJTBB">Aufgabe im Editor öffnen</a></p>
@@ -753,8 +259,8 @@
 <p>Im letzten Schritt gibt es viele Kreise, und jeder bringt seine eigene Farbe mit.</p>
 <h3>Warum ist das sinnvoll?</h3>
 <p>Jetzt wird sichtbar, was Objektorientierung praktisch bedeutet: gleiche Struktur, aber unterschiedliche Werte pro Objekt.</p>
-<h3>Begriff</h3>
-<div class="note-layout"><div class="note-content"><p><strong>Zustand eines Objekts</strong> = alle aktuellen Attributwerte zusammen.</p></div><aside class="margin-note"><strong>Zustand:</strong> Alle Kreise folgen demselben Bauplan. Trotzdem sieht keiner exakt aus wie der andere. Das ist OOP. Und ein kleines bisschen Kindergarten in sehr geordnet.</aside></div>
+<div class="note-layout"><div class="note-content"><h3>Begriff</h3>
+<p><strong>Zustand eines Objekts</strong> = alle aktuellen Attributwerte zusammen.</p></div><aside class="margin-note"><strong>Zustand:</strong> Alle Kreise folgen demselben Bauplan. Trotzdem sieht keiner exakt aus wie der andere. Das ist OOP. Und ein kleines bisschen Kindergarten in sehr geordnet.</aside></div>
 <h3>Vorschau</h3>
 <div class="preview-frame"><iframe src="_previews/kreise/kreise3OOvielekreise.html" width="200" height="200" loading="lazy"></iframe></div>
 <p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=Y2xhc3MlMjBLcmVpcyUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHglMkMlMjB5JTJDJTIwZHVyY2htZXNzZXIlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlM0QlMjBkdXJjaG1lc3NlciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZmFyYmUlMjAlM0QlMjBjb2xvciUyODUwJTJDJTIwcmFuZG9tJTI4MTAwJTJDJTIwMjMwJTI5JTJDJTIwMCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGZhbGxlX3J1bnRlciUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlM0QlMjAxJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBtYXhfYWVuZGVydW5nJTIwJTNEJTIwMC4yJTIwJTJBJTIwc2VsZi5kdXJjaG1lc3NlciUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGFrdHVlbGxlcl9kdXJjaG1lc3NlciUyMCUzRCUyMHNlbGYuZHVyY2htZXNzZXIlMjAlMkIlMjBzaW4lMjhmcmFtZV9jb3VudCUyMCUyRiUyMDMwJTI5JTIwJTJBJTIwbWF4X2FlbmRlcnVuZyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpbGwlMjhzZWxmLmZhcmJlJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwYWt0dWVsbGVyX2R1cmNobWVzc2VyJTI5JTBEJTBBJTBEJTBBJTBEJTBBJTIzJTIwTWFpbiUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwa3JlaXNlJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODIwMCUyQyUyMDIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGtyZWlzZSUyMCUzRCUyMCU1QiU1RCUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMG5yJTIwaW4lMjByYW5nZSUyODQwJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwa3JlaXNlLmFwcGVuZCUyOEtyZWlzJTI4cmFuZG9tX2ludCUyODAlMkMlMjB3aWR0aCUyOSUyQyUyMHJhbmRvbV9pbnQlMjgwJTJDJTIwaGVpZ2h0JTI5JTJDJTIwMTYlMjklMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwa3JlaXNlJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODIwMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMGtyZWlzJTIwaW4lMjBrcmVpc2UlM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5mYWxsZV9ydW50ZXIlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBrcmVpcy5kcmF3JTI4JTI5JTBEJTBB">Aufgabe im Editor öffnen</a></p>

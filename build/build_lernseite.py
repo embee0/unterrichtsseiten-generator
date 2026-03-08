@@ -26,6 +26,7 @@ SOLUTION_END_RE = re.compile(r"\{\{ENDSOLUTION\s*\}\}")
 SIZE_RE = re.compile(r"\bsize\s*\(\s*(\d+)\s*,\s*(\d+)\s*\)")
 IFRAME_CHROME = 0
 PREVIEW_DIR_NAME = "_previews"
+SHARED_STYLESHEET_RELATIVE_PATH = Path("assets/lernseite.css")
 
 PYTHON_KEYWORDS = {
     "class",
@@ -368,29 +369,39 @@ def wrap_with_margin_note(content_html: str, note_html: str) -> str:
 
 
 def attach_note_to_previous_block(parts: list[str], note_html: str) -> bool:
-    if not parts:
-        return False
-
-    if parts[-1].startswith("<p>"):
-        paragraph_html = parts.pop()
-        parts.append(wrap_with_margin_note(paragraph_html, note_html))
-        return True
-
-    if parts[-1] in {"</ul>", "</ol>"}:
-        closing_tag = parts[-1]
-        opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
-
-        start_index = len(parts) - 1
-        while start_index >= 0 and parts[start_index] != opening_tag:
-            start_index -= 1
-
-        if start_index >= 0:
-            list_html = "\n".join(parts[start_index:])
-            del parts[start_index:]
-            parts.append(wrap_with_margin_note(list_html, note_html))
-            return True
-
+  if not parts:
     return False
+
+  if parts[-1].startswith("<p>"):
+    start_index = len(parts) - 1
+    if start_index > 0 and parts[start_index - 1].startswith(("<h2>", "<h3>")):
+      start_index -= 1
+
+    content_html = "\n".join(parts[start_index:])
+    del parts[start_index:]
+    parts.append(wrap_with_margin_note(content_html, note_html))
+    return True
+
+  if parts[-1] in {"</ul>", "</ol>"}:
+    closing_tag = parts[-1]
+    opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
+
+    start_index = len(parts) - 1
+    while start_index >= 0 and parts[start_index] != opening_tag:
+      start_index -= 1
+
+    if start_index >= 0:
+      if start_index > 0 and parts[start_index - 1].startswith("<p>"):
+        start_index -= 1
+      if start_index > 0 and parts[start_index - 1].startswith(("<h2>", "<h3>")):
+        start_index -= 1
+
+      list_html = "\n".join(parts[start_index:])
+      del parts[start_index:]
+      parts.append(wrap_with_margin_note(list_html, note_html))
+      return True
+
+  return False
 
 
 def render_markdown(lines: list[str]) -> str:
@@ -1074,6 +1085,17 @@ def build_site(*, source: Path, target: Path, title: str) -> None:
     content = render_markdown(lines)
     html_text = HTML_TEMPLATE.replace("__TITLE__", html.escape(title)).replace(
         "__CONTENT__", content
+    )
+    style_start = html_text.index("<style>")
+    style_end = html_text.index("</style>", style_start) + len("</style>")
+    css_text = html_text[style_start + len("<style>") : html_text.index("</style>", style_start)].strip("\n")
+    stylesheet_path = target.parent / SHARED_STYLESHEET_RELATIVE_PATH
+    stylesheet_path.parent.mkdir(parents=True, exist_ok=True)
+    stylesheet_path.write_text(css_text + "\n", encoding="utf-8")
+    html_text = (
+      html_text[:style_start]
+      + f'<link rel="stylesheet" href="{SHARED_STYLESHEET_RELATIVE_PATH.as_posix()}" />'
+      + html_text[style_end:]
     )
     TARGET.parent.mkdir(parents=True, exist_ok=True)
     TARGET.write_text(html_text, encoding="utf-8")
