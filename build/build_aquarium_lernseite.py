@@ -8,6 +8,7 @@ def main() -> None:
         source=aquarium.source,
         target=aquarium.target,
         title=aquarium.title,
+        aliases=aquarium.aliases,
     )
 
 

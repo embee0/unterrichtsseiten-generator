@@ -1146,7 +1146,38 @@ def main() -> None:
     build_site(source=SOURCE, target=TARGET, title=PAGE_TITLE)
 
 
-def build_site(*, source: Path, target: Path, title: str) -> None:
+def render_redirect_page(*, title: str, target_href: str) -> str:
+    escaped_title = html.escape(title)
+    escaped_target_href = html.escape(target_href, quote=True)
+    return f'''<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{escaped_title}</title>
+    <meta http-equiv="refresh" content="0; url={escaped_target_href}" />
+    <link rel="canonical" href="{escaped_target_href}" />
+  </head>
+  <body>
+    <p>Diese Seite wurde verschoben. Weiter zu <a href="{escaped_target_href}">{escaped_target_href}</a>.</p>
+    <script>
+      window.location.replace({json.dumps(target_href)});
+    </script>
+  </body>
+</html>
+'''
+
+
+def write_alias_redirect(*, alias_path: Path, target_path: Path, title: str) -> None:
+    relative_target_href = Path(relpath(target_path, alias_path.parent)).as_posix()
+    alias_path.parent.mkdir(parents=True, exist_ok=True)
+    alias_path.write_text(
+        render_redirect_page(title=title, target_href=relative_target_href),
+        encoding="utf-8",
+    )
+
+
+def build_site(*, source: Path, target: Path, title: str, aliases: tuple[Path, ...] = ()) -> None:
     global SOURCE, TARGET, PAGE_TITLE
 
     SOURCE = source
@@ -1172,6 +1203,8 @@ def build_site(*, source: Path, target: Path, title: str) -> None:
     )
     TARGET.parent.mkdir(parents=True, exist_ok=True)
     TARGET.write_text(html_text, encoding="utf-8")
+    for alias in aliases:
+      write_alias_redirect(alias_path=alias, target_path=TARGET, title=title)
     print(f"Wrote {TARGET.name}")
 
 

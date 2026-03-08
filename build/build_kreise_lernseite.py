@@ -8,6 +8,7 @@ def main() -> None:
         source=kreise.source,
         target=kreise.target,
         title=kreise.title,
+        aliases=kreise.aliases,
     )
 
 

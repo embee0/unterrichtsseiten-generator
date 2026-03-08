@@ -8,6 +8,7 @@ class SiteConfig:
     source: Path
     target: Path
     title: str
+    aliases: tuple[Path, ...] = ()
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -18,6 +19,7 @@ SITES: dict[str, SiteConfig] = {
         source=PROJECT_ROOT / "themen" / "kreise" / "LERNSEITE.kreise.md",
         target=PROJECT_ROOT / "dist" / "kreise-lernseite.html",
         title="OOP mit py5 – Lernseite",
+        aliases=(PROJECT_ROOT / "dist" / "livecoding-doku.html",),
     ),
     "aquarium": SiteConfig(
         name="aquarium",
