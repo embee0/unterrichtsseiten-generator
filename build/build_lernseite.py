@@ -24,7 +24,7 @@ EDIT_RE = re.compile(r"\{\{EDIT:\s*([^}]+?)\s*\}\}")
 SOLUTION_START_RE = re.compile(r"\{\{SOLUTION:\s*([^}]+?)\s*\}\}")
 SOLUTION_END_RE = re.compile(r"\{\{ENDSOLUTION\s*\}\}")
 SIZE_RE = re.compile(r"\bsize\s*\(\s*(\d+)\s*,\s*(\d+)\s*\)")
-IFRAME_CHROME = 16
+IFRAME_CHROME = 0
 PREVIEW_DIR_NAME = "_previews"
 
 PYTHON_KEYWORDS = {
