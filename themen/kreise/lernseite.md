@@ -44,7 +44,11 @@ Bevor wir Klassen, Objekte und Attribute einführen, brauchen wir eine funktioni
 
 {{IFRAME: kreise0noch_ohne_OO.py}}
 
-{{EDIT: kreise0noch_ohne_OO.py}}
+{{EDIT: kreise0noch_ohne_OO.py | Aufgabe im Editor öffnen}}
+
+{{SOLUTION: Lösungscode zu Station 0 anzeigen}}
+
+{{EDIT: kreise0noch_ohne_OO.py | Musterlösung im Editor öffnen}}
 
 ```python
 def setup():
@@ -59,6 +63,8 @@ def draw():
     fill(0, 0, 255)
     circle(width / 2, height / 2, aktueller_durchmesser)
 ```
+
+{{ENDSOLUTION}}
 
 ---
 
@@ -83,7 +89,11 @@ Ein Kreis weiß jetzt selbst, wo er gezeichnet werden soll. Das Hauptprogramm mu
 
 {{IFRAME: kreise1aOO_ein_objekt.py}}
 
-{{EDIT: kreise1aOO_ein_objekt.py}}
+{{EDIT: kreise1_aufgabe.py | Aufgabe im Editor öffnen}}
+
+{{SOLUTION: Lösungscode zu Station 1 anzeigen}}
+
+{{EDIT: kreise1aOO_ein_objekt.py | Musterlösung im Editor öffnen}}
 
 ```python
 class Kreis:
@@ -109,6 +119,8 @@ def draw():
     k1.draw()
 ```
 
+{{ENDSOLUTION}}
+
 ---
 
 ## Station 2 – Der Kreis bekommt ein Attribut mehr
@@ -131,7 +143,11 @@ Ein Objekt hat meistens mehrere Eigenschaften. Ein Kreis hat eben nicht nur eine
 
 {{IFRAME: kreise1bOO_mit_durchmesser.py}}
 
-{{EDIT: kreise1bOO_mit_durchmesser.py}}
+{{EDIT: kreise1aOO_ein_objekt.py | Aufgabe im Editor öffnen}}
+
+{{SOLUTION: Lösungscode zu Station 2 anzeigen}}
+
+{{EDIT: kreise1bOO_mit_durchmesser.py | Musterlösung im Editor öffnen}}
 
 ```python
 class Kreis:
@@ -159,6 +175,8 @@ def draw():
     k1.draw()
 ```
 
+{{ENDSOLUTION}}
+
 ---
 
 ## Station 3 – Zwei Objekte derselben Klasse
@@ -181,7 +199,11 @@ Hier sieht man zum ersten Mal deutlich: Eine Klasse ist ein Bauplan, und aus ein
 
 {{IFRAME: kreise2aOO_zwei_objekte.py}}
 
-{{EDIT: kreise2aOO_zwei_objekte.py}}
+{{EDIT: kreise1bOO_mit_durchmesser.py | Aufgabe im Editor öffnen}}
+
+{{SOLUTION: Lösungscode zu Station 3 anzeigen}}
+
+{{EDIT: kreise2aOO_zwei_objekte.py | Musterlösung im Editor öffnen}}
 
 ```python
 class Kreis:
@@ -211,6 +233,8 @@ def draw():
     k2.draw()
 ```
 
+{{ENDSOLUTION}}
+
 ---
 
 ## Station 4 – Viele Objekte in einer Liste
@@ -233,7 +257,11 @@ Mit einer Liste kann man viele Objekte gleich behandeln. Das spart Wiederholunge
 
 {{IFRAME: kreise2bOO_liste_von_objekten.py}}
 
-{{EDIT: kreise2bOO_liste_von_objekten.py}}
+{{EDIT: kreise2aOO_zwei_objekte.py | Aufgabe im Editor öffnen}}
+
+{{SOLUTION: Lösungscode zu Station 4 anzeigen}}
+
+{{EDIT: kreise2bOO_liste_von_objekten.py | Musterlösung im Editor öffnen}}
 
 ```python
 class Kreis:
@@ -265,6 +293,8 @@ def draw():
         kreis.draw()
 ```
 
+{{ENDSOLUTION}}
+
 ---
 
 ## Station 5 – Verhalten als Methode
@@ -287,7 +317,11 @@ In der Objektorientierung speichert ein Objekt nicht nur Daten. Es kann auch Ver
 
 {{IFRAME: kreise3aOO_verhalten_und_farbe.py}}
 
-{{EDIT: kreise3aOO_verhalten_und_farbe.py}}
+{{EDIT: kreise2bOO_liste_von_objekten.py | Aufgabe im Editor öffnen}}
+
+{{SOLUTION: Lösungscode zu Station 5 anzeigen}}
+
+{{EDIT: kreise3aOO_verhalten_und_farbe.py | Musterlösung im Editor öffnen}}
 
 ```python
 class Kreis:
@@ -323,6 +357,8 @@ def draw():
         kreis.draw()
 ```
 
+{{ENDSOLUTION}}
+
 ---
 
 ## Station 6 – Viele Kreise mit eigenem Zustand
@@ -345,7 +381,11 @@ Jetzt wird sichtbar, was Objektorientierung praktisch bedeutet: gleiche Struktur
 
 {{IFRAME: kreise3OOvielekreise.py}}
 
-{{EDIT: kreise3OOvielekreise.py}}
+{{EDIT: kreise3aOO_verhalten_und_farbe.py | Aufgabe im Editor öffnen}}
+
+{{SOLUTION: Lösungscode zu Station 6 anzeigen}}
+
+{{EDIT: kreise3OOvielekreise.py | Musterlösung im Editor öffnen}}
 
 ```python
 class Kreis:
@@ -384,6 +424,8 @@ def draw():
         kreis.falle_runter()
         kreis.draw()
 ```
+
+{{ENDSOLUTION}}
 
 ---
 

@@ -14,9 +14,11 @@ def draw_background():
 
 class Fish:
     def __init__(self, x_position, y_position):
+        # TODO: Speichere x_position und y_position im Objekt.
         ...
 
     def draw(self):
+        # TODO: Zeichne hier den Fisch aus Ellipse, Dreieck und Auge.
         ...
 
 
