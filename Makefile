@@ -2,12 +2,13 @@
 
 PYTHON ?= python3
 
-KREISE_TARGET := dist/livecoding-doku.html
+KREISE_TARGET := dist/kreise-lernseite.html
 AQUARIUM_TARGET := dist/aquarium-lernseite.html
 
 KREISE_DEPS := \
-	build_lernseite.py \
-	build/build_lernseite.py \
+	build_kreise_lernseite.py \
+	build/build_kreise_lernseite.py \
+	build/render_lernseite.py \
 	build/site_config.py \
 	themen/kreise/LERNSEITE.kreise.md \
 	$(wildcard themen/kreise/*.py)
@@ -15,7 +16,7 @@ KREISE_DEPS := \
 AQUARIUM_DEPS := \
 	build_aquarium_lernseite.py \
 	build/build_aquarium_lernseite.py \
-	build/build_lernseite.py \
+	build/render_lernseite.py \
 	build/site_config.py \
 	themen/aquarium/LERNSEITE.aquarium.md \
 	$(wildcard themen/aquarium/*.py)
@@ -39,7 +40,7 @@ all: build
 kreise: $(KREISE_TARGET)
 
 $(KREISE_TARGET): $(KREISE_DEPS)
-	$(PYTHON) build_lernseite.py
+	$(PYTHON) build_kreise_lernseite.py
 
 aquarium: $(AQUARIUM_TARGET)
 

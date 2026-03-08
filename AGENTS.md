@@ -22,11 +22,12 @@ Die Projektstruktur wurde aufgeräumt:
 
 - `themen/kreise/LERNSEITE.kreise.md` → Beispiel für eine inhaltliche Hauptquelle
 - `themen/aquarium/LERNSEITE.aquarium.md` → weiteres Beispiel für eine inhaltliche Hauptquelle
-- `build/build_lernseite.py` → zentraler Generator, aktuell noch teilweise thematisch auf py5/OOP zugeschnitten
+- `build/render_lernseite.py` → zentraler Generator, aktuell noch teilweise thematisch auf py5/OOP zugeschnitten
+- `build/build_kreise_lernseite.py` → themenspezifischer Wrapper für Quelle und Ziel von `kreise`
 - `build/build_aquarium_lernseite.py` → themenspezifischer Wrapper für Quelle und Ziel
-- `build_lernseite.py` → Root-Wrapper für das Kreis-Beispiel
+- `build_kreise_lernseite.py` → Root-Wrapper für das Kreis-Beispiel
 - `build_aquarium_lernseite.py` → Root-Wrapper für das Aquarium-Beispiel
-- `dist/livecoding-doku.html` → generierte Beispiel-Ausgabe für `kreise`
+- `dist/kreise-lernseite.html` → generierte Beispiel-Ausgabe für `kreise`
 - `dist/aquarium-lernseite.html` → generierte Beispiel-Ausgabe für `aquarium`
 - `planung/arbeitsstruktur.md` → zentrale Arbeitsdatei für die weitere Zusammenarbeit
 - `planung/projektideen.md` → Fortsetzungs-/Alternativprojekte
@@ -98,7 +99,7 @@ Gelten in den Lernseiten unter `themen/`:
 HTML neu erzeugen mit:
 
 ```bash
-python3 build_lernseite.py
+python3 build_kreise_lernseite.py
 python3 build_aquarium_lernseite.py
 ```
 
@@ -140,15 +141,15 @@ Derzeit sind insbesondere Standardpfade, HTML-Title und py5-spezifische Platzhal
 
 ## Bekannte Punkte / nächster Check nach Neustart
 
-1. Prüfen, ob `dist/livecoding-doku.html` und `dist/aquarium-lernseite.html` optisch die aktuelle Version zeigen
+1. Prüfen, ob `dist/kreise-lernseite.html` und `dist/aquarium-lernseite.html` optisch die aktuelle Version zeigen
 2. Falls die alte Ansicht sichtbar ist: Browser/Preview hart neu laden
-3. Falls Randbemerkungen optisch noch nicht gut sitzen: CSS in `build/build_lernseite.py` weiter anpassen
+3. Falls Randbemerkungen optisch noch nicht gut sitzen: CSS in `build/render_lernseite.py` weiter anpassen
 
 ## Letzter verifizierter Stand
 
-- Root-Wrapper `build_lernseite.py` und `build_aquarium_lernseite.py` funktionieren
-- `build/build_lernseite.py` war nach der Pfadumstellung fehlerfrei
-- `dist/livecoding-doku.html` wurde neu erzeugt
+- Root-Wrapper `build_kreise_lernseite.py` und `build_aquarium_lernseite.py` funktionieren
+- `build/render_lernseite.py` war nach der Pfadumstellung fehlerfrei
+- `dist/kreise-lernseite.html` wurde neu erzeugt
 - `dist/aquarium-lernseite.html` wurde neu erzeugt
 - Margin-Notes wurden im HTML als `<aside class="margin-note">...` erzeugt
 
@@ -158,12 +159,12 @@ Zuerst diese drei Dateien prüfen:
 
 - `planung/arbeitsstruktur.md`
 - eine passende Quelldatei unter `themen/`, zum Beispiel `themen/kreise/LERNSEITE.kreise.md` oder `themen/aquarium/LERNSEITE.aquarium.md`
-- `build/build_lernseite.py`
+- `build/render_lernseite.py`
 
 Dann bei Bedarf neu bauen mit:
 
 ```bash
-python3 build_lernseite.py
+python3 build_kreise_lernseite.py
 python3 build_aquarium_lernseite.py
 ```
 

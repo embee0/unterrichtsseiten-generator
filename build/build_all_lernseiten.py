@@ -1,4 +1,4 @@
-from build import build_lernseite as builder
+from build import render_lernseite as builder
 from build.site_config import get_all_sites
 
 

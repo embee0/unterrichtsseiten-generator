@@ -16,7 +16,7 @@ SITES: dict[str, SiteConfig] = {
     "kreise": SiteConfig(
         name="kreise",
         source=PROJECT_ROOT / "themen" / "kreise" / "LERNSEITE.kreise.md",
-        target=PROJECT_ROOT / "dist" / "livecoding-doku.html",
+        target=PROJECT_ROOT / "dist" / "kreise-lernseite.html",
         title="OOP mit py5 – Lernseite",
     ),
     "aquarium": SiteConfig(

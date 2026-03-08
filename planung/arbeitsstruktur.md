@@ -192,9 +192,10 @@ Im jetzigen Projekt lassen sich die Rollen schon grob so lesen:
 
 ### Build-Skripte
 
-- `build/build_lernseite.py`
+- `build/render_lernseite.py`
 - `build/build_aquarium_lernseite.py`
-- Root-Wrapper: `build_lernseite.py`, `build_aquarium_lernseite.py`
+- `build/build_kreise_lernseite.py`
+- Root-Wrapper: `build_kreise_lernseite.py`, `build_aquarium_lernseite.py`
 
 ### Code-Artefakte
 
@@ -203,7 +204,7 @@ Im jetzigen Projekt lassen sich die Rollen schon grob so lesen:
 
 ### Generierte Ausgaben
 
-- `dist/livecoding-doku.html`
+- `dist/kreise-lernseite.html`
 - `dist/aquarium-lernseite.html`
 
 ### Planungs- und Strukturdateien

@@ -64,11 +64,11 @@ Der aktuelle Lernweg sieht so aus:
 
 ### Generierte Ausgabe
 
-- `livecoding-doku.html`
+- `kreise-lernseite.html`
 
 ### Build-Skript
 
-- `build_lernseite.py`
+- `build_kreise_lernseite.py`
 
 ### Code-Zwischenstände
 

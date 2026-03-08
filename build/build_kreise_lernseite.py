@@ -3,11 +3,11 @@ from build.site_config import get_site
 
 
 def main() -> None:
-    aquarium = get_site("aquarium")
+    kreise = get_site("kreise")
     builder.build_site(
-        source=aquarium.source,
-        target=aquarium.target,
-        title=aquarium.title,
+        source=kreise.source,
+        target=kreise.target,
+        title=kreise.title,
     )
 
 

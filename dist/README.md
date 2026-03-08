@@ -3,7 +3,7 @@
 Hier liegen nur generierte HTML-Ausgaben.
 
 - `index.html` ist die einfache Startseite für GitHub Pages
-- `livecoding-doku.html` ist die Kreis-Lernseite
+- `kreise-lernseite.html` ist die Kreis-Lernseite
 - `aquarium-lernseite.html` ist die Aquarium-Lernseite
 - `_previews/` enthält lokal erzeugte Vorschau-Seiten für eingebettete py5-Sketches
 
