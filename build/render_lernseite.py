@@ -366,40 +366,57 @@ def wrap_with_margin_note(content_html: str, note_html: str) -> str:
     )
 
 
+def extend_start_index_for_previous_context(parts: list[str], start_index: int) -> int:
+  if start_index > 0 and parts[start_index - 1] in {"</ul>", "</ol>"}:
+    closing_tag = parts[start_index - 1]
+    opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
+
+    list_start = start_index - 1
+    while list_start >= 0 and parts[list_start] != opening_tag:
+      list_start -= 1
+
+    if list_start >= 0:
+      start_index = list_start
+
+  if start_index > 0 and parts[start_index - 1].startswith("<p>"):
+    start_index -= 1
+
+  if start_index > 0 and parts[start_index - 1].startswith(("<h2>", "<h3>")):
+    start_index -= 1
+
+  return start_index
+
+
 def attach_note_to_previous_block(parts: list[str], note_html: str) -> bool:
-    if not parts:
-        return False
-
-    if parts[-1].startswith("<p>"):
-        start_index = len(parts) - 1
-        if start_index > 0 and parts[start_index - 1].startswith(("<h2>", "<h3>")):
-            start_index -= 1
-
-        content_html = "\n".join(parts[start_index:])
-        del parts[start_index:]
-        parts.append(wrap_with_margin_note(content_html, note_html))
-        return True
-
-    if parts[-1] in {"</ul>", "</ol>"}:
-        closing_tag = parts[-1]
-        opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
-
-        start_index = len(parts) - 1
-        while start_index >= 0 and parts[start_index] != opening_tag:
-            start_index -= 1
-
-        if start_index >= 0:
-            if start_index > 0 and parts[start_index - 1].startswith("<p>"):
-                start_index -= 1
-            if start_index > 0 and parts[start_index - 1].startswith(("<h2>", "<h3>")):
-                start_index -= 1
-
-            list_html = "\n".join(parts[start_index:])
-            del parts[start_index:]
-            parts.append(wrap_with_margin_note(list_html, note_html))
-            return True
-
+  if not parts:
     return False
+
+  if parts[-1].startswith("<p>"):
+    start_index = len(parts) - 1
+    start_index = extend_start_index_for_previous_context(parts, start_index)
+
+    content_html = "\n".join(parts[start_index:])
+    del parts[start_index:]
+    parts.append(wrap_with_margin_note(content_html, note_html))
+    return True
+
+  if parts[-1] in {"</ul>", "</ol>"}:
+    closing_tag = parts[-1]
+    opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
+
+    start_index = len(parts) - 1
+    while start_index >= 0 and parts[start_index] != opening_tag:
+      start_index -= 1
+
+    if start_index >= 0:
+      start_index = extend_start_index_for_previous_context(parts, start_index)
+
+      list_html = "\n".join(parts[start_index:])
+      del parts[start_index:]
+      parts.append(wrap_with_margin_note(list_html, note_html))
+      return True
+
+  return False
 
 
 def render_markdown(lines: list[str]) -> str:

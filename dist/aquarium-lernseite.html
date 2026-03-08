@@ -21,16 +21,15 @@
 </header>
 <section class="content-section">
 <h2>Worum es in dieser Woche geht</h2>
-<p>Die <strong>Pflichtphase</strong> sind Station 1 bis 5.</p>
+<p>Die <strong>Pflichtphase</strong> sind Station 1 bis 4.</p>
 <p>Am Ende dieser Pflichtphase kannst du:</p>
 <ul>
 <li>eine Klasse <code>Fish</code> mit Attributen und Methoden schreiben</li>
 <li>mehrere <code>Fish</code>-Objekte in einer Liste verwalten</li>
 <li>Objekte pro Frame bewegen</li>
-<li>eine zweite Klasse <code>Food</code> einbauen</li>
-<li>Objekte verschiedener Klassen zusammenarbeiten lassen</li>
 </ul>
-<div class="note-layout"><div class="note-content"><p>Wenn du schneller fertig bist, kannst du in Station 6 dein Aquarium mit Blasen und weiteren Details erweitern.</p></div><aside class="margin-note"><strong>Aufgabe 0:</strong> Schreibe mir am Ende der Woche eine kurze Mail: Was hast du geschafft? Was fiel dir leicht? Wo war es schwierig? Hilfreich sind auch Screenshots und kleine Codeausschnitte. Wenn du magst, schreib auch kurz dazu, was an den Webseiten gut funktioniert und was dir noch fehlt.</aside></div>
+<div class="note-layout"><div class="note-content"><p>Wenn du danach weitergehst, kannst du dein Aquarium mit einer zweiten Klasse <code>Food</code> und weiteren Interaktionen ausbauen.</p>
+<p>Wenn du schneller fertig bist, kannst du ab Station 5 freiwillig weiterbauen und in Station 6 noch Blasen und weitere Details ergänzen.</p></div><aside class="margin-note"><strong>Aufgabe 0:</strong> Schreibe mir am Ende der Woche eine kurze Mail: Was hast du geschafft? Was fiel dir leicht? Wo war es schwierig? Hilfreich sind auch Screenshots und kleine Codeausschnitte. Wenn du magst, schreib auch kurz dazu, was an den Webseiten gut funktioniert und was dir noch fehlt.</aside></div>
 <hr />
 </section>
 <section class="content-section">
@@ -41,7 +40,7 @@
 <li>Schaue dir die Demo an.</li>
 <li>Baue den Schritt selbst nach.</li>
 <li>Gehe erst weiter, wenn dein Programm in diesem Schritt funktioniert.</li>
-</ol></div><aside class="margin-note"><strong>Pflicht und Bonus:</strong> Station 1 bis 5 sind der verbindliche Kern. Station 6 ist ein Bonus, in dem du dieselben OOP-Ideen noch einmal auf eine neue Objektart anwendest.</aside></div>
+</ol></div><aside class="margin-note"><strong>Pflicht und Bonus:</strong> Station 1 bis 4 sind der verbindliche Kern. Ab Station 5 beginnt der freiwillige Teil. Dort wird das Aquarium Schritt für Schritt erweitert.</aside></div>
 <hr />
 </section>
 <section class="content-section">
@@ -231,23 +230,23 @@
 <hr />
 </section>
 <section class="content-section">
-<h2>Station 5 – Futter als zweite Klasse</h2>
+<h2>Station 5 – Freiwillig: Futter als zweite Klasse</h2>
 <h3>Arbeitsauftrag</h3>
 <ol>
 <li>Lege eine zweite Klasse <code>Food</code> an.</li>
 <li>Futter soll nach unten fallen.</li>
 <li>Ein Mausklick soll neues Futter erzeugen.</li>
-<li>Fische sollen sich zum nächsten Futter bewegen.</li>
-<li>Wenn ein Fisch nah genug dran ist, verschwindet das Futter.</li>
+<li>Wenn du weitergehen möchtest, sollen sich Fische zum nächsten Futter bewegen.</li>
+<li>Wenn ein Fisch nah genug dran ist, kann das Futter verschwinden.</li>
 </ol>
 <h3>Warum dieser Schritt?</h3>
-<p>Das Aquarium besteht jetzt nicht mehr nur aus vielen Objekten derselben Klasse. Mehrere Klassen greifen ineinander und bilden zusammen eine kleine Welt.</p>
+<p>Das Aquarium besteht jetzt nicht mehr nur aus vielen Objekten derselben Klasse. Schon mit einer zweiten Klasse wird sichtbar, wie OOP hilft, verschiedene Rollen im Programm sauber zu trennen.</p>
 <div class="note-layout"><div class="note-content"><h3>Dabei lernst du</h3>
 <ul>
-<li>Zusammenarbeit mehrerer Klassen</li>
+<li>zweite Klasse im selben Projekt</li>
 <li>Listen für verschiedene Objektarten</li>
-<li>einfache Zielsuche mit <code>dist(...)</code></li>
-</ul></div><aside class="margin-note"><strong>Zweite Klasse:</strong> Eine Klasse beschreibt nicht nur, wie etwas aussieht, sondern auch welche Rolle es im Programm hat. <code>Fish</code> und <code>Food</code> haben unterschiedliche Aufgaben. Mit getrennten Klassen bleibt dieser Unterschied im Code klar sichtbar.</aside></div>
+<li>im erweiterten Teil: einfache Zielsuche mit <code>dist(...)</code></li>
+</ul></div><aside class="margin-note"><strong>Freiwillige Erweiterung:</strong> Der erste Teil dieser Station ist noch gut überschaubar: eine neue Klasse und fallendes Futter. Der Teil, in dem Fische gezielt auf Futter reagieren, ist anspruchsvoller, weil dabei Objekte auf andere Objekte Bezug nehmen.</aside></div>
 <h3>Demo</h3>
 <div class="preview-frame"><iframe data-src="_previews/aquarium/aquarium5_futter_und_jagd.html" width="420" height="260" loading="lazy"></iframe></div>
 <p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZm9yJTIwcm93JTIwaW4lMjByYW5nZSUyOGhlaWdodCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJsZW5kJTIwJTNEJTIwcm93JTIwJTJGJTIwaGVpZ2h0JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc3Ryb2tlJTI4MTglMkMlMjAxMTAlMjAlMkIlMjA2MCUyMCUyQSUyMGJsZW5kJTJDJTIwMTcwJTIwJTJCJTIwNDAlMjAlMkElMjBibGVuZCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjgwJTJDJTIwcm93JTJDJTIwd2lkdGglMkMlMjByb3clMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjBmaWxsJTI4MTklMkMlMjAxMDAlMkMlMjA3MCUyQyUyMDE3MCUyOSUwRCUwQSUyMCUyMCUyMCUyMHJlY3QlMjgwJTJDJTIwaGVpZ2h0JTIwLSUyMDM4JTJDJTIwd2lkdGglMkMlMjAzOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZpbGwlMjgyMDQlMkMlMjAxODIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjByZWN0JTI4MCUyQyUyMGhlaWdodCUyMC0lMjAxNCUyQyUyMHdpZHRoJTJDJTIwMTQlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMEZpc2glM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNjYWxlJTJDJTIwYm9keV9jb2xvciUyQyUyMGZpbl9jb2xvciUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuYmFzZV95JTIwJTNEJTIweV9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNjYWxlJTIwJTNEJTIwc2NhbGUlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLmJvZHlfY29sb3IlMjAlM0QlMjBib2R5X2NvbG9yJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5maW5fY29sb3IlMjAlM0QlMjBmaW5fY29sb3IlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNwZWVkJTIwJTNEJTIwc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLmR4JTIwJTNEJTIwc3BlZWQlMjBpZiUyMHJhbmRvbSUyODElMjklMjAlM0MlMjAwLjUlMjBlbHNlJTIwLXNwZWVkJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5waGFzZSUyMCUzRCUyMHJhbmRvbSUyOFRXT19QSSUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMG1vdmUlMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTJCJTNEJTIwc2VsZi5keCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHNlbGYuYmFzZV95JTIwJTJCJTIwc2luJTI4ZnJhbWVfY291bnQlMjAlMkElMjAwLjA4JTIwJTJCJTIwc2VsZi5waGFzZSUyOSUyMCUyQSUyMCUyODclMjAlMkElMjBzZWxmLnNjYWxlJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwaWYlMjBzZWxmLnglMjAlM0MlMjA0OCUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMDQ4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi5keCUyMCUzRCUyMGFicyUyOHNlbGYuc3BlZWQlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBlbGlmJTIwc2VsZi54JTIwJTNFJTIwd2lkdGglMjAtJTIwNDglM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB3aWR0aCUyMC0lMjA0OCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYuZHglMjAlM0QlMjAtYWJzJTI4c2VsZi5zcGVlZCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZGlyZWN0aW9uJTIwJTNEJTIwMSUyMGlmJTIwc2VsZi5keCUyMCUzRSUzRCUyMDAlMjBlbHNlJTIwLTElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBib2R5X2xlbmd0aCUyMCUzRCUyMDg0JTIwJTJBJTIwc2VsZi5zY2FsZSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJvZHlfaGVpZ2h0JTIwJTNEJTIwNDIlMjAlMkElMjBzZWxmLnNjYWxlJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdGFpbF9sZW5ndGglMjAlM0QlMjAyOCUyMCUyQSUyMHNlbGYuc2NhbGUlMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5ib2R5X2NvbG9yJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxsaXBzZSUyOHNlbGYueCUyQyUyMHNlbGYueSUyQyUyMGJvZHlfbGVuZ3RoJTJDJTIwYm9keV9oZWlnaHQlMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4c2VsZi5maW5fY29sb3IlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB0cmlhbmdsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lMjBkaXJlY3Rpb24lMjAlMkElMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuNDglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAtJTIwZGlyZWN0aW9uJTIwJTJBJTIwJTI4Ym9keV9sZW5ndGglMjAlMkElMjAwLjQ4JTIwJTJCJTIwdGFpbF9sZW5ndGglMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjQ1JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUyMGRpcmVjdGlvbiUyMCUyQSUyMCUyOGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC40OCUyMCUyQiUyMHRhaWxfbGVuZ3RoJTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTJCJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjQ1JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyODI1NSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNpcmNsZSUyOCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUyQiUyMGRpcmVjdGlvbiUyMCUyQSUyMGJvZHlfbGVuZ3RoJTIwJTJBJTIwMC4yNiUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMC0lMjBib2R5X2hlaWdodCUyMCUyQSUyMDAuMTIlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAxMSUyMCUyQSUyMHNlbGYuc2NhbGUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBjaXJjbGUlMjglMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlMkIlMjBkaXJlY3Rpb24lMjAlMkElMjBib2R5X2xlbmd0aCUyMCUyQSUyMDAuMjglMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTIwYm9keV9oZWlnaHQlMjAlMkElMjAwLjEyJTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwNSUyMCUyQSUyMHNlbGYuc2NhbGUlMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBjcmVhdGVfcmFuZG9tX2Zpc2glMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjByZXR1cm4lMjBGaXNoJTI4JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmFuZG9tJTI4NzAlMkMlMjB3aWR0aCUyMC0lMjA3MCUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHJhbmRvbSUyODcwJTJDJTIwaGVpZ2h0JTIwLSUyMDU1JTI5JTJDJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmFuZG9tJTI4MC43JTJDJTIwMS4yNSUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNvbG9yJTI4cmFuZG9tJTI4OTAlMkMlMjAyNTUlMjklMkMlMjByYW5kb20lMjgxMjAlMkMlMjAyMzAlMjklMkMlMjByYW5kb20lMjg4MCUyQyUyMDE4MCUyOSUyOSUyQyUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNvbG9yJTI4cmFuZG9tJTI4MjIwJTJDJTIwMjU1JTI5JTJDJTIwcmFuZG9tJTI4MTEwJTJDJTIwMTgwJTI5JTJDJTIwcmFuZG9tJTI4NTAlMkMlMjAxMjAlMjklMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByYW5kb20lMjgwLjglMkMlMjAxLjglMjklMkMlMEQlMEElMjAlMjAlMjAlMjAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBzZXR1cCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGZpc2hlcyUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjg0MjAlMkMlMjAyNjAlMjklMEQlMEElMjAlMjAlMjAlMjBmaXNoZXMlMjAlM0QlMjAlNUIlNUQlMEQlMEElMEQlMEElMjAlMjAlMjAlMjBmb3IlMjBfJTIwaW4lMjByYW5nZSUyODclMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaXNoZXMuYXBwZW5kJTI4Y3JlYXRlX3JhbmRvbV9maXNoJTI4JTI5JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGZvciUyMGZpc2glMjBpbiUyMGZpc2hlcyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpc2gubW92ZSUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpc2guZHJhdyUyOCUyOSUwRCUwQQ==" target="_blank" rel="noopener noreferrer">Aufgabe im Editor öffnen</a></p>

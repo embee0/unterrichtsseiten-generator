@@ -16,17 +16,17 @@ Die Seite ist so aufgebaut, dass du in der nächsten Woche möglichst selbststä
 
 ## Worum es in dieser Woche geht
 
-Die **Pflichtphase** sind Station 1 bis 5.
+Die **Pflichtphase** sind Station 1 bis 4.
 
 Am Ende dieser Pflichtphase kannst du:
 
 - eine Klasse `Fish` mit Attributen und Methoden schreiben
 - mehrere `Fish`-Objekte in einer Liste verwalten
 - Objekte pro Frame bewegen
-- eine zweite Klasse `Food` einbauen
-- Objekte verschiedener Klassen zusammenarbeiten lassen
 
-Wenn du schneller fertig bist, kannst du in Station 6 dein Aquarium mit Blasen und weiteren Details erweitern.
+Wenn du danach weitergehst, kannst du dein Aquarium mit einer zweiten Klasse `Food` und weiteren Interaktionen ausbauen.
+
+Wenn du schneller fertig bist, kannst du ab Station 5 freiwillig weiterbauen und in Station 6 noch Blasen und weitere Details ergänzen.
 
 > **Aufgabe 0:** Schreibe mir am Ende der Woche eine kurze Mail: Was hast du geschafft? Was fiel dir leicht? Wo war es schwierig? Hilfreich sind auch Screenshots und kleine Codeausschnitte. Wenn du magst, schreib auch kurz dazu, was an den Webseiten gut funktioniert und was dir noch fehlt.
 
@@ -41,7 +41,7 @@ Arbeite die Stationen der Reihe nach durch.
 3. Baue den Schritt selbst nach.
 4. Gehe erst weiter, wenn dein Programm in diesem Schritt funktioniert.
 
-> **Pflicht und Bonus:** Station 1 bis 5 sind der verbindliche Kern. Station 6 ist ein Bonus, in dem du dieselben OOP-Ideen noch einmal auf eine neue Objektart anwendest.
+> **Pflicht und Bonus:** Station 1 bis 4 sind der verbindliche Kern. Ab Station 5 beginnt der freiwillige Teil. Dort wird das Aquarium Schritt für Schritt erweitert.
 
 ---
 
@@ -291,27 +291,27 @@ class Fish:
 
 ---
 
-## Station 5 – Futter als zweite Klasse
+## Station 5 – Freiwillig: Futter als zweite Klasse
 
 ### Arbeitsauftrag
 
 1. Lege eine zweite Klasse `Food` an.
 2. Futter soll nach unten fallen.
 3. Ein Mausklick soll neues Futter erzeugen.
-4. Fische sollen sich zum nächsten Futter bewegen.
-5. Wenn ein Fisch nah genug dran ist, verschwindet das Futter.
+4. Wenn du weitergehen möchtest, sollen sich Fische zum nächsten Futter bewegen.
+5. Wenn ein Fisch nah genug dran ist, kann das Futter verschwinden.
 
 ### Warum dieser Schritt?
 
-Das Aquarium besteht jetzt nicht mehr nur aus vielen Objekten derselben Klasse. Mehrere Klassen greifen ineinander und bilden zusammen eine kleine Welt.
+Das Aquarium besteht jetzt nicht mehr nur aus vielen Objekten derselben Klasse. Schon mit einer zweiten Klasse wird sichtbar, wie OOP hilft, verschiedene Rollen im Programm sauber zu trennen.
 
 ### Dabei lernst du
 
-- Zusammenarbeit mehrerer Klassen
+- zweite Klasse im selben Projekt
 - Listen für verschiedene Objektarten
-- einfache Zielsuche mit `dist(...)`
+- im erweiterten Teil: einfache Zielsuche mit `dist(...)`
 
-> **Zweite Klasse:** Eine Klasse beschreibt nicht nur, wie etwas aussieht, sondern auch welche Rolle es im Programm hat. `Fish` und `Food` haben unterschiedliche Aufgaben. Mit getrennten Klassen bleibt dieser Unterschied im Code klar sichtbar.
+> **Freiwillige Erweiterung:** Der erste Teil dieser Station ist noch gut überschaubar: eine neue Klasse und fallendes Futter. Der Teil, in dem Fische gezielt auf Futter reagieren, ist anspruchsvoller, weil dabei Objekte auf andere Objekte Bezug nehmen.
 
 ### Demo
 
