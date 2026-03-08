@@ -553,14 +553,15 @@ HTML_TEMPLATE = """<!doctype html>
         --panel-soft: rgba(54, 49, 56, 0.84);
         --text: #fcfcfa;
         --muted: #c8c2bf;
-        --accent: #ffd166;
+        --accent: #ffd866;
         --accent-2: #78dce8;
         --accent-3: #fc9867;
         --accent-4: #a9dc76;
         --accent-5: #ab9df2;
         --border: rgba(255, 255, 255, 0.1);
         --shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
-        --code-bg: #221f22;
+        --code-bg: #2d2a2e;
+        --code-line: #403e41;
         --code-text: #fcfcfa;
       }
 
@@ -797,7 +798,7 @@ HTML_TEMPLATE = """<!doctype html>
 
       .margin-note strong,
       .margin-note code {
-        color: #ffd166;
+        color: #ffd866;
         font-weight: 800;
         letter-spacing: 0.01em;
       }
@@ -877,9 +878,9 @@ HTML_TEMPLATE = """<!doctype html>
       .solution-block {
         margin: 1rem 0 1.2rem;
         border-radius: 24px;
-        border: 1px solid rgba(255, 209, 102, 0.16);
-        background: linear-gradient(180deg, rgba(37, 34, 39, 0.98), rgba(28, 25, 30, 0.98));
-        box-shadow: 0 18px 34px rgba(0, 0, 0, 0.26);
+        border: 1px solid var(--code-line);
+        background: linear-gradient(180deg, rgba(45, 42, 46, 0.98), rgba(34, 31, 34, 0.98));
+        box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
         overflow: hidden;
       }
 
@@ -889,8 +890,8 @@ HTML_TEMPLATE = """<!doctype html>
         padding: 1rem 1.15rem;
         color: var(--text);
         font-weight: 800;
-        background: linear-gradient(90deg, rgba(255, 209, 102, 0.12), rgba(120, 220, 232, 0.08));
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        background: linear-gradient(90deg, rgba(64, 62, 65, 0.98), rgba(52, 49, 53, 0.98));
+        border-bottom: 1px solid var(--code-line);
       }
 
       .solution-block summary::-webkit-details-marker {
@@ -913,6 +914,7 @@ HTML_TEMPLATE = """<!doctype html>
 
       .solution-content {
         padding: 0.2rem 1.15rem 1rem;
+        background: rgba(45, 42, 46, 0.82);
       }
 
       .solution-content > :first-child {
@@ -928,9 +930,9 @@ HTML_TEMPLATE = """<!doctype html>
         margin: 1rem 0 0.5rem;
         border-radius: 22px;
         overflow: hidden;
-        border: 1px solid rgba(22, 51, 58, 0.08);
+        border: 1px solid var(--code-line);
         background: var(--code-bg);
-        box-shadow: 0 18px 28px rgba(58, 73, 76, 0.18);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
       }
 
       .code-block pre {
@@ -947,7 +949,7 @@ HTML_TEMPLATE = """<!doctype html>
         color: var(--code-text);
       }
 
-      .tok-comment { color: #939293; }
+      .tok-comment { color: #727072; }
       .tok-string { color: #ffd866; }
       .tok-number { color: #ab9df2; }
       .tok-keyword { color: #ff6188; font-weight: 700; }
