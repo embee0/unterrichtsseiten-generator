@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unterrichtsseiten</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --bg-strong: #e7ddcf;
+        --panel: rgba(255, 252, 247, 0.92);
+        --text: #1e1a16;
+        --muted: #5f564d;
+        --accent: #0c6c7a;
+        --accent-strong: #c6512d;
+        --border: rgba(30, 26, 22, 0.12);
+        --shadow: 0 24px 60px rgba(73, 52, 31, 0.16);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        line-height: 1.6;
+        background:
+          radial-gradient(circle at top left, rgba(12, 108, 122, 0.12), transparent 26%),
+          radial-gradient(circle at bottom right, rgba(198, 81, 45, 0.14), transparent 24%),
+          linear-gradient(180deg, var(--bg) 0%, var(--bg-strong) 100%);
+      }
+
+      main {
+        width: min(980px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 3rem 0 4rem;
+      }
+
+      .hero {
+        padding: 2rem;
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+      }
+
+      h1 {
+        font-size: clamp(2.3rem, 6vw, 4.8rem);
+        max-width: 9ch;
+      }
+
+      h2 {
+        font-size: 1.4rem;
+        margin-bottom: 0.8rem;
+      }
+
+      p {
+        margin: 0.9rem 0 0;
+        color: var(--muted);
+        max-width: 62ch;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem;
+        margin-top: 1.25rem;
+      }
+
+      .card {
+        padding: 1.3rem;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: rgba(255, 250, 243, 0.9);
+        box-shadow: var(--shadow);
+      }
+
+      .card p {
+        margin-top: 0.6rem;
+      }
+
+      .link-row {
+        display: flex;
+        gap: 0.7rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+      }
+
+      a.button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.72rem 1rem;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+        border: 1px solid rgba(12, 108, 122, 0.2);
+        background: var(--accent);
+        color: #fffaf3;
+      }
+
+      a.button.secondary {
+        background: transparent;
+        color: var(--accent);
+      }
+
+      a.button:hover {
+        background: var(--accent-strong);
+        border-color: rgba(198, 81, 45, 0.28);
+        color: #fffaf3;
+      }
+
+      .note {
+        margin-top: 1.4rem;
+        font-size: 0.96rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <h1>Unterrichtsseiten</h1>
+        <p>
+          Diese GitHub-Pages-Ausgabe bündelt die aktuell generierten Lernseiten des Projekts.
+          Die Inhalte werden zentral gebaut und aus dem Ordner <code>dist/</code> veröffentlicht.
+        </p>
+      </section>
+
+      <section class="grid" aria-label="Verfügbare Seiten">
+        <article class="card">
+          <h2>Kreise</h2>
+          <p>
+            OOP mit py5 als schrittweiser Lernweg von einem einfachen Kreis bis zu vielen Objekten.
+          </p>
+          <div class="link-row">
+            <a class="button" href="livecoding-doku.html">Lernseite öffnen</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Aquarium</h2>
+          <p>
+            OOP mit py5 als Aquarium-Projekt mit Fischen, Listen, Verhalten und Endlösung.
+          </p>
+          <div class="link-row">
+            <a class="button" href="aquarium-lernseite.html">Lernseite öffnen</a>
+          </div>
+        </article>
+      </section>
+
+      <p class="note">
+        Technischer Hinweis: Die eingebetteten Vorschauen laufen über lokal generierte Preview-Seiten,
+        damit GitHub Pages nicht an langen externen <code>sketch=</code>-URLs scheitert.
+      </p>
+    </main>
+  </body>
+</html>
