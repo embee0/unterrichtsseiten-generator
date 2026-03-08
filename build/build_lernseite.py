@@ -148,7 +148,7 @@ def render_sketch_fallback(
     '<div class="sketch-fallback">'
     f'<p class="sketch-fallback-title">{html.escape(title)}</p>'
     f"<p>{html.escape(text)}</p>"
-    f'<p class="sketch-fallback-link"><a class="button-link" href="{html.escape(href, quote=True)}">{html.escape(resolved_button_label)}</a></p>'
+    f'<p class="sketch-fallback-link"><a class="button-link" href="{html.escape(href, quote=True)}" target="_blank" rel="noopener noreferrer">{html.escape(resolved_button_label)}</a></p>'
     "</div>"
   )
 
@@ -341,7 +341,7 @@ def render_edit_link(filename: str, label: str = "Im Editor öffnen") -> str:
     url = make_sketch_link(filename, presentation=False)
     return (
         '<p class="editor-link">'
-    f'<a class="button-link" href="{html.escape(url, quote=True)}">{html.escape(label)}</a>'
+      f'<a class="button-link" href="{html.escape(url, quote=True)}" target="_blank" rel="noopener noreferrer">{html.escape(label)}</a>'
         "</p>"
     )
 
