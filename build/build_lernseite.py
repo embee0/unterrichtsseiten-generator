@@ -100,19 +100,19 @@ def get_target_relative_path(filename: str) -> str:
 
 
 def get_preview_output_path(filename: str) -> Path:
-  asset_path = get_asset_path(filename)
-  relative_asset_path = asset_path.relative_to(SOURCE.parent)
-  return (
-    TARGET.parent
-    / PREVIEW_DIR_NAME
-    / SOURCE.parent.name
-    / relative_asset_path.with_suffix(".html")
-  )
+    asset_path = get_asset_path(filename)
+    relative_asset_path = asset_path.relative_to(SOURCE.parent)
+    return (
+        TARGET.parent
+        / PREVIEW_DIR_NAME
+        / SOURCE.parent.name
+        / relative_asset_path.with_suffix(".html")
+    )
 
 
 def get_preview_relative_path(filename: str) -> str:
-  relative_path = relpath(get_preview_output_path(filename), TARGET.parent)
-  return Path(relative_path).as_posix()
+    relative_path = relpath(get_preview_output_path(filename), TARGET.parent)
+    return Path(relative_path).as_posix()
 
 
 def sketch_url_is_safe(filename: str, *, presentation: bool) -> bool:
@@ -338,6 +338,41 @@ def render_margin_note(note_text: str) -> str:
     return f'<aside class="margin-note">{inline_format(note_text)}</aside>'
 
 
+def wrap_with_margin_note(content_html: str, note_html: str) -> str:
+    return (
+        '<div class="note-layout">'
+        f'<div class="note-content">{content_html}</div>'
+        f"{note_html}"
+        "</div>"
+    )
+
+
+def attach_note_to_previous_block(parts: list[str], note_html: str) -> bool:
+    if not parts:
+        return False
+
+    if parts[-1].startswith("<p>"):
+        paragraph_html = parts.pop()
+        parts.append(wrap_with_margin_note(paragraph_html, note_html))
+        return True
+
+    if parts[-1] in {"</ul>", "</ol>"}:
+        closing_tag = parts[-1]
+        opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
+
+        start_index = len(parts) - 1
+        while start_index >= 0 and parts[start_index] != opening_tag:
+            start_index -= 1
+
+        if start_index >= 0:
+            list_html = "\n".join(parts[start_index:])
+            del parts[start_index:]
+            parts.append(wrap_with_margin_note(list_html, note_html))
+            return True
+
+    return False
+
+
 def render_markdown(lines: list[str]) -> str:
     parts: list[str] = []
     in_code = False
@@ -421,16 +456,12 @@ def render_markdown(lines: list[str]) -> str:
             continue
 
         if stripped.startswith(">"):
-            in_ul, in_ol = close_lists(parts, in_ul, in_ol)
-            note_text = stripped[1:].strip()
-            note_html = render_margin_note(note_text)
-            if parts and parts[-1].startswith("<p>"):
-                previous_paragraph = parts.pop()
-                parts.append(note_html)
-                parts.append(previous_paragraph)
-            else:
-                parts.append(note_html)
-            continue
+          in_ul, in_ol = close_lists(parts, in_ul, in_ol)
+          note_text = stripped[1:].strip()
+          note_html = render_margin_note(note_text)
+          if not attach_note_to_previous_block(parts, note_html):
+            parts.append(note_html)
+          continue
 
         match_ol = re.match(r"(\d+)\.\s+(.*)", stripped)
         if match_ol:
@@ -692,10 +723,31 @@ HTML_TEMPLATE = """<!doctype html>
         background-position: center center;
       }
 
+      .note-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(14rem, 16rem);
+        align-items: start;
+        gap: 1.4rem;
+        margin: 0.7rem 0 1rem;
+      }
+
+      .note-content > :first-child {
+        margin-top: 0;
+      }
+
+      .note-content > :last-child {
+        margin-bottom: 0;
+      }
+
+      .note-content ul,
+      .note-content ol {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
       .margin-note {
-        float: right;
-        width: min(16rem, 42%);
-        margin: 0.15rem 0 0.9rem 1.4rem;
+        width: 100%;
+        margin: 0;
         padding: 1rem 1rem 1rem 1.2rem;
         border-radius: 20px;
         background: linear-gradient(180deg, rgba(44, 40, 54, 0.98), rgba(31, 29, 39, 0.94));
@@ -851,10 +903,13 @@ HTML_TEMPLATE = """<!doctype html>
           transform: none;
         }
 
+        .note-layout {
+          grid-template-columns: 1fr;
+          gap: 0.8rem;
+        }
+
         .margin-note {
-          float: none;
           width: auto;
-          margin: 0 0 0.8rem;
         }
       }
 
