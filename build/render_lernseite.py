@@ -2,6 +2,7 @@ import base64
 import html
 import json
 import re
+import shutil
 from os.path import relpath
 from pathlib import Path
 from urllib.parse import quote
@@ -26,6 +27,7 @@ SOLUTION_END_RE = re.compile(r"\{\{ENDSOLUTION\s*\}\}")
 SIZE_RE = re.compile(r"\bsize\s*\(\s*(\d+)\s*,\s*(\d+)\s*\)")
 IFRAME_CHROME = 0
 PREVIEW_DIR_NAME = "_previews"
+SOURCE_EXPORT_DIR_NAME = "_sources"
 SHARED_STYLESHEET_RELATIVE_PATH = Path("assets/lernseite.css")
 
 PYTHON_KEYWORDS = {
@@ -96,9 +98,14 @@ def get_asset_path(filename: str) -> Path:
     return SOURCE.parent / path
 
 
-def get_target_relative_path(filename: str) -> str:
+def get_source_output_path(filename: str) -> Path:
     asset_path = get_asset_path(filename)
-    relative_path = relpath(asset_path, TARGET.parent)
+    relative_asset_path = asset_path.relative_to(SOURCE.parent)
+    return TARGET.parent / SOURCE_EXPORT_DIR_NAME / SOURCE.parent.name / relative_asset_path
+
+
+def get_source_relative_path(filename: str) -> str:
+    relative_path = relpath(get_source_output_path(filename), TARGET.parent)
     return Path(relative_path).as_posix()
 
 
@@ -143,7 +150,7 @@ def render_sketch_fallback(
         )
         resolved_button_label = button_label or "Python-Datei öffnen"
 
-    href = quote(get_target_relative_path(filename))
+    href = quote(ensure_source_export(filename))
     return (
         '<div class="sketch-fallback">'
         f'<p class="sketch-fallback-title">{html.escape(title)}</p>'
@@ -207,6 +214,14 @@ def ensure_preview_page(filename: str) -> str:
     preview_output_path.parent.mkdir(parents=True, exist_ok=True)
     preview_output_path.write_text(render_preview_page(filename), encoding="utf-8")
     return get_preview_relative_path(filename)
+
+
+def ensure_source_export(filename: str) -> str:
+  asset_path = get_asset_path(filename)
+  source_output_path = get_source_output_path(filename)
+  source_output_path.parent.mkdir(parents=True, exist_ok=True)
+  shutil.copy2(asset_path, source_output_path)
+  return get_source_relative_path(filename)
 
 
 def inline_format(text: str) -> str:
