@@ -327,7 +327,7 @@ def render_iframe(filename: str) -> str:
     iframe_height = sketch_height + IFRAME_CHROME
     return (
         '<div class="preview-frame">'
-        f'<iframe src="{html.escape(url, quote=True)}" width="{iframe_width}" height="{iframe_height}" loading="lazy"></iframe>'
+    f'<iframe data-src="{html.escape(url, quote=True)}" width="{iframe_width}" height="{iframe_height}" loading="lazy"></iframe>'
         "</div>"
     )
 
@@ -1068,6 +1068,43 @@ HTML_TEMPLATE = """<!doctype html>
     <main>
       __CONTENT__
     </main>
+    <script>
+      (() => {
+        const frames = document.querySelectorAll('iframe[data-src]');
+
+        const loadFrame = (frame) => {
+          if (frame.dataset.loaded === 'true') {
+            return;
+          }
+
+          frame.src = frame.dataset.src;
+          frame.dataset.loaded = 'true';
+        };
+
+        if (!('IntersectionObserver' in window)) {
+          frames.forEach(loadFrame);
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) {
+                continue;
+              }
+
+              loadFrame(entry.target);
+              observer.unobserve(entry.target);
+            }
+          },
+          {
+            rootMargin: '180px 0px',
+          }
+        );
+
+        frames.forEach((frame) => observer.observe(frame));
+      })();
+    </script>
   </body>
 </html>
 """
