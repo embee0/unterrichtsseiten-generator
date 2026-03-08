@@ -8,12 +8,17 @@
       html, body {
         margin: 0;
         padding: 0;
-        background: #ffffff;
+        background: transparent;
         overflow: hidden;
       }
 
       #sketch-holder {
-        display: inline-block;
+        display: block;
+        line-height: 0;
+      }
+
+      canvas {
+        display: block;
       }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>

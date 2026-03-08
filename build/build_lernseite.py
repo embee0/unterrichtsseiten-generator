@@ -170,12 +170,17 @@ def render_preview_page(filename: str) -> str:
       html, body {{
         margin: 0;
         padding: 0;
-        background: #ffffff;
+        background: transparent;
         overflow: hidden;
       }}
 
       #sketch-holder {{
-        display: inline-block;
+        display: block;
+        line-height: 0;
+      }}
+
+      canvas {{
+        display: block;
       }}
     </style>
     <script src=\"https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js\"></script>
@@ -846,9 +851,9 @@ HTML_TEMPLATE = """<!doctype html>
       iframe {
         display: block;
         max-width: 100%;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 0;
         border-radius: 18px;
-        background: white;
+        background: transparent;
         box-shadow: 0 18px 30px rgba(0, 0, 0, 0.28);
       }
 
