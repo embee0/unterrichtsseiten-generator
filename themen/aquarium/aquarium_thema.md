@@ -71,7 +71,7 @@ Erweiterung:
 
 ### Inhaltliche Quelle
 
-- `aquarium_lernseite.md`
+- `LERNSEITE.aquarium.md`
 
 ### Generierte Ausgabe
 

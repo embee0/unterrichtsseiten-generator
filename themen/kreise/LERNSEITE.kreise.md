@@ -20,7 +20,7 @@ In jedem Schritt stellen wir drei Fragen:
 2. **Warum wird das geändert?**
 3. **Welcher OOP-Begriff steckt dahinter?**
 
-> **OOP:** Du musst hier nicht alles auf einmal verstehen. OOP ist kein Zaubertrick. Eher eine Art, Ordnung in das Programm zu bringen, bevor das Programm beschließt, selber chaotisch zu werden.
+> **OOP:** OOP ordnet ein Programm in überschaubare Einheiten. Ein Objekt bündelt die Eigenschaften und Fähigkeiten, die zu einer Sache gehören, statt alles lose im Hauptprogramm zu verteilen.
 
 ---
 
@@ -38,7 +38,7 @@ Bevor wir Klassen, Objekte und Attribute einführen, brauchen wir eine funktioni
 
 **Animation** bedeutet hier: Das Bild wird immer wieder neu gezeichnet, und dabei verändern sich Werte.
 
-> **frame_count:** Das ist so etwas wie die eingebaute Stoppuhr des Programms. Sie fragt nicht, ob du bereit bist. Sie zählt einfach weiter.
+> **frame_count:** `frame_count` ist der Bildzähler des Programms. Mit ihm kannst du beschreiben, wie sich etwas mit der Zeit verändert, zum Beispiel Größe, Position oder Bewegung.
 
 ### Vorschau
 
@@ -83,7 +83,7 @@ Ein Kreis weiß jetzt selbst, wo er gezeichnet werden soll. Das Hauptprogramm mu
 - **Klasse**: ein Bauplan
 - **Konstruktor**: `__init__()` setzt die Anfangswerte
 
-> **Klasse und Objekt:** Eine Klasse ist ein Bauplan. Ein Objekt ist das gebaute Ding. Also: erst Plan, dann Kreis. Nicht andersherum. Sonst wird es avantgardistisch.
+> **Klasse und Objekt:** Eine Klasse ist ein Bauplan für viele ähnliche Objekte. Ein Objekt ist ein einzelnes konkretes Beispiel, das nach diesem Bauplan erzeugt wurde und eigene Werte hat.
 
 ### Vorschau
 
@@ -137,7 +137,7 @@ Ein Objekt hat meistens mehrere Eigenschaften. Ein Kreis hat eben nicht nur eine
 
 **Attribut** = eine gespeicherte Eigenschaft eines Objekts.
 
-> **self.durchmesser:** Das gehört zu genau diesem Kreis. Nicht zu allen. Nicht zur ganzen Datei. Nur zu diesem einen Objekt. Ein bisschen Privatbesitz muss in Python offenbar sein.
+> **self.durchmesser:** Ein Attribut beschreibt eine Eigenschaft eines Objekts. `self.durchmesser` ist also genau der Durchmesser, der zu diesem einen Kreis gehört.
 
 ### Vorschau
 
@@ -193,7 +193,7 @@ Hier sieht man zum ersten Mal deutlich: Eine Klasse ist ein Bauplan, und aus ein
 
 **Objekt** oder **Instanz** = ein konkretes Exemplar einer Klasse.
 
-> **Instanzen:** Zwei Objekte, eine Klasse. Das ist keine Gruppentherapie, sondern Wiederverwendung von Code.
+> **Instanzen:** Instanzen sind einzelne Objekte derselben Klasse. Sie teilen sich denselben Bauplan, können aber verschiedene Positionen, Größen oder Farben haben.
 
 ### Vorschau
 
@@ -251,7 +251,7 @@ Mit einer Liste kann man viele Objekte gleich behandeln. Das spart Wiederholunge
 
 **Liste von Objekten** = viele Instanzen gemeinsam speichern und mit einer Schleife bearbeiten.
 
-> **Liste:** Wenn du ab hier noch für jeden Kreis eine eigene Variable anlegen willst, gewinnt kurz die Verzweiflung. Dann gewinnt die Liste.
+> **Liste:** Eine Liste ist hier der gemeinsame Behälter für viele Kreis-Objekte. Dadurch kannst du alle Kreise mit derselben Schleife verwalten, zeichnen oder bewegen.
 
 ### Vorschau
 
@@ -311,7 +311,7 @@ In der Objektorientierung speichert ein Objekt nicht nur Daten. Es kann auch Ver
 
 **Methode** = eine Funktion innerhalb einer Klasse.
 
-> **Methode:** Ein Kreis, der fallen kann, ist programmiertechnisch interessanter als ein Kreis, der nur sehr still herumliegt.
+> **Methode:** Eine Methode beschreibt die Fähigkeit eines Objekts, also das, was es tun kann. `falle_runter()` ist so eine Fähigkeit: Der Kreis verändert dabei seine Position selbst.
 
 ### Vorschau
 
@@ -375,7 +375,7 @@ Jetzt wird sichtbar, was Objektorientierung praktisch bedeutet: gleiche Struktur
 
 **Zustand eines Objekts** = alle aktuellen Attributwerte zusammen.
 
-> **Zustand:** Alle Kreise folgen demselben Bauplan. Trotzdem sieht keiner exakt aus wie der andere. Das ist OOP. Und ein kleines bisschen Kindergarten in sehr geordnet.
+> **Zustand:** Der Zustand eines Objekts ist das Gesamtbild seiner aktuellen Eigenschaften, zum Beispiel Position, Größe und Farbe. Darum können zwei Kreise aus derselben Klasse trotzdem unterschiedlich aussehen und sich unterschiedlich verhalten.
 
 ### Vorschau
 

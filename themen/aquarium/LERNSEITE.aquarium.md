@@ -28,6 +28,8 @@ Am Ende dieser Pflichtphase kannst du:
 
 Wenn du schneller fertig bist, kannst du in Station 6 dein Aquarium mit Blasen und weiteren Details erweitern.
 
+> **Aufgabe 0:** Schreibe mir am Ende der Woche eine Mail, in der du kurz beschreibst, was du geschafft hast, was dir leicht gefallen ist und wo du noch Schwierigkeiten hattest. Das hilft mir, die nächsten Schritte besser zu planen. Deine Mail sollte auch Screenshots und kurze Codebeispiele enthalten, damit ich genau sehe, was du gemacht hast, wo du stehst und wo ich dich am besten unterstütze.
+
 ---
 
 ## So arbeitest du

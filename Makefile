@@ -9,7 +9,7 @@ KREISE_DEPS := \
 	build_lernseite.py \
 	build/build_lernseite.py \
 	build/site_config.py \
-	themen/kreise/lernseite.md \
+	themen/kreise/LERNSEITE.kreise.md \
 	$(wildcard themen/kreise/*.py)
 
 AQUARIUM_DEPS := \
@@ -17,7 +17,7 @@ AQUARIUM_DEPS := \
 	build/build_aquarium_lernseite.py \
 	build/build_lernseite.py \
 	build/site_config.py \
-	themen/aquarium/aquarium_lernseite.md \
+	themen/aquarium/LERNSEITE.aquarium.md \
 	$(wildcard themen/aquarium/*.py)
 
 help:

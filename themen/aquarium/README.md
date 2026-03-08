@@ -2,7 +2,7 @@
 
 Dieses Verzeichnis bündelt alle Dateien zum Aquarium-Thema.
 
-- `aquarium_lernseite.md` ist die Hauptquelle der Lernseite
+- `LERNSEITE.aquarium.md` ist die Hauptquelle der Lernseite
 - `aquarium_projektauftrag.md` ist das kompaktere Schülerformat
 - `*.py` sind Zwischenstände und Endlösung
 

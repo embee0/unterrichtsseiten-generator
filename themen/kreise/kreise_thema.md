@@ -60,7 +60,7 @@ Der aktuelle Lernweg sieht so aus:
 
 ### Inhaltliche Quelle
 
-- `lernseite.md`
+- `LERNSEITE.kreise.md`
 
 ### Generierte Ausgabe
 

@@ -2,7 +2,7 @@
 
 Dieses Verzeichnis bündelt alle Dateien zum Kreis-Thema.
 
-- `lernseite.md` ist die inhaltliche Hauptquelle
+- `LERNSEITE.kreise.md` ist die inhaltliche Hauptquelle
 - `*.py` sind die py5-Beispielstände
 - ergänzende Notizen und Hilfsdateien bleiben themennah in diesem Ordner
 

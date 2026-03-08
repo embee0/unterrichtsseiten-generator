@@ -20,8 +20,8 @@ Die Projektstruktur wurde aufgeräumt:
 
 ## Wichtige Dateien
 
-- `themen/kreise/lernseite.md` → Beispiel für eine inhaltliche Hauptquelle
-- `themen/aquarium/aquarium_lernseite.md` → weiteres Beispiel für eine inhaltliche Hauptquelle
+- `themen/kreise/LERNSEITE.kreise.md` → Beispiel für eine inhaltliche Hauptquelle
+- `themen/aquarium/LERNSEITE.aquarium.md` → weiteres Beispiel für eine inhaltliche Hauptquelle
 - `build/build_lernseite.py` → zentraler Generator, aktuell noch teilweise thematisch auf py5/OOP zugeschnitten
 - `build/build_aquarium_lernseite.py` → themenspezifischer Wrapper für Quelle und Ziel
 - `build_lernseite.py` → Root-Wrapper für das Kreis-Beispiel
@@ -85,7 +85,7 @@ Interne Notizen in den Lernseiten nur mit diesem Format:
 
 Diese Kommentare sollen nicht auf der Website erscheinen.
 
-### Platzhalter in `lernseite.md`
+### Platzhalter in den `LERNSEITE.*.md`-Dateien
 
 Gelten in den Lernseiten unter `themen/`:
 
@@ -130,7 +130,7 @@ Derzeit sind insbesondere Standardpfade, HTML-Title und py5-spezifische Platzhal
 
 ## Jüngste Änderungen
 
-- Anfang von `lernseite.md` wurde stark überarbeitet und ist maßgeblich
+- Anfang von `LERNSEITE.kreise.md` wurde stark überarbeitet und ist maßgeblich
 - Generator wurde angepasst, damit `_nicht_` korrekt als Kursivtext erscheint
 - Margin-Note-Layout wurde zuletzt nachgeschärft
 - py5-Fallback für zu lange URLs wurde ergänzt
@@ -157,7 +157,7 @@ Derzeit sind insbesondere Standardpfade, HTML-Title und py5-spezifische Platzhal
 Zuerst diese drei Dateien prüfen:
 
 - `planung/arbeitsstruktur.md`
-- eine passende Quelldatei unter `themen/`, zum Beispiel `themen/kreise/lernseite.md` oder `themen/aquarium/aquarium_lernseite.md`
+- eine passende Quelldatei unter `themen/`, zum Beispiel `themen/kreise/LERNSEITE.kreise.md` oder `themen/aquarium/LERNSEITE.aquarium.md`
 - `build/build_lernseite.py`
 
 Dann bei Bedarf neu bauen mit:

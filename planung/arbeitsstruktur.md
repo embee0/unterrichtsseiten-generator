@@ -186,8 +186,8 @@ Im jetzigen Projekt lassen sich die Rollen schon grob so lesen:
 
 ### Inhaltliche Quellen
 
-- `themen/kreise/lernseite.md`
-- `themen/aquarium/aquarium_lernseite.md`
+- `themen/kreise/LERNSEITE.kreise.md`
+- `themen/aquarium/LERNSEITE.aquarium.md`
 - `themen/aquarium/aquarium_projektauftrag.md`
 
 ### Build-Skripte
