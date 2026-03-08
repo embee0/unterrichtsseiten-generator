@@ -8,7 +8,7 @@ Auf dieser Seite baust du Schritt für Schritt ein kleines Aquarium in py5. Du s
 
 {{IFRAME: aquarium_endloesung.py}}
 
-> **Vorschau:** So könnte das fertige Aquarium am Ende aussehen. Du musst das nicht sofort verstehen. Wir arbeiten uns Schritt für Schritt dorthin.
+> **Vorschau:** So könnte dein Aquarium am Ende aussehen. Du musst das noch nicht komplett verstehen. Die Seite ist so aufgebaut, dass du dir alle Bausteine dafür Schritt für Schritt erarbeitest.
 
 Der Hintergrund ist diesmal von Anfang an schon da. So kannst du dich auf das konzentrieren, was hier fachlich wichtig ist: **Klassen, Objekte, Listen, Attribute und Verhalten**.
 
@@ -28,7 +28,7 @@ Am Ende dieser Pflichtphase kannst du:
 
 Wenn du schneller fertig bist, kannst du in Station 6 dein Aquarium mit Blasen und weiteren Details erweitern.
 
-> **Aufgabe 0:** Schreibe mir am Ende der Woche eine Mail, in der du kurz beschreibst, was du geschafft hast, was dir leicht gefallen ist und wo du noch Schwierigkeiten hattest. Das hilft mir, die nächsten Schritte besser zu planen. Deine Mail sollte auch Screenshots und kurze Codebeispiele enthalten, damit ich genau sehe, was du gemacht hast, wo du stehst und wo ich dich am besten unterstütze.
+> **Aufgabe 0:** Schreibe mir am Ende der Woche eine kurze Mail: Was hast du geschafft? Was fiel dir leicht? Wo war es schwierig? Hilfreich sind auch Screenshots und kleine Codeausschnitte. Wenn du magst, schreib auch kurz dazu, was an den Webseiten gut funktioniert und was dir noch fehlt.
 
 ---
 
@@ -41,7 +41,7 @@ Arbeite die Stationen der Reihe nach durch.
 3. Baue den Schritt selbst nach.
 4. Gehe erst weiter, wenn dein Programm in diesem Schritt funktioniert.
 
-> **Pflicht und Bonus:** Station 1 bis 5 gehören zum eigentlichen Lernweg. Station 6 ist eine Erweiterung für alle, die schneller vorankommen oder noch weiterbauen möchten.
+> **Pflicht und Bonus:** Station 1 bis 5 sind der verbindliche Kern. Station 6 ist ein Bonus, in dem du dieselben OOP-Ideen noch einmal auf eine neue Objektart anwendest.
 
 ---
 
@@ -65,7 +65,7 @@ Du trennst zum ersten Mal zwischen dem Hintergrund des Programms und einem eigen
 - **Objekt** als konkrete Instanz
 - erste Arbeit mit `self`
 
-> **Fischform:** Für den Anfang reicht eine einfache Form aus Ellipse und Dreieck völlig. Wenn der Code später läuft, kannst du den Fisch immer noch schöner gestalten.
+> **Fischform:** Für den Anfang reicht eine einfache Form völlig. Wichtig ist zuerst die Struktur des Programms: Klasse, Objekt, Konstruktor und Methode. Das Aussehen kannst du später immer noch verbessern.
 
 ### Demo
 
@@ -142,7 +142,7 @@ Ein Objekt besteht nicht nur aus seiner Position. Erst mit mehreren Attributen w
 - Objekte mit unterschiedlichen Startwerten erzeugen
 - Zeichnen auf Basis von Objektzustand
 
-> **Attribute:** Position, Größe und Farbe lassen sich gut in der Klasse speichern. So steckt das Aussehen des Fisches direkt im Objekt.
+> **Attribute:** Attribute sind Eigenschaften eines Objekts. Bei einem Fisch können das zum Beispiel Position, Größe und Farben sein. Dadurch trägt jedes Objekt seine eigenen Werte direkt bei sich.
 
 ### Demo
 
@@ -204,7 +204,7 @@ Hier wird OOP praktisch nützlich. Eine Klasse lohnt sich erst richtig, wenn du 
 - Schleife über Instanzen
 - zufällige Startwerte für viele Objekte
 
-> **Liste:** Ab hier ist eine Liste sinnvoller als einzelne Variablen wie `fish1`, `fish2` und `fish3`. So kannst du viele Objekte mit derselben Schleife verwalten.
+> **Liste:** Die Liste ist der gemeinsame Behälter für viele Fisch-Objekte. So kannst du mit einer Schleife alle Fische gleich behandeln, statt für jeden eine eigene Variable zu brauchen.
 
 ### Demo
 
@@ -257,7 +257,7 @@ Jetzt bekommen die Objekte nicht nur Daten, sondern **Verhalten**. Das ist einer
 - Zustandsänderung pro Frame
 - mehrere Objekte mit eigenem Tempo
 
-> **Bewegung:** Schon eine kleine Wellenbewegung mit `sin(...)` macht die Bewegung glaubwürdiger. Der Fisch schwimmt dadurch nicht völlig starr durch das Aquarium.
+> **Bewegung:** Eine Methode beschreibt, was ein Objekt tun kann. Hier bekommt jeder Fisch mit `move()` seine eigene Bewegung. Die zusätzliche Wellenbewegung mit `sin(...)` macht das Schwimmen natürlicher.
 
 ### Demo
 
@@ -311,7 +311,7 @@ Das Aquarium besteht jetzt nicht mehr nur aus vielen Objekten derselben Klasse. 
 - Listen für verschiedene Objektarten
 - einfache Zielsuche mit `dist(...)`
 
-> **Zweite Klasse:** Hier wird deutlich, dass OOP nicht nur beim Zeichnen hilft. Klassen helfen auch dabei, verschiedene Rollen im Programm sauber zu trennen.
+> **Zweite Klasse:** Eine Klasse beschreibt nicht nur, wie etwas aussieht, sondern auch welche Rolle es im Programm hat. `Fish` und `Food` haben unterschiedliche Aufgaben. Mit getrennten Klassen bleibt dieser Unterschied im Code klar sichtbar.
 
 ### Demo
 

@@ -20,7 +20,7 @@ In jedem Schritt stellen wir drei Fragen:
 2. **Warum wird das geändert?**
 3. **Welcher OOP-Begriff steckt dahinter?**
 
-> **OOP:** OOP ordnet ein Programm in überschaubare Einheiten. Ein Objekt bündelt die Eigenschaften und Fähigkeiten, die zu einer Sache gehören, statt alles lose im Hauptprogramm zu verteilen.
+> **OOP:** Objektorientierte Programmierung (OOP) ist eine Art, Software zu strukturieren. Sie basiert auf der Idee, dass man Dinge als "Objekte" modellieren kann, die Daten (Attribute) und Verhalten (Methoden) in sich tragen. Das macht es einfacher, komplexe Programme zu organisieren und zu erweitern.
 
 ---
 
@@ -38,7 +38,7 @@ Bevor wir Klassen, Objekte und Attribute einführen, brauchen wir eine funktioni
 
 **Animation** bedeutet hier: Das Bild wird immer wieder neu gezeichnet, und dabei verändern sich Werte.
 
-> **frame_count:** `frame_count` ist der Bildzähler des Programms. Mit ihm kannst du beschreiben, wie sich etwas mit der Zeit verändert, zum Beispiel Größe, Position oder Bewegung.
+> **frame_count:** Im `frame_count` wird gezählt, wie oft die `draw()`-Funktion schon aufgerufen wurde. Das ist praktisch für Animationen, weil man Darstellung oder Verhalten abhängig von der Zeit machen kann. In diesem Fall sorgt `sin(frame_count / 30)` dafür, dass der Kreis immer größer und kleiner wird, weil der Sinus-Wert zwischen -1 und 1 schwankt.
 
 ### Vorschau
 
@@ -83,7 +83,7 @@ Ein Kreis weiß jetzt selbst, wo er gezeichnet werden soll. Das Hauptprogramm mu
 - **Klasse**: ein Bauplan
 - **Konstruktor**: `__init__()` setzt die Anfangswerte
 
-> **Klasse und Objekt:** Eine Klasse ist ein Bauplan für viele ähnliche Objekte. Ein Objekt ist ein einzelnes konkretes Beispiel, das nach diesem Bauplan erzeugt wurde und eigene Werte hat.
+> **Klasse und Objekt:** Eine _Klasse_ ist ein Bauplan für viele ähnliche Objekte. Ein Objekt ist ein einzelnes konkretes Beispiel, das nach diesem Bauplan erzeugt wurde und eigene Werte hat. Ein konkretes Objekt nennt man auch _Instanz_ der Klasse.
 
 ### Vorschau
 
@@ -137,7 +137,9 @@ Ein Objekt hat meistens mehrere Eigenschaften. Ein Kreis hat eben nicht nur eine
 
 **Attribut** = eine gespeicherte Eigenschaft eines Objekts.
 
-> **self.durchmesser:** Ein Attribut beschreibt eine Eigenschaft eines Objekts. `self.durchmesser` ist also genau der Durchmesser, der zu diesem einen Kreis gehört.
+> **Attribut:** Ein Attribut ist eine Eigenschaft, die zu einem Objekt gehört. In diesem Fall ist `durchmesser` ein Attribut des Kreis-Objekts, das seine Größe beschreibt. Jedes Kreis-Objekt kann einen eigenen Wert für `durchmesser` haben.
+
+> **self.durchmesser:** Mit `self` bezeichnet man innerhalb einer Methode das aktuelle Objekt, mit dem gerade gearbeitet wird. Mit `self` kann eine Methode auf die Attribute dieses konkreten Objekts zugreifen. `self.durchmesser` ist also genau der Durchmesser, der zu dem Objekt gehört, dessen Methode gerade ausgeführt wird.
 
 ### Vorschau
 
@@ -193,7 +195,7 @@ Hier sieht man zum ersten Mal deutlich: Eine Klasse ist ein Bauplan, und aus ein
 
 **Objekt** oder **Instanz** = ein konkretes Exemplar einer Klasse.
 
-> **Instanzen:** Instanzen sind einzelne Objekte derselben Klasse. Sie teilen sich denselben Bauplan, können aber verschiedene Positionen, Größen oder Farben haben.
+> **Instanzen:** Instanzen sind einzelne Objekte derselben Klasse. Sie teilen sich denselben Bauplan, können aber unterschiedliche _Attributwerte_ haben. So können zwei Kreise aus derselben Klasse trotzdem an unterschiedlichen Orten liegen und unterschiedliche Größen haben. Achtung, unterscheide genau: Alle Instanzen einer Klasse haben dieselben Attribute, aber die Werte dieser Attribute können unterschiedlich sein.
 
 ### Vorschau
 
@@ -311,7 +313,7 @@ In der Objektorientierung speichert ein Objekt nicht nur Daten. Es kann auch Ver
 
 **Methode** = eine Funktion innerhalb einer Klasse.
 
-> **Methode:** Eine Methode beschreibt die Fähigkeit eines Objekts, also das, was es tun kann. `falle_runter()` ist so eine Fähigkeit: Der Kreis verändert dabei seine Position selbst.
+> **Methode:** Eine Methode beschreibt die _Fähigkeit_ eines Objekts, also das, was es tun kann. `falle_runter()` ist so eine Fähigkeit: Der Kreis verändert dabei seine Position selbst.
 
 ### Vorschau
 
@@ -375,7 +377,7 @@ Jetzt wird sichtbar, was Objektorientierung praktisch bedeutet: gleiche Struktur
 
 **Zustand eines Objekts** = alle aktuellen Attributwerte zusammen.
 
-> **Zustand:** Der Zustand eines Objekts ist das Gesamtbild seiner aktuellen Eigenschaften, zum Beispiel Position, Größe und Farbe. Darum können zwei Kreise aus derselben Klasse trotzdem unterschiedlich aussehen und sich unterschiedlich verhalten.
+> **Zustand:** Der Zustand eines Objekts ist das Gesamtbild seiner aktuellen Eigenschaften, zum Beispiel der Attributwerte für Position, Größe und Farbe. Darum können zwei Kreise aus derselben Klasse trotzdem unterschiedlich aussehen und sich unterschiedlich verhalten.
 
 ### Vorschau
 
