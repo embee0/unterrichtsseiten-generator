@@ -4,6 +4,9 @@
 
 Diese Datei hält den aktuellen Arbeitsstand fest, damit nach einem VS-Code-Neustart oder Update ohne Kontextverlust weitergearbeitet werden kann.
 
+Sie ist vor allem eine Start- und Orientierungshilfe fuer neue Sessions.
+Allgemeine didaktische Leitlinien und laengerfristige Strukturregeln sollen nicht hier doppelt gepflegt werden, sondern in den zentralen Planungsdateien.
+
 ## Projektüberblick
 
 Das Projekt entwickelt sich von einer einzelnen OOP-mit-py5-Lernseite zu einem **allgemeineren Tool zur Generierung von Unterrichtsmaterial und Unterrichtswebseiten**.
@@ -18,13 +21,24 @@ Die Projektstruktur wurde aufgeräumt:
 - `build/` enthält die eigentlichen Generatoren
 - `dist/` enthält die generierten HTML-Seiten
 
+## Rollen der Meta-Dateien
+
+- `AGENTS.md` -> Session-Start, Projektkontext, Einstiegspfade, zuletzt verifizierter Stand
+- `planung/didaktische-prinzipien.md` -> allgemeine didaktische Leitlinien fuer alle Lernseiten
+- `planung/arbeitsstruktur.md` -> schlanke Arbeits- und Dateistruktur fuer Themen und Materialien
+- themennahe Dateien wie `themen/*/*_thema.md` -> Lernziele, Lernweg und Materiallage fuer ein einzelnes Thema
+- `planung/projektideen.md` -> moegliche neue Themen oder Fortsetzungen
+
 ## Wichtige Dateien
 
 - `themen/kreise/LERNSEITE.kreise.md` → Beispiel für eine inhaltliche Hauptquelle
 - `themen/aquarium/LERNSEITE.aquarium.md` → weiteres Beispiel für eine inhaltliche Hauptquelle
+- `planung/didaktische-prinzipien.md` → zentrale Sammlung der didaktischen Leitlinien für neue und bestehende Lernseiten
 - `build/render_lernseite.py` → zentraler Generator, aktuell noch teilweise thematisch auf py5/OOP zugeschnitten
+- `build/build_lernseite.py` → generischer Build-Einstieg für ein einzelnes Thema oder alle Themen
 - `build/build_kreise_lernseite.py` → themenspezifischer Wrapper für Quelle und Ziel von `kreise`
 - `build/build_aquarium_lernseite.py` → themenspezifischer Wrapper für Quelle und Ziel
+- `build_lernseite.py` → Root-Wrapper für den generischen Build-Aufruf
 - `build_kreise_lernseite.py` → Root-Wrapper für das Kreis-Beispiel
 - `build_aquarium_lernseite.py` → Root-Wrapper für das Aquarium-Beispiel
 - `dist/kreise-lernseite.html` → generierte Beispiel-Ausgabe für `kreise`
@@ -46,26 +60,11 @@ Die Kreis-Beispiele liegen in `themen/kreise/`, die Aquarium-Beispiele in `theme
 - `kreise3aOO_verhalten_und_farbe.py`
 - `kreise3OOvielekreise.py`
 
-## Aktueller Inhalt / didaktischer Stand
+## Referenzthemen
 
-Die Lernseite erklärt den Weg von einem nicht-objektorientierten py5-Programm hin zu vielen OOP-Kreisen in Stationen:
-
-1. Kreis ohne OOP
-2. erste Klasse
-3. Attribut `durchmesser`
-4. zwei Objekte
-5. Liste von Objekten
-6. Verhalten als Methode
-7. viele Kreise mit eigenem Zustand
-
-Zu jeder Station gibt es:
-
-- Erklärung, was geändert wird
-- Erklärung, warum das sinnvoll ist
-- passenden OOP-Begriff
-- py5-Vorschau
-- Link zum Bearbeiten
-- Codeblock auf der Seite
+Die bisherigen Themen `kreise` und `aquarium` sind Referenzthemen fuer Aufbau, Lernweg und Materialstruktur.
+Die konkreten didaktischen Leitlinien stehen in `planung/didaktische-prinzipien.md`.
+Die themenspezifischen Lernwege stehen in den jeweiligen Quellen unter `themen/`.
 
 ## Autoring-Workflow
 
@@ -99,35 +98,30 @@ Gelten in den Lernseiten unter `themen/`:
 HTML neu erzeugen mit:
 
 ```bash
+python3 build_lernseite.py aquarium
+python3 build_lernseite.py kreise
+python3 build_lernseite.py --all
 python3 build_kreise_lernseite.py
 python3 build_aquarium_lernseite.py
 ```
 
 Danach werden die Dateien in `dist/` überschrieben.
 
+Die themenspezifischen Root-Befehle bleiben als kurze Gewohnheitsbefehle erhalten.
+
 Der aktuelle Aufbau ist schon so gedacht, dass weitere Themen über zusätzliche Wrapper oder eine spätere allgemeinere Build-Schnittstelle angebunden werden können.
 
-## Technische Hinweise zum Generator
+## Technischer Fokus
 
-Der zentrale Generator kann aktuell:
+Der zentrale Renderer ist `build/render_lernseite.py`.
+Er ist bereits fuer mehrere Themen nutzbar, aber noch nicht vollstaendig themenagnostisch.
+Details zu offener Technik oder Infrastruktur gehoeren nach `planung/technik-todos.md`.
 
-- Markdown-artige Abschnitte rendern
-- py5-Links direkt aus den aktuellen `.py`-Dateien erzeugen
-- Python-Codeblöcke syntax-highlighten
-- Randbemerkungen aus `>`-Zeilen rendern
-- `_kursiv_`, `` `code` ``, `**fett**` und Links verarbeiten
-- bei zu langen py5-URLs eine lokale Fallback-Box statt eines kaputten iframes anzeigen
-
-Er ist damit bereits als zentraler Renderer nutzbar, ist aber noch nicht vollständig themenagnostisch.
-Derzeit sind insbesondere Standardpfade, HTML-Title und py5-spezifische Platzhalterlogik noch fest eingebaut.
-
-## Wichtige inhaltliche Entscheidungen
+## Wichtige Projektkonstanten
 
 - sichtbare Codebeispiele wurden auf `size(200, 200)` umgestellt
 - eingebettete Vorschauen sind einheitlich `300x300`
-- Tonfall: leicht humorvoll, aber nicht albern
-- Seite ist **für Schüler:innen**, nicht als Lehrkraft-Dokumentation gedacht
-- Ziel ist Nachvollziehbarkeit des OOP-Aufbaus, nicht vollständige Theorie
+- die Seiten richten sich an Schueler:innen
 
 ## Jüngste Änderungen
 
@@ -157,8 +151,12 @@ Derzeit sind insbesondere Standardpfade, HTML-Title und py5-spezifische Platzhal
 
 Zuerst diese drei Dateien prüfen:
 
+- `planung/didaktische-prinzipien.md`
 - `planung/arbeitsstruktur.md`
 - eine passende Quelldatei unter `themen/`, zum Beispiel `themen/kreise/LERNSEITE.kreise.md` oder `themen/aquarium/LERNSEITE.aquarium.md`
+
+Danach bei Bedarf diese Datei prüfen:
+
 - `build/render_lernseite.py`
 
 Dann bei Bedarf neu bauen mit:
@@ -173,3 +171,9 @@ Wenn die Generalisierung weitergeführt werden soll, danach besonders prüfen:
 - welche Teile im Generator noch auf `kreise` oder `py5` fest verdrahtet sind
 - wie neue Themen konfiguriert statt per Dateikonstanten eingebunden werden sollen
 - ob aus den bisherigen Wrappern eine allgemeinere CLI oder Konfigurationsdatei werden soll
+
+Bei neuen Lernseiten oder groesseren Ueberarbeitungen gilt zusaetzlich:
+
+- zuerst die didaktischen Leitlinien in `planung/didaktische-prinzipien.md` gegen den geplanten Lernweg pruefen
+- dann Thema, Pflichtweg, Bonusideen und passende Hilfestufen festlegen
+- themenspezifische Details danach in einer passenden Datei unter `themen/` festhalten statt hier in `AGENTS.md`

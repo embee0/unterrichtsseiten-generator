@@ -56,7 +56,7 @@ class Fish:
         self.body_height = 30 * self.scale
         self.tail_length = 24 * self.scale
         self.speed = random(0.6, 1.8)
-        self.dx = self.speed if random(1) < 0.5 else -self.speed
+        self.dx = self.speed
         self.phase = random(TWO_PI)
         self.body_color = color(random(70, 255), random(90, 230), random(110, 255))
         self.fin_color = color(random(140, 255), random(120, 220), random(40, 180))
@@ -68,7 +68,10 @@ class Fish:
         if target_food is not None:
             x_distance = target_food.x - self.x
             y_distance = target_food.y - self.y
-            self.dx += 0.02 if x_distance > 0 else -0.02
+            if x_distance > 0:
+                self.dx += 0.02
+            else:
+                self.dx -= 0.02
             self.dx = constrain(self.dx, -2.2, 2.2)
             self.base_y += y_distance * 0.015
             self.base_y = constrain(self.base_y, 45, height - 35)
@@ -86,10 +89,10 @@ class Fish:
 
         if self.x < 35:
             self.x = 35
-            self.dx = abs(self.speed)
+            self.dx = self.speed
         elif self.x > width - 35:
             self.x = width - 35
-            self.dx = -abs(self.speed)
+            self.dx = -self.speed
 
     def find_nearest_food(self, food_list):
         nearest_food = None
@@ -104,7 +107,9 @@ class Fish:
         return nearest_food
 
     def draw(self):
-        direction = 1 if self.dx >= 0 else -1
+        direction = 1
+        if self.dx < 0:
+            direction = -1
 
         no_stroke()
         fill(self.body_color)

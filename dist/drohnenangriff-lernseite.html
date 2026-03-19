@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drohnenangriff mit OOP in py5</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/lernseite.css" />
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+<h1>Drohnenangriff mit OOP in py5</h1>
+<p>In dieser Seite baust du Schritt für Schritt ein kleines Verfolgungsspiel in py5. Du startest mit einem Agenten und einer Drohne. Später jagt die Drohne den Agenten. Am Ende kannst du das Spiel noch zu einem ganzen Drohnenschwarm ausbauen.</p>
+<div class="preview-frame"><iframe data-src="_previews/drohnenangriff/drohnenangriff_endloesung.html" width="560" height="360" loading="lazy" tabindex="0" title="py5-Vorschau drohnenangriff_endloesung.py"></iframe></div>
+<aside class="margin-note"><strong>Vorschau:</strong> So kann dein Spiel am Ende aussehen. Die Vorschau läuft am Anfang auch ohne Tastendruck schon als Demo. Du musst das noch nicht sofort verstehen.</aside>
+<p>Diesmal geht es nicht zuerst um viele Extras, sondern um eine klare Kernidee: <strong>zwei Klassen mit verschiedenen Rollen</strong>. Ein Agent flieht. Eine Drohne verfolgt.</p>
+<p>Die ersten Pflichtstationen bleiben absichtlich klein. Du sollst nicht gleichzeitig neue Syntax, neue Steuerung, neue Bewegungen und mehrere Listen auf einmal lernen.</p>
+</header>
+<section class="content-section">
+<h2>Worum es in dieser Woche geht</h2>
+<p>Die <strong>Pflichtphase</strong> sind Station 1 bis 5.</p>
+<div class="note-layout"><div class="note-content"><p>Am Ende dieser Pflichtphase kannst du:</p>
+<ul>
+<li>eine Klasse <code>Agent</code> und eine Klasse <code>Drohne</code> anlegen</li>
+<li>Attribute und Methoden in beiden Klassen nutzen</li>
+<li>eine einfache Verfolgungslogik programmieren</li>
+<li>mit einem Rückgabewert eine Kollision prüfen</li>
+<li>mehrere Drohnen in einer Liste verwalten</li>
+</ul>
+<p>Danach kannst du das Spiel in einer Kreativstation mit weiteren Ideen ausbauen.</p></div><aside class="margin-note"><strong>Kernidee:</strong> Das eigentlich Wichtige ist hier nicht die Tastatursteuerung, sondern die Predator-Prey-Mechanik. Deshalb ist die Steuerung in dieser Lernseite früh schon weitgehend vorbereitet.</aside></div>
+<hr />
+</section>
+<section class="content-section">
+<div class="note-layout"><div class="note-content"><h2>So arbeitest du</h2>
+<p>Arbeite die Stationen der Reihe nach durch.</p>
+<ol>
+<li>Lies den Arbeitsauftrag.</li>
+<li>Schaue dir die Demo an.</li>
+<li>Baue den Schritt selbst nach.</li>
+<li>Gehe erst weiter, wenn dein Programm in diesem Schritt funktioniert.</li>
+</ol></div><aside class="margin-note"><strong>Pflicht und Bonus:</strong> Station 1 bis 5 sind der verbindliche Kern. Danach kommt eine offene Kreativstation mit eigenen Erweiterungen.</aside></div>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 1 - Agent und Drohne darstellen</h2>
+<h3>Arbeitsauftrag</h3>
+<ol>
+<li>Lege eine Klasse <code>Agent</code> an.</li>
+<li>Lege eine Klasse <code>Drohne</code> an.</li>
+<li>Beide Klassen bekommen einen Konstruktor mit <code>x</code> und <code>y</code>.</li>
+<li>Schreibe für beide Klassen eine Methode <code>draw()</code>.</li>
+<li>Erzeuge in <code>setup()</code> genau einen Agenten und genau eine Drohne.</li>
+</ol>
+<h3>Warum dieser Schritt?</h3>
+<p>Du startest nicht mit Bewegung, sondern mit der Struktur. So wird zuerst klar, dass Agent und Drohne zwei verschiedene Objekte mit verschiedenen Rollen sind.</p>
+<div class="note-layout"><div class="note-content"><h3>Dabei lernst du</h3>
+<ul>
+<li>zwei Klassen im selben Projekt</li>
+<li>Objekt und Instanz</li>
+<li>Attribute für Position</li>
+<li>Methoden zum Zeichnen</li>
+</ul></div><aside class="margin-note"><strong>Noch ohne Bewegung:</strong> In dieser ersten Station reicht es völlig, wenn Agent und Drohne nur sichtbar sind. Die Jagd kommt erst später.</aside></div>
+<h3>Demo</h3>
+<div class="preview-frame"><iframe data-src="_previews/drohnenangriff/drohnenangriff1_agent_und_drohne.html" width="520" height="320" loading="lazy" tabindex="0" title="py5-Vorschau drohnenangriff1_agent_und_drohne.py"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODE4JTJDJTIwMjQlMkMlMjA0MiUyOSUwRCUwQSUwRCUwQSUwRCUwQWNsYXNzJTIwQWdlbnQlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMyUyMFRPRE8lM0ElMjBTcGVpY2hlcmUlMjB4X3Bvc2l0aW9uJTIwdW5kJTIweV9wb3NpdGlvbiUyMGltJTIwT2JqZWt0LiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMC4uLiUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIzJTIwVE9ETyUzQSUyMFplaWNobmUlMjBkZW4lMjBBZ2VudGVuJTIwYWxzJTIwS3JlaXMuJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwLi4uJTBEJTBBJTBEJTBBJTBEJTBBY2xhc3MlMjBEcm9obmUlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMyUyMFRPRE8lM0ElMjBTcGVpY2hlcmUlMjB4X3Bvc2l0aW9uJTIwdW5kJTIweV9wb3NpdGlvbiUyMGltJTIwT2JqZWt0LiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMC4uLiUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIzJTIwVE9ETyUzQSUyMFplaWNobmUlMjBkaWUlMjBEcm9obmUlMjBhbHMlMjBRdWFkcmF0JTIwb2RlciUyMFJlY2h0ZWNrLiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMC4uLiUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwYWdlbnQlMkMlMjBkcm9obmUlMEQlMEElMjAlMjAlMjAlMjBzaXplJTI4NTIwJTJDJTIwMzIwJTI5JTBEJTBBJTIwJTIwJTIwJTIwYWdlbnQlMjAlM0QlMjBBZ2VudCUyODM5MCUyQyUyMDE4MCUyOSUwRCUwQSUyMCUyMCUyMCUyMGRyb2huZSUyMCUzRCUyMERyb2huZSUyODEzMCUyQyUyMDExMCUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMGRyYXclMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBkcmF3X2JhY2tncm91bmQlMjglMjklMEQlMEElMjAlMjAlMjAlMjBhZ2VudC5kcmF3JTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwZHJvaG5lLmRyYXclMjglMjklMEQlMEE=" target="_blank" rel="noopener noreferrer">Aufgabe im Editor öffnen</a></p>
+<details class="solution-block"><summary>Lösungscode zu Station 1 anzeigen</summary><div class="solution-content"><p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODE4JTJDJTIwMjQlMkMlMjA0MiUyOSUwRCUwQSUwRCUwQSUwRCUwQWNsYXNzJTIwQWdlbnQlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMHhfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlM0QlMjB5X3Bvc2l0aW9uJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MTEwJTJDJTIwMjIwJTJDJTIwMjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwMzIlMjklMEQlMEElMEQlMEElMEQlMEFjbGFzcyUyMERyb2huZSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMF9faW5pdF9fJTI4c2VsZiUyQyUyMHhfcG9zaXRpb24lMkMlMjB5X3Bvc2l0aW9uJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBkcmF3JTI4c2VsZiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMG5vX3N0cm9rZSUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpbGwlMjgyNTUlMkMlMjAxMTIlMkMlMjAxMTIlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByZWN0JTI4c2VsZi54JTIwLSUyMDEzJTJDJTIwc2VsZi55JTIwLSUyMDEzJTJDJTIwMjYlMkMlMjAyNiUyQyUyMDYlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBzZXR1cCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGFnZW50JTJDJTIwZHJvaG5lJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODUyMCUyQyUyMDMyMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGFnZW50JTIwJTNEJTIwQWdlbnQlMjgzOTAlMkMlMjAxODAlMjklMEQlMEElMjAlMjAlMjAlMjBkcm9obmUlMjAlM0QlMjBEcm9obmUlMjgxMzAlMkMlMjAxMTAlMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwYWdlbnQuZHJhdyUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMGRyb2huZS5kcmF3JTI4JTI5JTBEJTBB" target="_blank" rel="noopener noreferrer">Musterlösung im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Agent</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y_position</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-builtin">no_stroke</span>()
+        <span class="tok-builtin">fill</span>(<span class="tok-number">110</span>, <span class="tok-number">220</span>, <span class="tok-number">255</span>)
+        <span class="tok-builtin">circle</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span>, <span class="tok-number">32</span>)
+
+
+<span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Drohne</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y_position</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">draw</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-builtin">no_stroke</span>()
+        <span class="tok-builtin">fill</span>(<span class="tok-number">255</span>, <span class="tok-number">112</span>, <span class="tok-number">112</span>)
+        <span class="tok-builtin">rect</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span> - <span class="tok-number">13</span>, <span class="tok-self">self</span>.<span class="tok-name">y</span> - <span class="tok-number">13</span>, <span class="tok-number">26</span>, <span class="tok-number">26</span>, <span class="tok-number">6</span>)</code></pre></div></div></details>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 2 - Der Agent kann gesteuert werden</h2>
+<h3>Arbeitsauftrag</h3>
+<ol>
+<li>Ergänze den Agenten um eine Geschwindigkeit.</li>
+<li>Nutze die vorbereitete Tastaturabfrage, damit der Agent mit <code>WASD</code> bewegt werden kann.</li>
+<li>Schreibe eine Methode <code>steuern()</code>.</li>
+<li>Achte darauf, dass der Agent im Spielfeld bleibt.</li>
+</ol>
+<h3>Warum dieser Schritt?</h3>
+<p>Jetzt wird aus der statischen Figur ein spielbares Objekt. Die Steuerung ist hier bewusst vorbereitet, damit du dich nicht in technischen Details verlierst.</p>
+<div class="note-layout"><div class="note-content"><h3>Dabei lernst du</h3>
+<ul>
+<li>Methode als Verhalten</li>
+<li>Änderung von Attributen während des Programms</li>
+<li>Begrenzung am Rand</li>
+</ul></div><aside class="margin-note"><strong>Entlastung:</strong> Die Tastatursteuerung ist diesmal nicht der eigentliche Knackpunkt. Wir arbeiten deshalb mit vier einfachen Variablen statt mit einem <code>dict</code>. Wichtig ist, dass du verstehst, wie der Agent seine Position verändert.</aside></div>
+<aside class="margin-note"><strong>Technik im Hintergrund:</strong> In der vorbereiteten Tastaturabfrage tauchen auch Dinge wie <code>key</code> oder <code>key_code</code> auf. Das musst du hier nicht selbst herleiten. Für diese Station ist wichtig, was mit <code>links</code>, <code>rechts</code>, <code>oben</code> und <code>unten</code> passiert.</aside>
+<h3>Demo</h3>
+<div class="preview-frame"><iframe data-src="_previews/drohnenangriff/drohnenangriff2_agent_steuern.html" width="520" height="320" loading="lazy" tabindex="0" title="py5-Vorschau drohnenangriff2_agent_steuern.py"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODE4JTJDJTIwMjQlMkMlMjA0MiUyOSUwRCUwQSUwRCUwQSUwRCUwQWNsYXNzJTIwQWdlbnQlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjMlMjBUT0RPJTNBJTIwU3BlaWNoZXJlJTIwc3BlZWQlMjB1bmQlMjBlaW5lbiUyMFJhZGl1cyUyMGltJTIwT2JqZWt0LiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMC4uLiUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMHN0ZXVlcm4lMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIzJTIwVE9ETyUzQSUyMEJld2VnZSUyMGRlbiUyMEFnZW50ZW4lMjBtaXQlMjBsaW5rcyUyQyUyMHJlY2h0cyUyQyUyMG9iZW4lMjB1bmQlMjB1bnRlbi4lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAuLi4lMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjMlMjBUT0RPJTNBJTIwQmVncmVuemUlMjBkZW4lMjBBZ2VudGVuJTIwbWl0JTIwY29uc3RyYWluJTI4Li4uJTI5JTJDJTIwZGFtaXQlMjBlciUyMGltJTIwU3BpZWxmZWxkJTIwYmxlaWJ0LiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMC4uLiUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbm9fc3Ryb2tlJTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyODExMCUyQyUyMDIyMCUyQyUyMDI1NSUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGNpcmNsZSUyOHNlbGYueCUyQyUyMHNlbGYueSUyQyUyMHNlbGYucmFkaXVzJTIwJTJBJTIwMiUyOSUwRCUwQSUwRCUwQSUwRCUwQWNsYXNzJTIwRHJvaG5lJTNBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwX19pbml0X18lMjhzZWxmJTJDJTIweF9wb3NpdGlvbiUyQyUyMHlfcG9zaXRpb24lMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlM0QlMjB4X3Bvc2l0aW9uJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi55JTIwJTNEJTIweV9wb3NpdGlvbiUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbm9fc3Ryb2tlJTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyODI1NSUyQyUyMDExMiUyQyUyMDExMiUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHJlY3QlMjhzZWxmLnglMjAtJTIwMTMlMkMlMjBzZWxmLnklMjAtJTIwMTMlMkMlMjAyNiUyQyUyMDI2JTJDJTIwNiUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwYWdlbnQlMkMlMjBkcm9obmUlMkMlMjBsaW5rcyUyQyUyMHJlY2h0cyUyQyUyMG9iZW4lMkMlMjB1bnRlbiUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjg1MjAlMkMlMjAzMjAlMjklMEQlMEElMjAlMjAlMjAlMjBhZ2VudCUyMCUzRCUyMEFnZW50JTI4MzkwJTJDJTIwMTgwJTJDJTIwMy4yJTI5JTBEJTBBJTIwJTIwJTIwJTIwZHJvaG5lJTIwJTNEJTIwRHJvaG5lJTI4MTMwJTJDJTIwMTEwJTI5JTBEJTBBJTIwJTIwJTIwJTIwbGlua3MlMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMHJlY2h0cyUyMCUzRCUyMEZhbHNlJTBEJTBBJTIwJTIwJTIwJTIwb2JlbiUyMCUzRCUyMEZhbHNlJTBEJTBBJTIwJTIwJTIwJTIwdW50ZW4lMjAlM0QlMjBGYWxzZSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMGRyYXclMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBkcmF3X2JhY2tncm91bmQlMjglMjklMEQlMEElMjAlMjAlMjAlMjBhZ2VudC5zdGV1ZXJuJTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwYWdlbnQuZHJhdyUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMGRyb2huZS5kcmF3JTI4JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwa2V5X3ByZXNzZWQlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBsaW5rcyUyQyUyMHJlY2h0cyUyQyUyMG9iZW4lMkMlMjB1bnRlbiUwRCUwQSUyMCUyMCUyMCUyMCUyMyUyMERpZSUyMFRhc3RhdHVyYWJmcmFnZSUyMGlzdCUyMHZvcmJlcmVpdGV0LiUyMFdpY2h0aWclMjBzaW5kJTIwZnVlciUyMGRpY2glMEQlMEElMjAlMjAlMjAlMjAlMjMlMjB2b3IlMjBhbGxlbSUyMGRpZSUyMHZpZXIlMjBWYXJpYWJsZW4lMjBsaW5rcyUyQyUyMHJlY2h0cyUyQyUyMG9iZW4lMjB1bmQlMjB1bnRlbi4lMEQlMEElMjAlMjAlMjAlMjBpZiUyMGtleSUyMCUzRCUzRCUyMCUyMmElMjIlMjBvciUyMGtleSUyMCUzRCUzRCUyMCUyMkElMjIlMjBvciUyMGtleV9jb2RlJTIwJTNEJTNEJTIwNjUlM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBsaW5rcyUyMCUzRCUyMFRydWUlMEQlMEElMjAlMjAlMjAlMjBlbGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIyZCUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyRCUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA2OCUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHJlY2h0cyUyMCUzRCUyMFRydWUlMEQlMEElMjAlMjAlMjAlMjBlbGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIydyUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyVyUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA4NyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMG9iZW4lMjAlM0QlMjBUcnVlJTBEJTBBJTIwJTIwJTIwJTIwZWxpZiUyMGtleSUyMCUzRCUzRCUyMCUyMnMlMjIlMjBvciUyMGtleSUyMCUzRCUzRCUyMCUyMlMlMjIlMjBvciUyMGtleV9jb2RlJTIwJTNEJTNEJTIwODMlM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB1bnRlbiUyMCUzRCUyMFRydWUlMEQlMEElMEQlMEElMEQlMEFkZWYlMjBrZXlfcmVsZWFzZWQlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBsaW5rcyUyQyUyMHJlY2h0cyUyQyUyMG9iZW4lMkMlMjB1bnRlbiUwRCUwQSUyMCUyMCUyMCUyMGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIyYSUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyQSUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA2NSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmtzJTIwJTNEJTIwRmFsc2UlMEQlMEElMjAlMjAlMjAlMjBlbGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIyZCUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyRCUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA2OCUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHJlY2h0cyUyMCUzRCUyMEZhbHNlJTBEJTBBJTIwJTIwJTIwJTIwZWxpZiUyMGtleSUyMCUzRCUzRCUyMCUyMnclMjIlMjBvciUyMGtleSUyMCUzRCUzRCUyMCUyMlclMjIlMjBvciUyMGtleV9jb2RlJTIwJTNEJTNEJTIwODclM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBvYmVuJTIwJTNEJTIwRmFsc2UlMEQlMEElMjAlMjAlMjAlMjBlbGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIycyUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyUyUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA4MyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHVudGVuJTIwJTNEJTIwRmFsc2UlMEQlMEE=" target="_blank" rel="noopener noreferrer">Aufgabe im Editor öffnen</a></p>
+<details class="solution-block"><summary>Lösungscode zu Station 2 anzeigen</summary><div class="solution-content"><p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODE4JTJDJTIwMjQlMkMlMjA0MiUyOSUwRCUwQSUwRCUwQSUwRCUwQWNsYXNzJTIwQWdlbnQlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNwZWVkJTIwJTNEJTIwc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnJhZGl1cyUyMCUzRCUyMDE2JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwc3RldWVybiUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMGxpbmtzJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUzRCUyMHNlbGYuc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMHJlY2h0cyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUyQiUzRCUyMHNlbGYuc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMG9iZW4lM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTNEJTIwc2VsZi5zcGVlZCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGlmJTIwdW50ZW4lM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIwY29uc3RyYWluJTI4c2VsZi54JTJDJTIwc2VsZi5yYWRpdXMlMkMlMjB3aWR0aCUyMC0lMjBzZWxmLnJhZGl1cyUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMGNvbnN0cmFpbiUyOHNlbGYueSUyQyUyMHNlbGYucmFkaXVzJTJDJTIwaGVpZ2h0JTIwLSUyMHNlbGYucmFkaXVzJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MTEwJTJDJTIwMjIwJTJDJTIwMjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwc2VsZi5yYWRpdXMlMjAlMkElMjAyJTI5JTBEJTBBJTBEJTBBJTBEJTBBY2xhc3MlMjBEcm9obmUlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUzRCUyMHhfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlM0QlMjB5X3Bvc2l0aW9uJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTJDJTIwMTEyJTJDJTIwMTEyJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmVjdCUyOHNlbGYueCUyMC0lMjAxMyUyQyUyMHNlbGYueSUyMC0lMjAxMyUyQyUyMDI2JTJDJTIwMjYlMkMlMjA2JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBhZ2VudCUyQyUyMGRyb2huZSUyQyUyMGxpbmtzJTJDJTIwcmVjaHRzJTJDJTIwb2JlbiUyQyUyMHVudGVuJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODUyMCUyQyUyMDMyMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGFnZW50JTIwJTNEJTIwQWdlbnQlMjgzOTAlMkMlMjAxODAlMkMlMjAzLjIlMjklMEQlMEElMjAlMjAlMjAlMjBkcm9obmUlMjAlM0QlMjBEcm9obmUlMjgxMzAlMkMlMjAxMTAlMjklMEQlMEElMjAlMjAlMjAlMjBsaW5rcyUyMCUzRCUyMEZhbHNlJTBEJTBBJTIwJTIwJTIwJTIwcmVjaHRzJTIwJTNEJTIwRmFsc2UlMEQlMEElMjAlMjAlMjAlMjBvYmVuJTIwJTNEJTIwRmFsc2UlMEQlMEElMjAlMjAlMjAlMjB1bnRlbiUyMCUzRCUyMEZhbHNlJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMGFnZW50LnN0ZXVlcm4lMjglMjklMEQlMEElMjAlMjAlMjAlMjBhZ2VudC5kcmF3JTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwZHJvaG5lLmRyYXclMjglMjklMEQlMEElMEQlMEElMEQlMEFkZWYlMjBrZXlfcHJlc3NlZCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGxpbmtzJTJDJTIwcmVjaHRzJTJDJTIwb2JlbiUyQyUyMHVudGVuJTBEJTBBJTIwJTIwJTIwJTIwaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJhJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJBJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDY1JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbGlua3MlMjAlM0QlMjBUcnVlJTBEJTBBJTIwJTIwJTIwJTIwZWxpZiUyMGtleSUyMCUzRCUzRCUyMCUyMmQlMjIlMjBvciUyMGtleSUyMCUzRCUzRCUyMCUyMkQlMjIlMjBvciUyMGtleV9jb2RlJTIwJTNEJTNEJTIwNjglM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByZWNodHMlMjAlM0QlMjBUcnVlJTBEJTBBJTIwJTIwJTIwJTIwZWxpZiUyMGtleSUyMCUzRCUzRCUyMCUyMnclMjIlMjBvciUyMGtleSUyMCUzRCUzRCUyMCUyMlclMjIlMjBvciUyMGtleV9jb2RlJTIwJTNEJTNEJTIwODclM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBvYmVuJTIwJTNEJTIwVHJ1ZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJzJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJTJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDgzJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdW50ZW4lMjAlM0QlMjBUcnVlJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwa2V5X3JlbGVhc2VkJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwbGlua3MlMkMlMjByZWNodHMlMkMlMjBvYmVuJTJDJTIwdW50ZW4lMEQlMEElMjAlMjAlMjAlMjBpZiUyMGtleSUyMCUzRCUzRCUyMCUyMmElMjIlMjBvciUyMGtleSUyMCUzRCUzRCUyMCUyMkElMjIlMjBvciUyMGtleV9jb2RlJTIwJTNEJTNEJTIwNjUlM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBsaW5rcyUyMCUzRCUyMEZhbHNlJTBEJTBBJTIwJTIwJTIwJTIwZWxpZiUyMGtleSUyMCUzRCUzRCUyMCUyMmQlMjIlMjBvciUyMGtleSUyMCUzRCUzRCUyMCUyMkQlMjIlMjBvciUyMGtleV9jb2RlJTIwJTNEJTNEJTIwNjglM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByZWNodHMlMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJ3JTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJXJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDg3JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwb2JlbiUyMCUzRCUyMEZhbHNlJTBEJTBBJTIwJTIwJTIwJTIwZWxpZiUyMGtleSUyMCUzRCUzRCUyMCUyMnMlMjIlMjBvciUyMGtleSUyMCUzRCUzRCUyMCUyMlMlMjIlMjBvciUyMGtleV9jb2RlJTIwJTNEJTNEJTIwODMlM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB1bnRlbiUyMCUzRCUyMEZhbHNlJTBEJTBB" target="_blank" rel="noopener noreferrer">Musterlösung im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Agent</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>, <span class="tok-name">speed</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">speed</span> = <span class="tok-name">speed</span>
+        <span class="tok-self">self</span>.<span class="tok-name">radius</span> = <span class="tok-number">16</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">steuern</span></span>(<span class="tok-self">self</span>):
+        <span class="tok-keyword">if</span> <span class="tok-name">links</span>:
+            <span class="tok-self">self</span>.<span class="tok-name">x</span> -= <span class="tok-self">self</span>.<span class="tok-name">speed</span>
+        <span class="tok-keyword">if</span> <span class="tok-name">rechts</span>:
+            <span class="tok-self">self</span>.<span class="tok-name">x</span> += <span class="tok-self">self</span>.<span class="tok-name">speed</span>
+        <span class="tok-keyword">if</span> <span class="tok-name">oben</span>:
+            <span class="tok-self">self</span>.<span class="tok-name">y</span> -= <span class="tok-self">self</span>.<span class="tok-name">speed</span>
+        <span class="tok-keyword">if</span> <span class="tok-name">unten</span>:
+            <span class="tok-self">self</span>.<span class="tok-name">y</span> += <span class="tok-self">self</span>.<span class="tok-name">speed</span>
+
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-builtin">constrain</span>(<span class="tok-self">self</span>.<span class="tok-name">x</span>, <span class="tok-self">self</span>.<span class="tok-name">radius</span>, <span class="tok-builtin">width</span> - <span class="tok-self">self</span>.<span class="tok-name">radius</span>)
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-builtin">constrain</span>(<span class="tok-self">self</span>.<span class="tok-name">y</span>, <span class="tok-self">self</span>.<span class="tok-name">radius</span>, <span class="tok-builtin">height</span> - <span class="tok-self">self</span>.<span class="tok-name">radius</span>)</code></pre></div></div></details>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 3 - Die Drohne verfolgt den Agenten</h2>
+<h3>Arbeitsauftrag</h3>
+<ol>
+<li>Schreibe in der Klasse <code>Drohne</code> eine Methode <code>verfolgen(ziel_x, ziel_y)</code>.</li>
+<li>Vergleiche in dieser Methode die aktuelle Position der Drohne mit dem Ziel.</li>
+<li>Bewege die Drohne in kleinen Schritten nach links, rechts, oben oder unten.</li>
+<li>Lasse in <code>draw()</code> zuerst den Agenten steuern und danach die Drohne verfolgen.</li>
+</ol>
+<h3>Warum dieser Schritt?</h3>
+<p>Hier steckt die eigentliche Spielidee drin. Die Drohne reagiert nicht einfach nur auf Tastendruck, sondern orientiert sich an einem anderen Objekt.</p>
+<div class="note-layout"><div class="note-content"><h3>Dabei lernst du</h3>
+<ul>
+<li>Parameter als Zielwerte</li>
+<li>Verhalten zwischen zwei Objekten</li>
+<li>einfache Verfolgungslogik</li>
+</ul></div><aside class="margin-note"><strong>Einfach reicht:</strong> Die Drohne muss noch nicht &quot;intelligent&quot; sein. Es reicht, wenn sie in x- und y-Richtung Schritt für Schritt näher kommt.</aside></div>
+<h3>Demo</h3>
+<div class="preview-frame"><iframe data-src="_previews/drohnenangriff/drohnenangriff3_verfolgung.html" width="520" height="320" loading="lazy" tabindex="0" title="py5-Vorschau drohnenangriff3_verfolgung.py"></iframe></div>
+<p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODE4JTJDJTIwMjQlMkMlMjA0MiUyOSUwRCUwQSUwRCUwQSUwRCUwQWNsYXNzJTIwQWdlbnQlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNwZWVkJTIwJTNEJTIwc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnJhZGl1cyUyMCUzRCUyMDE2JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwc3RldWVybiUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMGxpbmtzJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUzRCUyMHNlbGYuc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMHJlY2h0cyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUyQiUzRCUyMHNlbGYuc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMG9iZW4lM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTNEJTIwc2VsZi5zcGVlZCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGlmJTIwdW50ZW4lM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIwY29uc3RyYWluJTI4c2VsZi54JTJDJTIwc2VsZi5yYWRpdXMlMkMlMjB3aWR0aCUyMC0lMjBzZWxmLnJhZGl1cyUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMGNvbnN0cmFpbiUyOHNlbGYueSUyQyUyMHNlbGYucmFkaXVzJTJDJTIwaGVpZ2h0JTIwLSUyMHNlbGYucmFkaXVzJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MTEwJTJDJTIwMjIwJTJDJTIwMjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwc2VsZi5yYWRpdXMlMjAlMkElMjAyJTI5JTBEJTBBJTBEJTBBJTBEJTBBY2xhc3MlMjBEcm9obmUlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNwZWVkJTIwJTNEJTIwc3BlZWQlMEQlMEElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjB2ZXJmb2xnZW4lMjhzZWxmJTJDJTIwemllbF94JTJDJTIwemllbF95JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIzJTIwVE9ETyUzQSUyMEJld2VnZSUyMGRpZSUyMERyb2huZSUyMGluJTIweC1SaWNodHVuZyUyMGF1ZiUyMGRhcyUyMFppZWwlMjB6dS4lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAuLi4lMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjMlMjBUT0RPJTNBJTIwQmV3ZWdlJTIwZGllJTIwRHJvaG5lJTIwaW4lMjB5LVJpY2h0dW5nJTIwYXVmJTIwZGFzJTIwWmllbCUyMHp1LiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMC4uLiUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRlZiUyMGRyYXclMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbm9fc3Ryb2tlJTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZmlsbCUyODI1NSUyQyUyMDExMiUyQyUyMDExMiUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHJlY3QlMjhzZWxmLnglMjAtJTIwMTMlMkMlMjBzZWxmLnklMjAtJTIwMTMlMkMlMjAyNiUyQyUyMDI2JTJDJTIwNiUyOSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMHNldHVwJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZ2xvYmFsJTIwYWdlbnQlMkMlMjBkcm9obmUlMkMlMjBsaW5rcyUyQyUyMHJlY2h0cyUyQyUyMG9iZW4lMkMlMjB1bnRlbiUwRCUwQSUyMCUyMCUyMCUyMHNpemUlMjg1MjAlMkMlMjAzMjAlMjklMEQlMEElMjAlMjAlMjAlMjBhZ2VudCUyMCUzRCUyMEFnZW50JTI4MzkwJTJDJTIwMTgwJTJDJTIwMi41JTI5JTBEJTBBJTIwJTIwJTIwJTIwZHJvaG5lJTIwJTNEJTIwRHJvaG5lJTI4MTMwJTJDJTIwMTEwJTJDJTIwMC4yNSUyOSUwRCUwQSUyMCUyMCUyMCUyMGxpbmtzJTIwJTNEJTIwRmFsc2UlMEQlMEElMjAlMjAlMjAlMjByZWNodHMlMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMG9iZW4lMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMHVudGVuJTIwJTNEJTIwRmFsc2UlMEQlMEElMEQlMEElMEQlMEFkZWYlMjBkcmF3JTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwYWdlbnQuc3RldWVybiUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMyUyMFRPRE8lM0ElMjBMYXNzZSUyMGRpZSUyMERyb2huZSUyMGRlbiUyMEFnZW50ZW4lMjB2ZXJmb2xnZW4uJTBEJTBBJTIwJTIwJTIwJTIwLi4uJTBEJTBBJTIwJTIwJTIwJTIwYWdlbnQuZHJhdyUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMGRyb2huZS5kcmF3JTI4JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwa2V5X3ByZXNzZWQlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBsaW5rcyUyQyUyMHJlY2h0cyUyQyUyMG9iZW4lMkMlMjB1bnRlbiUwRCUwQSUyMCUyMCUyMCUyMGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIyYSUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyQSUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA2NSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmtzJTIwJTNEJTIwVHJ1ZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJkJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJEJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDY4JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmVjaHRzJTIwJTNEJTIwVHJ1ZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJ3JTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJXJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDg3JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwb2JlbiUyMCUzRCUyMFRydWUlMEQlMEElMjAlMjAlMjAlMjBlbGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIycyUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyUyUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA4MyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHVudGVuJTIwJTNEJTIwVHJ1ZSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMGtleV9yZWxlYXNlZCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGxpbmtzJTJDJTIwcmVjaHRzJTJDJTIwb2JlbiUyQyUyMHVudGVuJTBEJTBBJTIwJTIwJTIwJTIwaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJhJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJBJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDY1JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbGlua3MlMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJkJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJEJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDY4JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmVjaHRzJTIwJTNEJTIwRmFsc2UlMEQlMEElMjAlMjAlMjAlMjBlbGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIydyUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyVyUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA4NyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMG9iZW4lMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJzJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJTJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDgzJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdW50ZW4lMjAlM0QlMjBGYWxzZSUwRCUwQQ==" target="_blank" rel="noopener noreferrer">Aufgabe im Editor öffnen</a></p>
+<details class="solution-block"><summary>Lösungscode zu Station 3 anzeigen</summary><div class="solution-content"><p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODE4JTJDJTIwMjQlMkMlMjA0MiUyOSUwRCUwQSUwRCUwQSUwRCUwQWNsYXNzJTIwQWdlbnQlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNwZWVkJTIwJTNEJTIwc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnJhZGl1cyUyMCUzRCUyMDE2JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwc3RldWVybiUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMGxpbmtzJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUzRCUyMHNlbGYuc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMHJlY2h0cyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUyQiUzRCUyMHNlbGYuc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMG9iZW4lM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTNEJTIwc2VsZi5zcGVlZCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGlmJTIwdW50ZW4lM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIwY29uc3RyYWluJTI4c2VsZi54JTJDJTIwc2VsZi5yYWRpdXMlMkMlMjB3aWR0aCUyMC0lMjBzZWxmLnJhZGl1cyUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMGNvbnN0cmFpbiUyOHNlbGYueSUyQyUyMHNlbGYucmFkaXVzJTJDJTIwaGVpZ2h0JTIwLSUyMHNlbGYucmFkaXVzJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MTEwJTJDJTIwMjIwJTJDJTIwMjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwc2VsZi5yYWRpdXMlMjAlMkElMjAyJTI5JTBEJTBBJTBEJTBBJTBEJTBBY2xhc3MlMjBEcm9obmUlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNwZWVkJTIwJTNEJTIwc3BlZWQlMEQlMEElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjB2ZXJmb2xnZW4lMjhzZWxmJTJDJTIwemllbF94JTJDJTIwemllbF95JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwaWYlMjB6aWVsX3glMjAlM0UlMjBzZWxmLnglM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlMkIlM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxpZiUyMHppZWxfeCUyMCUzQyUyMHNlbGYueCUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwaWYlMjB6aWVsX3klMjAlM0UlMjBzZWxmLnklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxpZiUyMHppZWxfeSUyMCUzQyUyMHNlbGYueSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMC0lM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTJDJTIwMTEyJTJDJTIwMTEyJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmVjdCUyOHNlbGYueCUyMC0lMjAxMyUyQyUyMHNlbGYueSUyMC0lMjAxMyUyQyUyMDI2JTJDJTIwMjYlMkMlMjA2JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBhZ2VudCUyQyUyMGRyb2huZSUyQyUyMGxpbmtzJTJDJTIwcmVjaHRzJTJDJTIwb2JlbiUyQyUyMHVudGVuJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODUyMCUyQyUyMDMyMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGFnZW50JTIwJTNEJTIwQWdlbnQlMjgzOTAlMkMlMjAxODAlMkMlMjAyLjUlMjklMEQlMEElMjAlMjAlMjAlMjBkcm9obmUlMjAlM0QlMjBEcm9obmUlMjgxMzAlMkMlMjAxMTAlMkMlMjAwLjI1JTI5JTBEJTBBJTIwJTIwJTIwJTIwbGlua3MlMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMHJlY2h0cyUyMCUzRCUyMEZhbHNlJTBEJTBBJTIwJTIwJTIwJTIwb2JlbiUyMCUzRCUyMEZhbHNlJTBEJTBBJTIwJTIwJTIwJTIwdW50ZW4lMjAlM0QlMjBGYWxzZSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMGRyYXclMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBkcmF3X2JhY2tncm91bmQlMjglMjklMEQlMEElMjAlMjAlMjAlMjBhZ2VudC5zdGV1ZXJuJTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwZHJvaG5lLnZlcmZvbGdlbiUyOGFnZW50LnglMkMlMjBhZ2VudC55JTI5JTBEJTBBJTIwJTIwJTIwJTIwYWdlbnQuZHJhdyUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMGRyb2huZS5kcmF3JTI4JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwa2V5X3ByZXNzZWQlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBsaW5rcyUyQyUyMHJlY2h0cyUyQyUyMG9iZW4lMkMlMjB1bnRlbiUwRCUwQSUyMCUyMCUyMCUyMGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIyYSUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyQSUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA2NSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmtzJTIwJTNEJTIwVHJ1ZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJkJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJEJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDY4JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmVjaHRzJTIwJTNEJTIwVHJ1ZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJ3JTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJXJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDg3JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwb2JlbiUyMCUzRCUyMFRydWUlMEQlMEElMjAlMjAlMjAlMjBlbGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIycyUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyUyUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA4MyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHVudGVuJTIwJTNEJTIwVHJ1ZSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMGtleV9yZWxlYXNlZCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGxpbmtzJTJDJTIwcmVjaHRzJTJDJTIwb2JlbiUyQyUyMHVudGVuJTBEJTBBJTIwJTIwJTIwJTIwaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJhJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJBJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDY1JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbGlua3MlMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJkJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJEJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDY4JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmVjaHRzJTIwJTNEJTIwRmFsc2UlMEQlMEElMjAlMjAlMjAlMjBlbGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIydyUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyVyUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA4NyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMG9iZW4lMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJzJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJTJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDgzJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdW50ZW4lMjAlM0QlMjBGYWxzZSUwRCUwQQ==" target="_blank" rel="noopener noreferrer">Musterlösung im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Drohne</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>, <span class="tok-name">speed</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">speed</span> = <span class="tok-name">speed</span>
+
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">verfolgen</span></span>(<span class="tok-self">self</span>, <span class="tok-name">ziel_x</span>, <span class="tok-name">ziel_y</span>):
+        <span class="tok-keyword">if</span> <span class="tok-name">ziel_x</span> &gt; <span class="tok-self">self</span>.<span class="tok-name">x</span>:
+            <span class="tok-self">self</span>.<span class="tok-name">x</span> += <span class="tok-self">self</span>.<span class="tok-name">speed</span>
+        <span class="tok-keyword">elif</span> <span class="tok-name">ziel_x</span> &lt; <span class="tok-self">self</span>.<span class="tok-name">x</span>:
+            <span class="tok-self">self</span>.<span class="tok-name">x</span> -= <span class="tok-self">self</span>.<span class="tok-name">speed</span>
+
+        <span class="tok-keyword">if</span> <span class="tok-name">ziel_y</span> &gt; <span class="tok-self">self</span>.<span class="tok-name">y</span>:
+            <span class="tok-self">self</span>.<span class="tok-name">y</span> += <span class="tok-self">self</span>.<span class="tok-name">speed</span>
+        <span class="tok-keyword">elif</span> <span class="tok-name">ziel_y</span> &lt; <span class="tok-self">self</span>.<span class="tok-name">y</span>:
+            <span class="tok-self">self</span>.<span class="tok-name">y</span> -= <span class="tok-self">self</span>.<span class="tok-name">speed</span></code></pre></div></div></details>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 4 - Abstand und Kollision prüfen</h2>
+<h3>Arbeitsauftrag</h3>
+<ol>
+<li>Ergänze in der Klasse <code>Agent</code> eine Methode <code>position()</code>.</li>
+<li>Diese Methode soll <code>self.x</code> und <code>self.y</code> zurückgeben.</li>
+<li>Ergänze in der Klasse <code>Drohne</code> eine Methode <code>abstand(ax, ay)</code>.</li>
+<li>Diese Methode soll den Abstand zwischen Drohne und Agent als Zahl zurückgeben.</li>
+<li>Wenn der Abstand klein genug ist, endet das Spiel mit einer Meldung.</li>
+</ol>
+<h3>Warum dieser Schritt?</h3>
+<p>Jetzt kommt der Rückgabewert an einer klaren Stelle ins Spiel. Die Methoden geben nicht nur etwas aus, sondern liefern einen Wert, mit dem dein Hauptprogramm weiterarbeiten kann.</p>
+<div class="note-layout"><div class="note-content"><h3>Dabei lernst du</h3>
+<ul>
+<li><code>return</code> für Rückgabewerte</li>
+<li>einen Rückgabewert direkt in zwei Variablen aufteilen</li>
+<li>Rückgabewerte in Bedingungen nutzen</li>
+<li>Kollision als Spielregel</li>
+</ul></div><aside class="margin-note"><strong>Rückgabewerte:</strong> <code>position()</code> liefert die aktuelle Position des Agenten zurück. Diese zwei Werte kannst du direkt in zwei Variablen auffangen: <code>agent_x, agent_y = agent.position()</code>. <code>abstand(...)</code> liefert eine Zahl. Diese Zahl kannst du direkt in einer <code>if</code>-Bedingung benutzen.</aside></div>
+<aside class="margin-note"><strong>Neuer Schritt:</strong> Das ist hier absichtlich neu. Eine Methode kann also nicht nur genau einen Wert zurückgeben, sondern auch mehrere Werte, die du direkt passend auf Variablen verteilen kannst.</aside>
+<aside class="margin-note"><strong>Abstand messen:</strong> Für <code>abstand(...)</code> musst du die Formel nicht selbst erfinden. In py5 gibt es mit <code>dist(...)</code> schon eine fertige Funktion für den Abstand zwischen zwei Punkten.</aside>
+<h3>Demo</h3>
+<div class="preview-frame"><iframe data-src="_previews/drohnenangriff/drohnenangriff4_kollision.html" width="520" height="320" loading="lazy" tabindex="0" title="py5-Vorschau drohnenangriff4_kollision.py"></iframe></div>
+<div class="sketch-fallback"><p class="sketch-fallback-title">Editor-Link ersetzt</p><p>Dieser Sketch ist zu lang für einen py5-Editorlink mit ?sketch=. Arbeite stattdessen direkt mit der Python-Datei aus diesem Ordner.</p><p class="sketch-fallback-link"><a class="button-link" href="_sources/drohnenangriff/drohnenangriff4_aufgabe.py" target="_blank" rel="noopener noreferrer">Aufgabe im Editor öffnen</a></p></div>
+<details class="solution-block"><summary>Lösungscode zu Station 4 anzeigen</summary><div class="solution-content"><p class="editor-link"><a class="button-link" href="https://abav.lugaralgum.com/pyp5js/py5mode/?sketch=ZGVmJTIwZHJhd19iYWNrZ3JvdW5kJTI4JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwYmFja2dyb3VuZCUyODE4JTJDJTIwMjQlMkMlMjA0MiUyOSUwRCUwQSUwRCUwQSUwRCUwQWNsYXNzJTIwQWdlbnQlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNwZWVkJTIwJTNEJTIwc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnJhZGl1cyUyMCUzRCUyMDE2JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwc3RldWVybiUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMGxpbmtzJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwLSUzRCUyMHNlbGYuc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMHJlY2h0cyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMCUyQiUzRCUyMHNlbGYuc3BlZWQlMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMG9iZW4lM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAtJTNEJTIwc2VsZi5zcGVlZCUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGlmJTIwdW50ZW4lM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIwY29uc3RyYWluJTI4c2VsZi54JTJDJTIwc2VsZi5yYWRpdXMlMkMlMjB3aWR0aCUyMC0lMjBzZWxmLnJhZGl1cyUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMGNvbnN0cmFpbiUyOHNlbGYueSUyQyUyMHNlbGYucmFkaXVzJTJDJTIwaGVpZ2h0JTIwLSUyMHNlbGYucmFkaXVzJTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwcG9zaXRpb24lMjhzZWxmJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmV0dXJuJTIwc2VsZi54JTJDJTIwc2VsZi55JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MTEwJTJDJTIwMjIwJTJDJTIwMjU1JTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwY2lyY2xlJTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwc2VsZi5yYWRpdXMlMjAlMkElMjAyJTI5JTBEJTBBJTBEJTBBJTBEJTBBY2xhc3MlMjBEcm9obmUlM0ElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjBfX2luaXRfXyUyOHNlbGYlMkMlMjB4X3Bvc2l0aW9uJTJDJTIweV9wb3NpdGlvbiUyQyUyMHNwZWVkJTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwc2VsZi54JTIwJTNEJTIweF9wb3NpdGlvbiUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMCUzRCUyMHlfcG9zaXRpb24lMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnNwZWVkJTIwJTNEJTIwc3BlZWQlMEQlMEElMEQlMEElMjAlMjAlMjAlMjBkZWYlMjB2ZXJmb2xnZW4lMjhzZWxmJTJDJTIwemllbF94JTJDJTIwemllbF95JTI5JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwaWYlMjB6aWVsX3glMjAlM0UlMjBzZWxmLnglM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnglMjAlMkIlM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxpZiUyMHppZWxfeCUyMCUzQyUyMHNlbGYueCUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueCUyMC0lM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwaWYlMjB6aWVsX3klMjAlM0UlMjBzZWxmLnklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBzZWxmLnklMjAlMkIlM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZWxpZiUyMHppZWxfeSUyMCUzQyUyMHNlbGYueSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHNlbGYueSUyMC0lM0QlMjBzZWxmLnNwZWVkJTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwYWJzdGFuZCUyOHNlbGYlMkMlMjB6aWVsX3glMkMlMjB6aWVsX3klMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjByZXR1cm4lMjBkaXN0JTI4c2VsZi54JTJDJTIwc2VsZi55JTJDJTIwemllbF94JTJDJTIwemllbF95JTI5JTBEJTBBJTBEJTBBJTIwJTIwJTIwJTIwZGVmJTIwZHJhdyUyOHNlbGYlMjklM0ElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBub19zdHJva2UlMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBmaWxsJTI4MjU1JTJDJTIwMTEyJTJDJTIwMTEyJTI5JTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmVjdCUyOHNlbGYueCUyMC0lMjAxMyUyQyUyMHNlbGYueSUyMC0lMjAxMyUyQyUyMDI2JTJDJTIwMjYlMkMlMjA2JTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwc2V0dXAlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBhZ2VudCUyQyUyMGRyb2huZSUyQyUyMGxpbmtzJTJDJTIwcmVjaHRzJTJDJTIwb2JlbiUyQyUyMHVudGVuJTJDJTIwZ2FtZV9vdmVyJTBEJTBBJTIwJTIwJTIwJTIwc2l6ZSUyODUyMCUyQyUyMDMyMCUyOSUwRCUwQSUyMCUyMCUyMCUyMGFnZW50JTIwJTNEJTIwQWdlbnQlMjgzOTAlMkMlMjAxODAlMkMlMjAyLjUlMjklMEQlMEElMjAlMjAlMjAlMjBkcm9obmUlMjAlM0QlMjBEcm9obmUlMjgxMzAlMkMlMjAxMTAlMkMlMjAwLjI1JTI5JTBEJTBBJTIwJTIwJTIwJTIwbGlua3MlMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMHJlY2h0cyUyMCUzRCUyMEZhbHNlJTBEJTBBJTIwJTIwJTIwJTIwb2JlbiUyMCUzRCUyMEZhbHNlJTBEJTBBJTIwJTIwJTIwJTIwdW50ZW4lMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMGdhbWVfb3ZlciUyMCUzRCUyMEZhbHNlJTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwZHJhdyUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGdhbWVfb3ZlciUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGRyYXdfYmFja2dyb3VuZCUyOCUyOSUwRCUwQSUwRCUwQSUyMCUyMCUyMCUyMGlmJTIwbm90JTIwZ2FtZV9vdmVyJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwYWdlbnQuc3RldWVybiUyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGFnZW50X3glMkMlMjBhZ2VudF95JTIwJTNEJTIwYWdlbnQucG9zaXRpb24lMjglMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBkcm9obmUudmVyZm9sZ2VuJTI4YWdlbnRfeCUyQyUyMGFnZW50X3klMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBpZiUyMGRyb2huZS5hYnN0YW5kJTI4YWdlbnRfeCUyQyUyMGFnZW50X3klMjklMjAlM0MlMjAxOCUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGdhbWVfb3ZlciUyMCUzRCUyMFRydWUlMEQlMEElMEQlMEElMjAlMjAlMjAlMjBhZ2VudC5kcmF3JTI4JTI5JTBEJTBBJTIwJTIwJTIwJTIwZHJvaG5lLmRyYXclMjglMjklMEQlMEElMEQlMEElMjAlMjAlMjAlMjBpZiUyMGdhbWVfb3ZlciUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZpbGwlMjgyNTUlMjklMEQlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjB0ZXh0X3NpemUlMjgyOCUyOSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHRleHQlMjglMjJHYW1lJTIwT3ZlciUyMiUyQyUyMDE5MCUyQyUyMDUwJTI5JTBEJTBBJTBEJTBBJTBEJTBBZGVmJTIwa2V5X3ByZXNzZWQlMjglMjklM0ElMEQlMEElMjAlMjAlMjAlMjBnbG9iYWwlMjBsaW5rcyUyQyUyMHJlY2h0cyUyQyUyMG9iZW4lMkMlMjB1bnRlbiUwRCUwQSUyMCUyMCUyMCUyMGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIyYSUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyQSUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA2NSUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGxpbmtzJTIwJTNEJTIwVHJ1ZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJkJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJEJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDY4JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmVjaHRzJTIwJTNEJTIwVHJ1ZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJ3JTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJXJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDg3JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwb2JlbiUyMCUzRCUyMFRydWUlMEQlMEElMjAlMjAlMjAlMjBlbGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIycyUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyUyUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA4MyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHVudGVuJTIwJTNEJTIwVHJ1ZSUwRCUwQSUwRCUwQSUwRCUwQWRlZiUyMGtleV9yZWxlYXNlZCUyOCUyOSUzQSUwRCUwQSUyMCUyMCUyMCUyMGdsb2JhbCUyMGxpbmtzJTJDJTIwcmVjaHRzJTJDJTIwb2JlbiUyQyUyMHVudGVuJTBEJTBBJTIwJTIwJTIwJTIwaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJhJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJBJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDY1JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbGlua3MlMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJkJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJEJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDY4JTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwcmVjaHRzJTIwJTNEJTIwRmFsc2UlMEQlMEElMjAlMjAlMjAlMjBlbGlmJTIwa2V5JTIwJTNEJTNEJTIwJTIydyUyMiUyMG9yJTIwa2V5JTIwJTNEJTNEJTIwJTIyVyUyMiUyMG9yJTIwa2V5X2NvZGUlMjAlM0QlM0QlMjA4NyUzQSUwRCUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMG9iZW4lMjAlM0QlMjBGYWxzZSUwRCUwQSUyMCUyMCUyMCUyMGVsaWYlMjBrZXklMjAlM0QlM0QlMjAlMjJzJTIyJTIwb3IlMjBrZXklMjAlM0QlM0QlMjAlMjJTJTIyJTIwb3IlMjBrZXlfY29kZSUyMCUzRCUzRCUyMDgzJTNBJTBEJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwdW50ZW4lMjAlM0QlMjBGYWxzZSUwRCUwQQ==" target="_blank" rel="noopener noreferrer">Musterlösung im Editor öffnen</a></p>
+<div class="code-block"><pre><code class="language-python"><span class="tok-name">agent_x</span>, <span class="tok-name">agent_y</span> = <span class="tok-name">agent</span>.<span class="tok-name">position</span>()
+<span class="tok-name">drohne</span>.<span class="tok-name">verfolgen</span>(<span class="tok-name">agent_x</span>, <span class="tok-name">agent_y</span>)
+
+<span class="tok-keyword">if</span> <span class="tok-name">drohne</span>.<span class="tok-name">abstand</span>(<span class="tok-name">agent_x</span>, <span class="tok-name">agent_y</span>) &lt; <span class="tok-number">18</span>:
+    <span class="tok-name">game_over</span> = <span class="tok-name">True</span></code></pre></div></div></details>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 5 - Mehrere Drohnen</h2>
+<h3>Arbeitsauftrag</h3>
+<ol>
+<li>Erzeuge nicht mehr nur eine Drohne, sondern mehrere.</li>
+<li>Speichere sie in einer Liste <code>drohnen</code>.</li>
+<li>Gehe in <code>draw()</code> mit einer Schleife durch die Liste.</li>
+<li>Lasse alle Drohnen verfolgen und prüfe für jede die Kollision.</li>
+<li>Gib den Drohnen zufällige Farben, damit sie sich besser unterscheiden.</li>
+</ol>
+<h3>Warum ist das eine gute Erweiterung?</h3>
+<p>Erst hier lohnt sich die Liste wirklich. Du überträgst die bekannte Logik auf mehrere Objekte derselben Klasse.</p>
+<div class="note-layout"><div class="note-content"><h3>Dabei lernst du</h3>
+<ul>
+<li>Liste von Objekten</li>
+<li>gleiche Logik für mehrere Instanzen</li>
+<li>zufällige Attribute für mehr Variation</li>
+</ul></div><aside class="margin-note"><strong>Wichtiger Schritt:</strong> Diese Station gehört noch zum Kern des Projekts. Erst mit mehreren Drohnen wird richtig sichtbar, warum OOP und Listen zusammen nützlich sind.</aside></div>
+<aside class="margin-note"><strong>Farben:</strong> Der Ausdruck mit <code>color(random(...), random(...), random(...))</code> darf hier ruhig erstmal als fertiges Muster benutzt werden. Wichtig ist vor allem die Idee: Jede Drohne bekommt beim Erzeugen ihren eigenen Farbwert als Attribut.</aside>
+<h3>Demo</h3>
+<div class="preview-frame"><iframe data-src="_previews/drohnenangriff/drohnenangriff5_mehrere_drohnen.html" width="520" height="320" loading="lazy" tabindex="0" title="py5-Vorschau drohnenangriff5_mehrere_drohnen.py"></iframe></div>
+<div class="sketch-fallback"><p class="sketch-fallback-title">Editor-Link ersetzt</p><p>Dieser Sketch ist zu lang für einen py5-Editorlink mit ?sketch=. Arbeite stattdessen direkt mit der Python-Datei aus diesem Ordner.</p><p class="sketch-fallback-link"><a class="button-link" href="_sources/drohnenangriff/drohnenangriff5_aufgabe.py" target="_blank" rel="noopener noreferrer">Aufgabe im Editor öffnen</a></p></div>
+<details class="solution-block"><summary>Lösungscode zu Station 5 anzeigen</summary><div class="solution-content"><div class="sketch-fallback"><p class="sketch-fallback-title">Editor-Link ersetzt</p><p>Dieser Sketch ist zu lang für einen py5-Editorlink mit ?sketch=. Arbeite stattdessen direkt mit der Python-Datei aus diesem Ordner.</p><p class="sketch-fallback-link"><a class="button-link" href="_sources/drohnenangriff/drohnenangriff5_mehrere_drohnen.py" target="_blank" rel="noopener noreferrer">Musterlösung im Editor öffnen</a></p></div>
+<div class="code-block"><pre><code class="language-python"><span class="tok-keyword">class</span> <span class="tok-class"><span class="tok-name">Drohne</span></span>:
+    <span class="tok-keyword">def</span> <span class="tok-function"><span class="tok-name">__init__</span></span>(<span class="tok-self">self</span>, <span class="tok-name">x_position</span>, <span class="tok-name">y_position</span>, <span class="tok-name">speed</span>):
+        <span class="tok-self">self</span>.<span class="tok-name">x</span> = <span class="tok-name">x_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">y</span> = <span class="tok-name">y_position</span>
+        <span class="tok-self">self</span>.<span class="tok-name">speed</span> = <span class="tok-name">speed</span>
+        <span class="tok-self">self</span>.<span class="tok-name">body_color</span> = <span class="tok-builtin">color</span>(<span class="tok-builtin">random</span>(<span class="tok-number">120</span>, <span class="tok-number">255</span>), <span class="tok-builtin">random</span>(<span class="tok-number">90</span>, <span class="tok-number">220</span>), <span class="tok-builtin">random</span>(<span class="tok-number">90</span>, <span class="tok-number">255</span>))
+
+
+<span class="tok-name">drohnen</span> = [
+    <span class="tok-name">Drohne</span>(<span class="tok-number">110</span>, <span class="tok-number">90</span>, <span class="tok-number">0.18</span>),
+    <span class="tok-name">Drohne</span>(<span class="tok-number">150</span>, <span class="tok-number">150</span>, <span class="tok-number">0.22</span>),
+    <span class="tok-name">Drohne</span>(<span class="tok-number">110</span>, <span class="tok-number">220</span>, <span class="tok-number">0.26</span>),
+]
+
+<span class="tok-keyword">for</span> <span class="tok-name">drohne</span> <span class="tok-keyword">in</span> <span class="tok-name">drohnen</span>:
+    <span class="tok-name">drohne</span>.<span class="tok-name">verfolgen</span>(<span class="tok-name">agent_x</span>, <span class="tok-name">agent_y</span>)
+    <span class="tok-keyword">if</span> <span class="tok-name">drohne</span>.<span class="tok-name">abstand</span>(<span class="tok-name">agent_x</span>, <span class="tok-name">agent_y</span>) &lt; <span class="tok-number">18</span>:
+        <span class="tok-name">game_over</span> = <span class="tok-name">True</span></code></pre></div></div></details>
+<hr />
+</section>
+<section class="content-section">
+<h2>Station 6 - Kreative Erweiterungen</h2>
+<h3>Arbeitsauftrag</h3>
+<p>Wähle eine oder mehrere Ideen aus und erweitere dein Spiel selbstständig.</p>
+<h3>Mögliche Ideen</h3>
+<ol>
+<li><strong>Hübscher machen:</strong> Verändere Farben, Formen, Hintergrund oder HUD.</li>
+<li><strong>Punktezähler:</strong> Zähle, wie lange man überlebt, und zeige den Wert sichtbar an.</li>
+<li><strong>Teleportation:</strong> Mit einer Taste springt der Agent einmal an eine neue Stelle.</li>
+<li><strong>Sprint:</strong> Der Agent kann für kurze Zeit schneller werden.</li>
+<li><strong>Schwierigkeit steigern:</strong> Die Drohnen werden mit der Zeit etwas schneller.</li>
+<li><strong>Neustarttaste:</strong> Starte das Spiel per Taste neu.</li>
+<li><strong>Besondere Zonen:</strong> Baue Bereiche ein, die schützen oder verlangsamen.</li>
+</ol>
+<h3>Warum ist das eine gute Station?</h3>
+<p>Hier planst du selbst, welche Idee du umsetzen willst. Du benutzt die bekannten Klassen und Methoden weiter, entscheidest aber eigenständiger, wie dein Spiel sich entwickeln soll.</p>
+<div class="note-layout"><div class="note-content"><h3>Dabei lernst du</h3>
+<ul>
+<li>bekannte Bausteine kreativ weiterverwenden</li>
+<li>Spielideen selbst planen</li>
+<li>eigene Zusatzregeln programmieren</li>
+</ul></div><aside class="margin-note"><strong>Kreativstation:</strong> Nimm dir lieber eine Idee vor, die sauber funktioniert, statt fünf Dinge gleichzeitig halb anzufangen.</aside></div>
+</section>
+    </main>
+    <script>
+      (() => {
+        const frames = document.querySelectorAll('iframe[data-src]');
+
+        const loadFrame = (frame) => {
+          if (frame.dataset.loaded === 'true') {
+            return;
+          }
+
+          frame.src = frame.dataset.src;
+          frame.dataset.loaded = 'true';
+        };
+
+        if (!('IntersectionObserver' in window)) {
+          frames.forEach(loadFrame);
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) {
+                continue;
+              }
+
+              loadFrame(entry.target);
+              observer.unobserve(entry.target);
+            }
+          },
+          {
+            rootMargin: '180px 0px',
+          }
+        );
+
+        frames.forEach((frame) => observer.observe(frame));
+      })();
+    </script>
+  </body>
+</html>

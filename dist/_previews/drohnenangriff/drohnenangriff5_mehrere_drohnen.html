@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>drohnenangriff5_mehrere_drohnen.py – Vorschau</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        overflow: hidden;
+      }
+
+      #sketch-holder {
+        display: block;
+        line-height: 0;
+      }
+
+      canvas {
+        display: block;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+    <script>
+      function checkForSketch() {
+        return "def draw_background():\n    background(18, 24, 42)\n\n\nclass Agent:\n    def __init__(self, x_position, y_position, speed):\n        self.x = x_position\n        self.y = y_position\n        self.speed = speed\n        self.radius = 16\n\n    def steuern(self):\n        if links:\n            self.x -= self.speed\n        if rechts:\n            self.x += self.speed\n        if oben:\n            self.y -= self.speed\n        if unten:\n            self.y += self.speed\n\n        self.x = constrain(self.x, self.radius, width - self.radius)\n        self.y = constrain(self.y, self.radius, height - self.radius)\n\n    def position(self):\n        return self.x, self.y\n\n    def draw(self):\n        no_stroke()\n        fill(110, 220, 255)\n        circle(self.x, self.y, self.radius * 2)\n\n\nclass Drohne:\n    def __init__(self, x_position, y_position, speed):\n        self.x = x_position\n        self.y = y_position\n        self.speed = speed\n        self.body_color = color(random(120, 255), random(90, 220), random(90, 255))\n\n    def verfolgen(self, ziel_x, ziel_y):\n        if ziel_x > self.x:\n            self.x += self.speed\n        elif ziel_x < self.x:\n            self.x -= self.speed\n\n        if ziel_y > self.y:\n            self.y += self.speed\n        elif ziel_y < self.y:\n            self.y -= self.speed\n\n    def abstand(self, ziel_x, ziel_y):\n        return dist(self.x, self.y, ziel_x, ziel_y)\n\n    def draw(self):\n        no_stroke()\n        fill(self.body_color)\n        rect(self.x - 13, self.y - 13, 26, 26, 6)\n\n\ndef setup():\n    global agent, drohnen, links, rechts, oben, unten, game_over\n    size(520, 320)\n    agent = Agent(390, 180, 2.5)\n    links = False\n    rechts = False\n    oben = False\n    unten = False\n    game_over = False\n\n    drohnen = [\n        Drohne(110, 90, 0.18),\n        Drohne(150, 150, 0.22),\n        Drohne(110, 220, 0.26),\n    ]\n\n\ndef draw():\n    global game_over\n\n    draw_background()\n\n    if not game_over:\n        agent.steuern()\n        agent_x, agent_y = agent.position()\n\n        for drohne in drohnen:\n            drohne.verfolgen(agent_x, agent_y)\n            if drohne.abstand(agent_x, agent_y) < 18:\n                game_over = True\n\n    agent.draw()\n\n    for drohne in drohnen:\n        drohne.draw()\n\n    if game_over:\n        fill(255)\n        text_size(28)\n        text(\"Game Over\", 190, 50)\n\n\ndef key_pressed():\n    global links, rechts, oben, unten\n    if key == \"a\" or key == \"A\" or key_code == 65:\n        links = True\n    elif key == \"d\" or key == \"D\" or key_code == 68:\n        rechts = True\n    elif key == \"w\" or key == \"W\" or key_code == 87:\n        oben = True\n    elif key == \"s\" or key == \"S\" or key_code == 83:\n        unten = True\n\n\ndef key_released():\n    global links, rechts, oben, unten\n    if key == \"a\" or key == \"A\" or key_code == 65:\n        links = False\n    elif key == \"d\" or key == \"D\" or key_code == 68:\n        rechts = False\n    elif key == \"w\" or key == \"W\" or key_code == 87:\n        oben = False\n    elif key == \"s\" or key == \"S\" or key_code == 83:\n        unten = False\n";
+      }
+    </script>
+  </head>
+  <body tabindex="0">
+    <div id="sketch-holder"></div>
+    <script>
+      const handledKeys = ["w", "a", "s", "d", "W", "A", "S", "D"];
+
+      window.addEventListener("load", () => {
+        document.body.focus();
+      });
+
+      window.addEventListener("pointerdown", () => {
+        window.focus();
+        document.body.focus();
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (handledKeys.includes(event.key)) {
+          event.preventDefault();
+        }
+      });
+
+      window.addEventListener("keyup", (event) => {
+        if (handledKeys.includes(event.key)) {
+          event.preventDefault();
+        }
+      });
+    </script>
+    <script src="https://abav.lugaralgum.com/pyp5js/py5mode/target/target_sketch.js"></script>
+  </body>
+</html>

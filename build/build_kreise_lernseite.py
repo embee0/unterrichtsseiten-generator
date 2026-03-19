@@ -1,15 +1,8 @@
-from build import render_lernseite as builder
-from build.site_config import get_site
+from build.build_lernseite import build_named_site
 
 
 def main() -> None:
-    kreise = get_site("kreise")
-    builder.build_site(
-        source=kreise.source,
-        target=kreise.target,
-        title=kreise.title,
-        aliases=kreise.aliases,
-    )
+    build_named_site("kreise")
 
 
 if __name__ == "__main__":

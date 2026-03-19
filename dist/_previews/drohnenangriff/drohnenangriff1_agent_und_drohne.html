@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>drohnenangriff1_agent_und_drohne.py – Vorschau</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        overflow: hidden;
+      }
+
+      #sketch-holder {
+        display: block;
+        line-height: 0;
+      }
+
+      canvas {
+        display: block;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+    <script>
+      function checkForSketch() {
+        return "def draw_background():\n    background(18, 24, 42)\n\n\nclass Agent:\n    def __init__(self, x_position, y_position):\n        self.x = x_position\n        self.y = y_position\n\n    def draw(self):\n        no_stroke()\n        fill(110, 220, 255)\n        circle(self.x, self.y, 32)\n\n\nclass Drohne:\n    def __init__(self, x_position, y_position):\n        self.x = x_position\n        self.y = y_position\n\n    def draw(self):\n        no_stroke()\n        fill(255, 112, 112)\n        rect(self.x - 13, self.y - 13, 26, 26, 6)\n\n\ndef setup():\n    global agent, drohne\n    size(520, 320)\n    agent = Agent(390, 180)\n    drohne = Drohne(130, 110)\n\n\ndef draw():\n    draw_background()\n    agent.draw()\n    drohne.draw()\n";
+      }
+    </script>
+  </head>
+  <body tabindex="0">
+    <div id="sketch-holder"></div>
+    <script>
+      const handledKeys = ["w", "a", "s", "d", "W", "A", "S", "D"];
+
+      window.addEventListener("load", () => {
+        document.body.focus();
+      });
+
+      window.addEventListener("pointerdown", () => {
+        window.focus();
+        document.body.focus();
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (handledKeys.includes(event.key)) {
+          event.preventDefault();
+        }
+      });
+
+      window.addEventListener("keyup", (event) => {
+        if (handledKeys.includes(event.key)) {
+          event.preventDefault();
+        }
+      });
+    </script>
+    <script src="https://abav.lugaralgum.com/pyp5js/py5mode/target/target_sketch.js"></script>
+  </body>
+</html>

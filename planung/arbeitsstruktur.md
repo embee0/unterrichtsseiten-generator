@@ -4,6 +4,8 @@
 
 Dieses Dokument hält fest, **wie wir in Zukunft inhaltlich und organisatorisch zusammenarbeiten können**, ohne das Projekt unnötig zu verkomplizieren.
 
+Es beschreibt die Arbeits- und Dateistruktur, nicht die allgemeinen didaktischen Leitlinien. Diese stehen zentral in `planung/didaktische-prinzipien.md`.
+
 Die Leitfrage ist:
 
 **Welche wenigen Dateien und Bezugspunkte brauchen wir, damit klar ist, was inhaltlich gemeint ist, wie der Lernweg aussieht und welche Materialien dazu gehören?**
@@ -107,6 +109,18 @@ Wichtiger ist, dass schnell klar ist:
 - was die Lernziele sind
 - wie der Lernweg aussehen soll
 - welche Materialien dazu gehören
+
+Nicht hier gesammelt werden sollen:
+
+- allgemeine didaktische Prinzipien fuer alle Lernseiten
+- Session-Start-Hinweise oder Projektstatus
+- technische Einzel-ToDos
+
+Dafuer gibt es bereits zentrale Orte:
+
+- `planung/didaktische-prinzipien.md`
+- `AGENTS.md`
+- `planung/technik-todos.md`
 
 ---
 
@@ -255,3 +269,4 @@ Wenn diese fünf Punkte klar sind, kann ich sehr zielgerichtet weiterarbeiten.
 Diese Datei ist absichtlich eine **schlanke Arbeitsvereinbarung** und kein großes Modellpapier.
 
 Sie soll uns helfen, mit wenigen klaren Bezugspunkten weiterzuarbeiten.
+Wenn Inhalte hier auftauchen, die eigentlich allgemeine Didaktik, technische ToDos oder Session-Kontext sind, sollten sie in die jeweils passendere Datei verschoben werden.

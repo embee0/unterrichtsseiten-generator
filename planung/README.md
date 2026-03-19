@@ -3,6 +3,7 @@
 Hier liegen die internen Arbeits- und Strukturdateien.
 
 - `arbeitsstruktur.md` ist die wichtigste Datei für die laufende Zusammenarbeit
+- `didaktische-prinzipien.md` sammelt die gemeinsamen Leitlinien für alle Lernseiten
 - `projektideen.md` hält mögliche Fortsetzungen und Folgeprojekte fest
 - `technik-todos.md` sammelt offene technische Punkte und Infrastrukturfragen
 - weitere Notizen hier sollten nur bleiben, wenn sie nicht schon in `arbeitsstruktur.md` aufgehen

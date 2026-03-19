@@ -101,7 +101,12 @@ def get_asset_path(filename: str) -> Path:
 def get_source_output_path(filename: str) -> Path:
     asset_path = get_asset_path(filename)
     relative_asset_path = asset_path.relative_to(SOURCE.parent)
-    return TARGET.parent / SOURCE_EXPORT_DIR_NAME / SOURCE.parent.name / relative_asset_path
+    return (
+        TARGET.parent
+        / SOURCE_EXPORT_DIR_NAME
+        / SOURCE.parent.name
+        / relative_asset_path
+    )
 
 
 def get_source_relative_path(filename: str) -> str:
@@ -201,8 +206,32 @@ def render_preview_page(filename: str) -> str:
       }}
     </script>
   </head>
-  <body>
+  <body tabindex=\"0\">
     <div id=\"sketch-holder\"></div>
+    <script>
+      const handledKeys = ["w", "a", "s", "d", "W", "A", "S", "D"];
+
+      window.addEventListener("load", () => {{
+        document.body.focus();
+      }});
+
+      window.addEventListener("pointerdown", () => {{
+        window.focus();
+        document.body.focus();
+      }});
+
+      window.addEventListener("keydown", (event) => {{
+        if (handledKeys.includes(event.key)) {{
+          event.preventDefault();
+        }}
+      }});
+
+      window.addEventListener("keyup", (event) => {{
+        if (handledKeys.includes(event.key)) {{
+          event.preventDefault();
+        }}
+      }});
+    </script>
     <script src=\"https://abav.lugaralgum.com/pyp5js/py5mode/target/target_sketch.js\"></script>
   </body>
 </html>
@@ -217,11 +246,11 @@ def ensure_preview_page(filename: str) -> str:
 
 
 def ensure_source_export(filename: str) -> str:
-  asset_path = get_asset_path(filename)
-  source_output_path = get_source_output_path(filename)
-  source_output_path.parent.mkdir(parents=True, exist_ok=True)
-  shutil.copy2(asset_path, source_output_path)
-  return get_source_relative_path(filename)
+    asset_path = get_asset_path(filename)
+    source_output_path = get_source_output_path(filename)
+    source_output_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(asset_path, source_output_path)
+    return get_source_relative_path(filename)
 
 
 def inline_format(text: str) -> str:
@@ -342,7 +371,7 @@ def render_iframe(filename: str) -> str:
     iframe_height = sketch_height + IFRAME_CHROME
     return (
         '<div class="preview-frame">'
-    f'<iframe data-src="{html.escape(url, quote=True)}" width="{iframe_width}" height="{iframe_height}" loading="lazy"></iframe>'
+    f'<iframe data-src="{html.escape(url, quote=True)}" width="{iframe_width}" height="{iframe_height}" loading="lazy" tabindex="0" title="py5-Vorschau {html.escape(Path(filename).name)}"></iframe>'
         "</div>"
     )
 
@@ -382,56 +411,56 @@ def wrap_with_margin_note(content_html: str, note_html: str) -> str:
 
 
 def extend_start_index_for_previous_context(parts: list[str], start_index: int) -> int:
-  if start_index > 0 and parts[start_index - 1] in {"</ul>", "</ol>"}:
-    closing_tag = parts[start_index - 1]
-    opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
+    if start_index > 0 and parts[start_index - 1] in {"</ul>", "</ol>"}:
+        closing_tag = parts[start_index - 1]
+        opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
 
-    list_start = start_index - 1
-    while list_start >= 0 and parts[list_start] != opening_tag:
-      list_start -= 1
+        list_start = start_index - 1
+        while list_start >= 0 and parts[list_start] != opening_tag:
+            list_start -= 1
 
-    if list_start >= 0:
-      start_index = list_start
+        if list_start >= 0:
+            start_index = list_start
 
-  if start_index > 0 and parts[start_index - 1].startswith("<p>"):
-    start_index -= 1
+    if start_index > 0 and parts[start_index - 1].startswith("<p>"):
+        start_index -= 1
 
-  if start_index > 0 and parts[start_index - 1].startswith(("<h2>", "<h3>")):
-    start_index -= 1
+    if start_index > 0 and parts[start_index - 1].startswith(("<h2>", "<h3>")):
+        start_index -= 1
 
-  return start_index
+    return start_index
 
 
 def attach_note_to_previous_block(parts: list[str], note_html: str) -> bool:
-  if not parts:
+    if not parts:
+        return False
+
+    if parts[-1].startswith("<p>"):
+        start_index = len(parts) - 1
+        start_index = extend_start_index_for_previous_context(parts, start_index)
+
+        content_html = "\n".join(parts[start_index:])
+        del parts[start_index:]
+        parts.append(wrap_with_margin_note(content_html, note_html))
+        return True
+
+    if parts[-1] in {"</ul>", "</ol>"}:
+        closing_tag = parts[-1]
+        opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
+
+        start_index = len(parts) - 1
+        while start_index >= 0 and parts[start_index] != opening_tag:
+            start_index -= 1
+
+        if start_index >= 0:
+            start_index = extend_start_index_for_previous_context(parts, start_index)
+
+            list_html = "\n".join(parts[start_index:])
+            del parts[start_index:]
+            parts.append(wrap_with_margin_note(list_html, note_html))
+            return True
+
     return False
-
-  if parts[-1].startswith("<p>"):
-    start_index = len(parts) - 1
-    start_index = extend_start_index_for_previous_context(parts, start_index)
-
-    content_html = "\n".join(parts[start_index:])
-    del parts[start_index:]
-    parts.append(wrap_with_margin_note(content_html, note_html))
-    return True
-
-  if parts[-1] in {"</ul>", "</ol>"}:
-    closing_tag = parts[-1]
-    opening_tag = "<ul>" if closing_tag == "</ul>" else "<ol>"
-
-    start_index = len(parts) - 1
-    while start_index >= 0 and parts[start_index] != opening_tag:
-      start_index -= 1
-
-    if start_index >= 0:
-      start_index = extend_start_index_for_previous_context(parts, start_index)
-
-      list_html = "\n".join(parts[start_index:])
-      del parts[start_index:]
-      parts.append(wrap_with_margin_note(list_html, note_html))
-      return True
-
-  return False
 
 
 def render_markdown(lines: list[str]) -> str:
@@ -1177,7 +1206,9 @@ def write_alias_redirect(*, alias_path: Path, target_path: Path, title: str) -> 
     )
 
 
-def build_site(*, source: Path, target: Path, title: str, aliases: tuple[Path, ...] = ()) -> None:
+def build_site(
+    *, source: Path, target: Path, title: str, aliases: tuple[Path, ...] = ()
+) -> None:
     global SOURCE, TARGET, PAGE_TITLE
 
     SOURCE = source
@@ -1204,7 +1235,7 @@ def build_site(*, source: Path, target: Path, title: str, aliases: tuple[Path, .
     TARGET.parent.mkdir(parents=True, exist_ok=True)
     TARGET.write_text(html_text, encoding="utf-8")
     for alias in aliases:
-      write_alias_redirect(alias_path=alias, target_path=TARGET, title=title)
+        write_alias_redirect(alias_path=alias, target_path=TARGET, title=title)
     print(f"Wrote {TARGET.name}")
 
 

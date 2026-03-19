@@ -4,6 +4,7 @@ Hier liegen die inhaltlichen Quellen und Codebeispiele des Projekts.
 
 - `kreise/` enthält die OOP-Einführung mit Kreisen
 - `aquarium/` enthält das Aquarium-Thema mit Lernseite und Projektmaterial
+- `drohnenangriff/` enthält das Verfolgungsspiel mit Agent und Drohnen
 
 Faustregel:
 

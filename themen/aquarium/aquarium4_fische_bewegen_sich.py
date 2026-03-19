@@ -21,22 +21,24 @@ class Fish:
         self.body_color = body_color
         self.fin_color = fin_color
         self.speed = speed
-        self.dx = speed if random(1) < 0.5 else -speed
-        self.phase = random(TWO_PI)
+        self.dx = speed
 
     def move(self):
         self.x += self.dx
-        self.y = self.base_y + sin(frame_count * 0.08 + self.phase) * (7 * self.scale)
 
         if self.x < 48:
             self.x = 48
-            self.dx = abs(self.speed)
+            self.dx = self.speed
         elif self.x > width - 48:
             self.x = width - 48
-            self.dx = -abs(self.speed)
+            self.dx = -self.speed
+
+        self.y = self.base_y + sin(frame_count * 0.08) * (7 * self.scale)
 
     def draw(self):
-        direction = 1 if self.dx >= 0 else -1
+        direction = 1
+        if self.dx < 0:
+            direction = -1
         body_length = 84 * self.scale
         body_height = 42 * self.scale
         tail_length = 28 * self.scale

@@ -29,8 +29,32 @@
       }
     </script>
   </head>
-  <body>
+  <body tabindex="0">
     <div id="sketch-holder"></div>
+    <script>
+      const handledKeys = ["w", "a", "s", "d", "W", "A", "S", "D"];
+
+      window.addEventListener("load", () => {
+        document.body.focus();
+      });
+
+      window.addEventListener("pointerdown", () => {
+        window.focus();
+        document.body.focus();
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (handledKeys.includes(event.key)) {
+          event.preventDefault();
+        }
+      });
+
+      window.addEventListener("keyup", (event) => {
+        if (handledKeys.includes(event.key)) {
+          event.preventDefault();
+        }
+      });
+    </script>
     <script src="https://abav.lugaralgum.com/pyp5js/py5mode/target/target_sketch.js"></script>
   </body>
 </html>

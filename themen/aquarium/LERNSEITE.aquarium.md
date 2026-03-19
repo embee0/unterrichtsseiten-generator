@@ -14,6 +14,8 @@ Der Hintergrund ist diesmal von Anfang an schon da. So kannst du dich auf das ko
 
 Die Seite ist so aufgebaut, dass du in der nächsten Woche möglichst selbstständig arbeiten kannst. Du musst nicht alles sofort können. Wichtig ist, dass du die Stationen nacheinander bearbeitest und jeweils verstehst, was sich im Code verändert.
 
+In den ersten Pflichtstationen findest du noch deutlichere TODO-Hinweise und Lücken im Code. Später werden die Aufgaben offener, damit du mehr Schritte selbst planst.
+
 ## Worum es in dieser Woche geht
 
 Die **Pflichtphase** sind Station 1 bis 4.
@@ -148,7 +150,7 @@ Ein Objekt besteht nicht nur aus seiner Position. Erst mit mehreren Attributen w
 
 {{IFRAME: aquarium2_fisch_mit_attributen.py}}
 
-{{EDIT: aquarium1_ein_fisch.py | Aufgabe im Editor öffnen}}
+{{EDIT: aquarium2_aufgabe.py | Aufgabe im Editor öffnen}}
 
 {{SOLUTION: Lösungscode zu Station 2 anzeigen}}
 
@@ -210,7 +212,7 @@ Hier wird OOP praktisch nützlich. Eine Klasse lohnt sich erst richtig, wenn du 
 
 {{IFRAME: aquarium3_liste_von_fischen.py}}
 
-{{EDIT: aquarium2_fisch_mit_attributen.py | Aufgabe im Editor öffnen}}
+{{EDIT: aquarium3_aufgabe.py | Aufgabe im Editor öffnen}}
 
 {{SOLUTION: Lösungscode zu Station 3 anzeigen}}
 
@@ -242,10 +244,10 @@ def draw():
 ### Arbeitsauftrag
 
 1. Ergänze die Klasse `Fish` um eine Geschwindigkeit.
-2. Schreibe eine Methode `move()`.
-3. Lasse die Fische horizontal schwimmen.
-4. Wenn ein Fisch den Rand erreicht, soll er umdrehen.
-5. Zeichne den Schwanz passend zur Schwimmrichtung.
+2. Schreibe eine Methode `move()` und lasse die Fische zuerst nur geradeaus schwimmen.
+3. Wenn ein Fisch den Rand erreicht, soll er umdrehen.
+4. Zeichne den Schwanz passend zur Schwimmrichtung.
+5. Bonus: Baue erst danach die leichte Wellenbewegung mit `sin(...)` ein.
 
 ### Warum dieser Schritt?
 
@@ -256,14 +258,23 @@ Jetzt bekommen die Objekte nicht nur Daten, sondern **Verhalten**. Das ist einer
 - **Methode** als Verhalten eines Objekts
 - Zustandsänderung pro Frame
 - mehrere Objekte mit eigenem Tempo
+- im Bonus: eine einfache Wellenbewegung als Erweiterung
 
-> **Bewegung:** Eine Methode beschreibt, was ein Objekt tun kann. Hier bekommt jeder Fisch mit `move()` seine eigene Bewegung. Die zusätzliche Wellenbewegung mit `sin(...)` macht das Schwimmen natürlicher.
+> **Bewegung:** Eine Methode beschreibt, was ein Objekt tun kann. Hier bekommt jeder Fisch mit `move()` seine eigene Bewegung. Die Wellenbewegung mit `sin(...)` ist eine coole Erweiterung, aber nicht noetig fuer den Pflichtteil.
+>
+> **Sinnvolle Reihenfolge:** Baue die Bewegung in drei Schritten auf. Erst `self.x += self.dx` fuer eine gerade Bewegung. Dann das Umdrehen am Rand, indem du `self.dx` auf `self.speed` oder `-self.speed` setzt. Erst wenn das sicher funktioniert, kommt `sin(...)` als Bonus fuer das leichte Auf-und-ab.
+>
+> **Einfaches Modell:** `speed` bleibt immer positiv und beschreibt nur das Tempo. In `dx` steckt die Richtung: positiv bedeutet nach rechts, negativ bedeutet nach links.
+>
+> **Bonus statt Pflicht:** Fuer die Wellenbewegung musst du die Mathematik dahinter noch nicht komplett verstehen. Wenn du magst, uebernimm den Ausdruck erstmal als fertigen Zusatz und beobachte nur, was er bewirkt. Eine individuelle Phasenverschiebung lassen wir im Pflichtteil bewusst weg.
+>
+> **Fortgeschrittener Bonus:** Wenn spaeter nicht alle Fische gleich wackeln sollen, kannst du jedem Fisch noch einen eigenen Startwert geben, zum Beispiel mit `self.phase = random(TWO_PI)`. Dann wird aus `sin(frame_count * 0.08)` spaeter `sin(frame_count * 0.08 + self.phase)`.
 
 ### Demo
 
 {{IFRAME: aquarium4_fische_bewegen_sich.py}}
 
-{{EDIT: aquarium3_liste_von_fischen.py | Aufgabe im Editor öffnen}}
+{{EDIT: aquarium4_aufgabe.py | Aufgabe im Editor öffnen}}
 
 {{SOLUTION: Lösungscode zu Station 4 anzeigen}}
 
@@ -279,12 +290,19 @@ class Fish:
         self.body_color = body_color
         self.fin_color = fin_color
         self.speed = speed
-        self.dx = speed if random(1) < 0.5 else -speed
-        self.phase = random(TWO_PI)
+        self.dx = speed
 
     def move(self):
         self.x += self.dx
-        self.y = self.base_y + sin(frame_count * 0.08 + self.phase) * (7 * self.scale)
+
+        if self.x < 48:
+            self.x = 48
+            self.dx = self.speed
+        elif self.x > width - 48:
+            self.x = width - 48
+            self.dx = -self.speed
+
+        self.y = self.base_y + sin(frame_count * 0.08) * (7 * self.scale)
 ```
 
 {{ENDSOLUTION}}
@@ -355,6 +373,8 @@ Wenn du bis hier gekommen bist, erweitere dein Aquarium weiter:
 
 Die Pflichtteile sind schon ein vollständiges OOP-Projekt. Die Blasen sind ein sauberer Bonus, weil du dieselben Prinzipien noch einmal auf eine neue Objektart anwendest.
 
+> **Fortgeschrittener Effekt:** In der Endstufe taucht die individuelle Phasenverschiebung bei der Fischbewegung wieder auf. Dadurch wackeln nicht mehr alle Fische synchron, sondern jeder etwas anders.
+
 ### Demo der Endstufe
 
 {{IFRAME: aquarium_endloesung.py}}
@@ -424,7 +444,7 @@ class Fish:
         self.body_height = 30 * self.scale
         self.tail_length = 24 * self.scale
         self.speed = random(0.6, 1.8)
-        self.dx = self.speed if random(1) < 0.5 else -self.speed
+        self.dx = self.speed
         self.phase = random(TWO_PI)
         self.body_color = color(random(70, 255), random(90, 230), random(110, 255))
         self.fin_color = color(random(140, 255), random(120, 220), random(40, 180))
@@ -436,7 +456,10 @@ class Fish:
         if target_food is not None:
             x_distance = target_food.x - self.x
             y_distance = target_food.y - self.y
-            self.dx += 0.02 if x_distance > 0 else -0.02
+            if x_distance > 0:
+                self.dx += 0.02
+            else:
+                self.dx -= 0.02
             self.dx = constrain(self.dx, -2.2, 2.2)
             self.base_y += y_distance * 0.015
             self.base_y = constrain(self.base_y, 45, height - 35)
@@ -454,10 +477,10 @@ class Fish:
 
         if self.x < 35:
             self.x = 35
-            self.dx = abs(self.speed)
+            self.dx = self.speed
         elif self.x > width - 35:
             self.x = width - 35
-            self.dx = -abs(self.speed)
+            self.dx = -self.speed
 
     def find_nearest_food(self, food_list):
         nearest_food = None
@@ -472,7 +495,9 @@ class Fish:
         return nearest_food
 
     def draw(self):
-        direction = 1 if self.dx >= 0 else -1
+        direction = 1
+        if self.dx < 0:
+            direction = -1
 
         no_stroke()
         fill(self.body_color)

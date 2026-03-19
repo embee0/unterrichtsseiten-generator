@@ -13,19 +13,33 @@ class SiteConfig:
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
+
+def make_site(
+    name: str, title: str, *, aliases: tuple[Path, ...] = ()
+) -> SiteConfig:
+    theme_dir = PROJECT_ROOT / "themen" / name
+    dist_dir = PROJECT_ROOT / "dist"
+    return SiteConfig(
+        name=name,
+        source=theme_dir / f"LERNSEITE.{name}.md",
+        target=dist_dir / f"{name}-lernseite.html",
+        title=title,
+        aliases=aliases,
+    )
+
 SITES: dict[str, SiteConfig] = {
-    "kreise": SiteConfig(
-        name="kreise",
-        source=PROJECT_ROOT / "themen" / "kreise" / "LERNSEITE.kreise.md",
-        target=PROJECT_ROOT / "dist" / "kreise-lernseite.html",
+    "kreise": make_site(
+        "kreise",
         title="OOP mit py5 – Lernseite",
         aliases=(PROJECT_ROOT / "dist" / "livecoding-doku.html",),
     ),
-    "aquarium": SiteConfig(
-        name="aquarium",
-        source=PROJECT_ROOT / "themen" / "aquarium" / "LERNSEITE.aquarium.md",
-        target=PROJECT_ROOT / "dist" / "aquarium-lernseite.html",
+    "aquarium": make_site(
+        "aquarium",
         title="Aquarium mit OOP in py5",
+    ),
+    "drohnenangriff": make_site(
+        "drohnenangriff",
+        title="Drohnenangriff mit OOP in py5",
     ),
 }
 
@@ -36,3 +50,7 @@ def get_site(name: str) -> SiteConfig:
 
 def get_all_sites() -> list[SiteConfig]:
     return list(SITES.values())
+
+
+def get_site_names() -> list[str]:
+    return list(SITES.keys())
